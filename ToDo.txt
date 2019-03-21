@@ -1,0 +1,8 @@
+- Località -> OSM nominatim x controllo incrociato con coordinate
+
+- Coordinate -> salvare accuratezza
+
+Quota ortometrica -> modello del geoide -> calcolare lato server
+	- accuratezza non importante
+
+Foto -> 1 obbligatoria, fino a tre

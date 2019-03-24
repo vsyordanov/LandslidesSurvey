@@ -1,0 +1,39 @@
+// VARIABLES
+
+// COLORS
+$color-main : #FF5722;
+$color-main-dark : #D84315;
+$color-text : #000000;
+
+
+// FONT SIZES
+$font-title : 20px;
+$font-body : 16px;
+$font-body-small : 14px;
+
+
+// CONTAINER
+$container-margin : 16px;
+@function container-size() {
+  @return calc(100% - #{$container-margin} * 2)
+}
+
+// FAB
+$fab-size : 52px;
+$fab-radius : 50px;
+
+
+// ICONS
+$icon-area : 48px;
+$icon-size : 24px;
+$icon-padding : 12px;
+
+
+// TOP BAR
+$top-bar-height : 56px;
+$top-bar-icon-area : 52px;
+$top-bar-icon-margin : 4px;
+
+
+// RADIO CARD
+$radio-card-side-margin : 16px;

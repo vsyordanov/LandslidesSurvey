@@ -1,0 +1,109 @@
+/* INSERT DEFIBRILLATOR LAYOUT */
+
+#insert-ls {
+  width      : 100%;
+  height     : 100%;
+  overflow-y : scroll;
+  background : #FFFFFF;
+
+  /* MAIN PAGE */
+  #insert-ls-main-base {
+    width  : 100%;
+    height : 100%;
+
+    .requests-container {
+      @include flex-display(column);
+
+      .request {
+        @include flex-display;
+        width      : 100%;
+        margin-top : 27px;
+        color      : $color-text;
+
+        .request-icon-left {
+          @include flex-static-size($icon-size);
+        }
+
+        .request-icon-right {
+          @include flex-static-size($icon-area);
+
+          i {
+            padding : $icon-padding;
+          }
+
+        }
+
+        .request-content {
+          @include font(500, $font-body);
+          @include vendor("flex", "1");
+          padding-left  : 6px;
+          cursor        : pointer;
+          border-bottom : 1px solid #C5C5C5;
+
+          .request-name {
+            margin-bottom : 12px;
+          }
+
+          .request-text {
+            font-size     : $font-body-small;
+            margin-bottom : 3px;
+            color         : $color-main;
+          }
+
+        }
+
+      }
+
+      #photo-request {
+        margin : 36px 0 1.5rem 0;
+      }
+
+    }
+
+  }
+
+  /* PHOTO DIALOG */
+  #dialog-photo {
+
+    .photo-cancel-wrapper {
+      width    : $icon-area;
+      height   : $icon-area;
+      padding  : $icon-padding;
+      z-index  : 2;
+      position : absolute;
+      cursor   : pointer;
+
+      .photo-cancel {
+        width         : $icon-size;
+        height        : $icon-size;
+        border-radius : 50%;
+        background    : #FFFFFF;
+      }
+    }
+
+    .photo-preview-wrapper {
+      width  : 100%;
+      height : 200px;
+      margin : 40px 0;
+      @include flex-center;
+
+      .photo-preview {
+        max-width     : 200px;
+        max-height    : 200px;
+        border        : 1px solid #707070;
+        border-radius : 5px;
+      }
+
+    }
+
+    .photo-or {
+      width      : 100%;
+      text-align : center;
+      color      : $color-text;
+      @include font(500, $font-body);
+      margin     : 16px 0;
+    }
+
+  }
+
+}

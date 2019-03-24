@@ -20,7 +20,7 @@
 */
 
 /**
- * This lib relies on `l10n.js' to implement localizable date/time strings.
+ * This 0-lib relies on `l10n.js' to implement localizable date/time strings.
  *
  * The proposed `DateTimeFormat' object should provide all the features that are
  * planned for the `Intl.DateTimeFormat' constructor, but the API does not match

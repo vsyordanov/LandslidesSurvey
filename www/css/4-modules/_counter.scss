@@ -1,0 +1,27 @@
+/* COUNTER */
+
+
+.counter-wrapper {
+  @include flex-center;
+  width : 100%;
+
+  .counter-icon {
+    @include flex-static-size($icon-area);
+    cursor : pointer;
+
+    i {
+      padding : $icon-padding;
+    }
+
+  }
+
+  .counter-display {
+    width         : 90px;
+    height        : 36px;
+    @include flex-center;
+    border        : 1px solid $color-main;
+    border-radius : 5px;
+    cursor        : context-menu;
+  }
+
+}

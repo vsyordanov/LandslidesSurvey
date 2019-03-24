@@ -1,49 +1,640 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+<html lang="en">
 
-    http://www.apache.org/licenses/LICENSE-2.0
+<head>
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-    <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" type="text/css" href="css/0-lib/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.Default.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+
+    <!-- Material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Modernizer -->
+    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
+
+    <title>Landslide Survey</title>
+
+</head>
+
+<body onresize="onResize()" onload="onLoad()">
+
+<!-- Map -->
+<div style="display: none" id="map">
+
+    <div class="custom-container map-container">
+
+        <div id="map-control-hint" class="map-control fab">
+            <i class="material-icons fab-icon">settings</i>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+
+        <div id="map-control-layers" class="map-control fab">
+            <i class="material-icons fab-icon">layers</i>
+        </div>
+
+        <div id="map-control-gps" class="map-control fab">
+            <i class="material-icons fab-icon">gps_fixed</i>
+        </div>
+
+        <div id="map-new-ls" class="map-control fab-extended">
+            <p class="fab-extended-text">NUOVA FRANA</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Insert ls base -->
+<div id="insert-ls">
+
+    <!-- Opaque overlay -->
+    <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
+
+    <!-- Main screen -->
+    <div id="insert-ls-main-base">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="new-ls-base-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Nuova frana
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="new-ls-base-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container requests-container">
+
+            <!-- Locality -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">place</i></div>
+
+                <div id="locality-request" class="request-content">
+
+                    <p class="request-name">Località</p>
+
+                    <p id="locality-text" class="request-text">Specifica la località</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Ls type -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">category</i></div>
+
+                <div id="ls-type-request" class="request-content">
+
+                    <p class="request-name">Tipologia di dissesto</p>
+
+                    <p id="ls-type-text" class="request-text">Specifica la tipologia del dissesto</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Material type -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">landscape</i></div>
+
+                <div id="material-type-request" class="request-content">
+
+                    <p class="request-name">Tipo di materiale</p>
+
+                    <p id="material-type-text" class="request-text">Specifica il tipo di materiale</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Water -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
+
+                <div id="water-request" class="request-content">
+
+                    <p class="request-name">Presenza di acqua</p>
+
+                    <p id="water-text" class="request-text">Valuta la presenza di acqua</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Mitigation measures -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">build</i></div>
+
+                <div id="mitigation-request" class="request-content">
+
+                    <p class="request-name">Opere di mitigazione</p>
+
+                    <p id="mitigation-text" class="request-text">Valuta le opere di mitigazione</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Photo -->
+            <div id="photo-request" class="button flex-btn full-width-btn outline-btn">
+
+                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+
+                <div id="photo-text" class="btn-text">Add a photo</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Locality -->
+
+    <!-- Ls type -->
+    <div style="display: none" id="dialog-ls-type" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="ls-type-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Tipologia di dissesto
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="ls-type-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <div class="card-row">
+
+                <!-- Rockfall -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Rockfall"
+                           checked/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/rockfall.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Crollo</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Topple -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Topple"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/topple.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Ribaltamento</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row">
+
+                <!-- Rotational ls -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Rotational landslide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/rotational-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Scivolamento rotazionale</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Translational ls -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Translational landslide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/translational-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Scivolamento planare</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row">
+
+                <!-- Debris flow -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Debris flow"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/debris-flow.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Colata di detrito</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Earth flow -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Earth flow"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/earthflow.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Colata di fango</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row last-card-row">
+
+                <!-- Complex landslide -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Complex landslide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/complex-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Frana complessa</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Other -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="Other"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/other-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text">Altro</div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Material type -->
+    <div style="display: none" id="dialog-material-type" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Specifica il tipo di materiale.
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="materialType"
+                               value="Rock"
+                               checked>
+                        <span>Roccia</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="materialType"
+                               value="Debris">
+                        <span>Detrito</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="materialType"
+                               value="Dirt">
+                        <span>Terra</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="materialType"
+                               value="Miscellaneous">
+                        <span>Misto</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="materialType"
+                               value="Undetectable">
+                        <span>Non determinabile</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="material-type-cancel" class="text-button">CANCEL</div>
+
+                <div id="material-type-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Water -->
+    <div style="display: none" id="dialog-water" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Valuta la presenza di acqua.
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="water"
+                               value="Dry"
+                               checked>
+                        <span>Secco</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="water"
+                               value="Moist">
+                        <span>Umido</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="water"
+                               value="Wet">
+                        <span>Bagnato</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="water"
+                               value="Very wet">
+                        <span>Molto bagnato</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="water"
+                               value="Undetectable">
+                        <span>Non determinabile</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="water-cancel" class="text-button">CANCEL</div>
+
+                <div id="water-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Mitigation base -->
+    <div style="display: none" id="dialog-mitigation-base" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Sono presenti opere di mitigazione?
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="mitigationBase"
+                               value="Yes"
+                               checked>
+                        <span>Yes</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="mitigationBase"
+                               value="No">
+                        <span>No</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="mitigation-base-cancel" class="text-button">CANCEL</div>
+
+                <div id="mitigation-base-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- Cordova -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+
+<!-- Leaflet -->
+<script type="text/javascript" src="js/lib/leaflet.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
+<script type="text/javascript" src="js/lib/leaflet-bing-layer.min.js"></script>
+
+<!-- Pouch db-->
+<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
+
+<!-- i18next -->
+<script type="text/javascript" src="js/lib/i18next.min.js"></script>
+
+<!-- Fingerprint -->
+<script type="text/javascript" src="js/lib/fingerprint.js"></script>
+
+<!-- Main JS -->
+<script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
 </html>

@@ -3,6 +3,8 @@
 let isMobile,
     isApp;
 
+let isExpertMode;
+
 
 function onLoad() {
     // document.addEventListener("deviceready", initialize, false);
@@ -25,6 +27,11 @@ function init() {
     isMobile = true;
     isApp    = true;
 
+    isExpertMode = false;
+
     onResize();
     initMap();
+
+    initInsertion(isExpertMode);
+
 }

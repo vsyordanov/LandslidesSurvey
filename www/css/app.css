@@ -309,13 +309,14 @@ p {
   overflow-y: scroll;
   background: #FFFFFF;
   /* MAIN PAGE */
+  /* NEW DAMAGES DIALOG */
   /* PHOTO DIALOG */
 }
-#insert-ls #insert-ls-main-base {
+#insert-ls .insert-ls-main {
   width: 100%;
   height: 100%;
 }
-#insert-ls #insert-ls-main-base .requests-container {
+#insert-ls .insert-ls-main .requests-container {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -329,7 +330,7 @@ p {
   -ms-justify-content: -ms-flex-start;
   justify-content: flex-start;
 }
-#insert-ls #insert-ls-main-base .requests-container .request {
+#insert-ls .insert-ls-main .requests-container .request {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -346,22 +347,22 @@ p {
   margin-top: 27px;
   color: #000000;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-icon-left {
+#insert-ls .insert-ls-main .requests-container .request .request-icon-left {
   -moz-flex: 0 0 24px;
   -webkit-flex: 0 0 24px;
   -ms-flex: 0 0 24px;
   flex: 0 0 24px;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-icon-right {
+#insert-ls .insert-ls-main .requests-container .request .request-icon-right {
   -moz-flex: 0 0 48px;
   -webkit-flex: 0 0 48px;
   -ms-flex: 0 0 48px;
   flex: 0 0 48px;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-icon-right i {
+#insert-ls .insert-ls-main .requests-container .request .request-icon-right i {
   padding: 12px;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-content {
+#insert-ls .insert-ls-main .requests-container .request .request-content {
   font: 500 16px system-ui;
   -moz-flex: 1;
   -webkit-flex: 1;
@@ -371,16 +372,19 @@ p {
   cursor: pointer;
   border-bottom: 1px solid #C5C5C5;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-content .request-name {
+#insert-ls .insert-ls-main .requests-container .request .request-content .request-name {
   margin-bottom: 12px;
 }
-#insert-ls #insert-ls-main-base .requests-container .request .request-content .request-text {
+#insert-ls .insert-ls-main .requests-container .request .request-content .request-text {
   font-size: 14px;
   margin-bottom: 3px;
   color: #FF5722;
 }
-#insert-ls #insert-ls-main-base .requests-container #photo-request {
+#insert-ls .insert-ls-main .requests-container .photo-request {
   margin: 36px 0 1.5rem 0;
+}
+#insert-ls #dialog-damages-new .custom-text-input {
+  margin-top: 20px;
 }
 #insert-ls #dialog-photo .photo-cancel-wrapper {
   width: 48px;
@@ -497,6 +501,8 @@ p {
 /* TOP BAR */
 .top-bar {
   width: 100%;
+  position: fixed;
+  top: 0;
   z-index: 1;
   display: -moz-flex;
   display: -webkit-flex;
@@ -539,6 +545,9 @@ p {
   flex: 1;
   text-align: center;
 }
+.top-bar + .custom-container {
+  margin-top: 56px;
+}
 
 /* DIALOG */
 .opaque-overlay {
@@ -554,6 +563,8 @@ p {
 .full-screen-dialog {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
 }
 .full-screen-dialog .custom-container {
   padding-top: 32px;
@@ -563,6 +574,9 @@ p {
   margin-top: 32px;
   margin-bottom: 16px;
   color: #000000;
+}
+.full-screen-dialog p.first-p {
+  margin-top: 0;
 }
 
 .dialog-wrapper {
@@ -642,6 +656,12 @@ p {
   text-align: center;
   color: #FF5722;
 }
+.dialog-wrapper.dialog-insert .dialog .dialog-container .dialog-text {
+  margin: 20px 0 12px 0;
+}
+.dialog-wrapper.dialog-insert .dialog .dialog-container .dialog-text.first-p {
+  margin-top: 0;
+}
 
 /* BUTTON */
 .button {
@@ -714,7 +734,7 @@ p {
 .custom-selector-box .label {
   height: 40px;
   margin: 0;
-  padding: 10px 0 10px 16px;
+  padding: 7px 0 10px 10px;
   cursor: pointer;
 }
 .custom-selector-box .label-icon {
@@ -906,6 +926,102 @@ p {
 .radio-card-label .radio-card-input:checked + .radio-card {
   background: rgba(255, 87, 34, 0.1);
   border: 1px solid #FF5722;
+}
+
+/* DETAILS LIST */
+.list-item {
+  width: 100%;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  padding: 8px 0 10px 0;
+  border-top: 1px solid #C5C5C5;
+  color: #000000;
+}
+.list-item.last-list-item {
+  border-bottom: 1px solid #C5C5C5;
+}
+.list-item.no-padding {
+  padding: 0 0 3px 0;
+}
+.list-item .list-item-text {
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  font: 400 16px system-ui;
+}
+.list-item .list-item-text.padding-start {
+  padding-left: 8px;
+}
+.list-item .list-item-text .list-item-text-p {
+  margin: 0;
+}
+.list-item .list-item-text .list-item-text-p:not(:first-child) {
+  margin-top: 5px;
+}
+.list-item .list-item-text .list-item-text-p .list-item-entry-title {
+  color: #FF5722;
+}
+.list-item .details-list-item-delete {
+  -moz-flex: 0 0 48px;
+  -webkit-flex: 0 0 48px;
+  -ms-flex: 0 0 48px;
+  flex: 0 0 48px;
+  height: 48px;
+  padding: 12px;
+  cursor: pointer;
+}
+.list-item .details-list-item-delete i {
+  width: 24px;
+  height: 24px;
+  color: #1a1a1a;
+}
+
+.add-list-item {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -moz-justify-content: -moz-flex-start;
+  -webkit-justify-content: -webkit-flex-start;
+  -ms-justify-content: -ms-flex-start;
+  justify-content: flex-start;
+  margin-top: 16px;
+  color: #000000;
+  font: 400 16px system-ui;
+  cursor: pointer;
+}
+.add-list-item i {
+  color: #333333;
+  margin-right: 10px;
+}
+
+/* TEXT INPUT */
+.custom-text-input {
+  width: 100%;
+}
+.custom-text-input input[type=text] {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #FF5722;
+  padding-bottom: 8px;
+}
+.custom-text-input input[type=text]:focus {
+  outline: none;
 }
 
 /*# sourceMappingURL=app.css.map */

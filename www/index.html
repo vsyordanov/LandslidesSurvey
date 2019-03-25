@@ -52,14 +52,14 @@
 
 </div>
 
-<!-- Insert ls base -->
+<!-- Insert ls -->
 <div id="insert-ls">
 
     <!-- Opaque overlay -->
     <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
 
-    <!-- Main screen -->
-    <div id="insert-ls-main-base">
+    <!-- Main screen base -->
+    <div style="display: none" id="insert-ls-main-base" class="insert-ls-main">
 
         <div class="top-bar">
 
@@ -84,11 +84,11 @@
 
                 <div class="request-icon-left"><i class="material-icons">place</i></div>
 
-                <div id="locality-request" class="request-content">
+                <div id="locality-request-base" class="request-content">
 
                     <p class="request-name">Località</p>
 
-                    <p id="locality-text" class="request-text">Specifica la località</p>
+                    <p id="locality-text-base" class="request-text">Specifica la località</p>
 
                 </div>
 
@@ -101,11 +101,11 @@
 
                 <div class="request-icon-left"><i class="material-icons">category</i></div>
 
-                <div id="ls-type-request" class="request-content">
+                <div id="ls-type-request-base" class="request-content">
 
                     <p class="request-name">Tipologia di dissesto</p>
 
-                    <p id="ls-type-text" class="request-text">Specifica la tipologia del dissesto</p>
+                    <p id="ls-type-text-base" class="request-text">Specifica la tipologia del dissesto</p>
 
                 </div>
 
@@ -118,11 +118,11 @@
 
                 <div class="request-icon-left"><i class="material-icons">landscape</i></div>
 
-                <div id="material-type-request" class="request-content">
+                <div id="material-type-request-base" class="request-content">
 
                     <p class="request-name">Tipo di materiale</p>
 
-                    <p id="material-type-text" class="request-text">Specifica il tipo di materiale</p>
+                    <p id="material-type-text-base" class="request-text">Specifica il tipo di materiale</p>
 
                 </div>
 
@@ -135,11 +135,11 @@
 
                 <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
 
-                <div id="water-request" class="request-content">
+                <div id="water-request-base" class="request-content">
 
                     <p class="request-name">Presenza di acqua</p>
 
-                    <p id="water-text" class="request-text">Valuta la presenza di acqua</p>
+                    <p id="water-text-base" class="request-text">Valuta la presenza di acqua</p>
 
                 </div>
 
@@ -152,11 +152,11 @@
 
                 <div class="request-icon-left"><i class="material-icons">build</i></div>
 
-                <div id="mitigation-request" class="request-content">
+                <div id="mitigation-request-base" class="request-content">
 
                     <p class="request-name">Opere di mitigazione</p>
 
-                    <p id="mitigation-text" class="request-text">Valuta le opere di mitigazione</p>
+                    <p id="mitigation-text-base" class="request-text">Valuta le opere di mitigazione</p>
 
                 </div>
 
@@ -165,11 +165,215 @@
             </div>
 
             <!-- Photo -->
-            <div id="photo-request" class="button flex-btn full-width-btn outline-btn">
+            <div id="photo-request-base" class="button flex-btn full-width-btn outline-btn photo-request">
 
                 <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
 
-                <div id="photo-text" class="btn-text">Add a photo</div>
+                <div id="photo-text-base" class="btn-text">Add a photo</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Main screen expert -->
+    <div id="insert-ls-main-expert" class="insert-ls-main">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="new-ls-expert-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Nuova frana
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="new-ls-expert-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container requests-container">
+
+            <!-- Locality -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">place</i></div>
+
+                <div id="locality-request-expert" class="request-content">
+
+                    <p class="request-name">Località</p>
+
+                    <p id="locality-text-expert" class="request-text">Specifica la località</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Ls type -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">category</i></div>
+
+                <div id="ls-type-request-expert" class="request-content">
+
+                    <p class="request-name">Tipologia di dissesto</p>
+
+                    <p id="ls-type-text-expert" class="request-text">Specifica la tipologia del dissesto</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Material type -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">landscape</i></div>
+
+                <div id="material-type-request-expert" class="request-content">
+
+                    <p class="request-name">Tipo di materiale</p>
+
+                    <p id="material-type-text-expert" class="request-text">Specifica il tipo di materiale</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Position -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">timeline</i></div>
+
+                <div id="position-request-expert" class="request-content">
+
+                    <p class="request-name">Posizione sul versante</p>
+
+                    <p id="position-text-expert" class="request-text">Specifica la posizione della frana</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Water -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
+
+                <div id="water-request-expert" class="request-content">
+
+                    <p class="request-name">Presenza di acqua</p>
+
+                    <p id="water-text-expert" class="request-text">Valuta la presenza di acqua</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Vegetation -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">nature</i></div>
+
+                <div id="vegetation-request-expert" class="request-content">
+
+                    <p class="request-name">Presenza di vegetazione</p>
+
+                    <p id="vegetation-text-expert" class="request-text">Valuta la presenza di vegetazione</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Mitigation measures -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">build</i></div>
+
+                <div id="mitigation-request-expert" class="request-content">
+
+                    <p class="request-name">Opere di mitigazione</p>
+
+                    <p id="mitigation-text-expert" class="request-text">Valuta le opere di mitigazione</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Monitoring systems -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">router</i></div>
+
+                <div id="monitoring-request-expert" class="request-content">
+
+                    <p class="request-name">Sistemi di monitoraggio</p>
+
+                    <p id="monitoring-text-expert" class="request-text">Valuta i sistemi di monitoraggio</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Damages -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">report</i></div>
+
+                <div id="damages-request-expert" class="request-content">
+
+                    <p class="request-name">Danni</p>
+
+                    <p id="damages-text-expert" class="request-text">Valuta i danni</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Additional notes -->
+            <div class="request">
+
+                <div class="request-icon-left"><i class="material-icons">notes</i></div>
+
+                <div id="notes-request-expert" class="request-content">
+
+                    <p class="request-name">Note aggiuntive</p>
+
+                    <p id="notes-text-expert" class="request-text">Aggiungi note</p>
+
+                </div>
+
+                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
+
+            </div>
+
+            <!-- Photo -->
+            <div id="photo-request-expert" class="button flex-btn full-width-btn outline-btn photo-request">
+
+                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+
+                <div id="photo-text-expert" class="btn-text">Add a photo</div>
 
             </div>
 
@@ -494,6 +698,75 @@
 
     </div>
 
+    <!-- Position -->
+    <div style="display: none" id="dialog-position" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Specifica la posizione della frana sul versante.
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="position"
+                               value="Crest"
+                               checked>
+                        <span>In cresta</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="position"
+                               value="Upper part"
+                               checked>
+                        <span>Parte alta</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="position"
+                               value="Middel part"
+                               checked>
+                        <span>Parte media</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="position"
+                               value="Lower part"
+                               checked>
+                        <span>Parte bassa</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="position"
+                               value="Valley floor"
+                               checked>
+                        <span>Fondovalle</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="position-cancel" class="text-button">CANCEL</div>
+
+                <div id=position-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <!-- Water -->
     <div style="display: none" id="dialog-water" class="dialog-wrapper">
 
@@ -559,6 +832,75 @@
 
     </div>
 
+    <!-- Vegetation -->
+    <div style="display: none" id="dialog-vegetation" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text">
+                    Valuta la presenza di vegetazione.
+                </p>
+
+                <div>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="vegetation"
+                               value="Grass"
+                               checked>
+                        <span>Erba</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="vegetation"
+                               value="Short plants"
+                               checked>
+                        <span>Piante basse</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="vegetation"
+                               value="Trees"
+                               checked>
+                        <span>Alberi</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="vegetation"
+                               value="Mixed"
+                               checked>
+                        <span>Mista</span>
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio"
+                               name="vegetation"
+                               value="Absent"
+                               checked>
+                        <span>Assente</span>
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="vegetation-cancel" class="text-button">CANCEL</div>
+
+                <div id="vegetation-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <!-- Mitigation base -->
     <div style="display: none" id="dialog-mitigation-base" class="dialog-wrapper">
 
@@ -603,6 +945,492 @@
 
     </div>
 
+    <!-- Mitigation expert-->
+    <div style="display: none" id="dialog-mitigation-expert" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="mitigation-expert-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Opere di mitigazione
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="mitigation-expert-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">Sono presenti opere di mitigazione?</p>
+
+            <label class="radio">
+                <input type="radio"
+                       name="mitigationExpert"
+                       value="Yes"
+                       checked>
+                <span>Yes</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="mitigationExpert"
+                       value="No">
+                <span>No</span>
+            </label>
+
+            <div id="mitigations-wrapper">
+
+                <p>Specifica le opere di mitigazione.</p>
+
+                <div class="list-item">
+
+                    <div class="list-item-text">
+
+                        <p class="list-item-text-p">
+                            <span class="list-item-entry-title">Tipologia:</span> muro di sostegno
+                        </p>
+
+                        <p class="list-item-text-p">
+                            <span class="list-item-entry-title">Stato:</span> funzionante
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="list-item last-list-item">
+
+                    <div class="list-item-text">
+
+                        <p class="list-item-text-p">
+                            <span class="list-item-entry-title">Tipologia:</span> muro di sostegno
+                        </p>
+
+                        <p class="list-item-text-p">
+                            <span class="list-item-entry-title">Stato:</span> funzionante
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>Aggiungi opera
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-mitigation-expert-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p">
+                    Tipologia dell'opera
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="mitigation-type-select" class="label custom-selector">
+                        <span class="label-description">
+                            Seleziona la tipologia
+                        </span>
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+                    </label>
+
+                    <select id="mitigation-type-select" class="select">
+                        <option value="none" style="display: none"></option>
+                        <option value="o1">Option 1</option>
+                        <option value="o2">Option 2</option>
+                        <option value="o3">Option 3</option>
+                    </select>
+
+                </div>
+
+                <p class="dialog-text">
+                    Stato dell'opera
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="mitigation-status-select" class="label custom-selector">
+                        <span class="label-description">
+                            Seleziona lo stato
+                        </span>
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+                    </label>
+
+                    <select id="mitigation-status-select" class="select">
+                        <option value="none" style="display: none"></option>
+                        <option value="o1">Option 1</option>
+                        <option value="o2">Option 2</option>
+                        <option value="o3">Option 3</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="mitigation-expert-new-cancel" class="text-button">CANCEL</div>
+
+                <div id="mitigation-expert-new-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Monitoring -->
+    <div style="display: none" id="dialog-monitoring" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="monitoring-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Sistemi di monitoraggio
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="monitoring-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">Sono presenti sistemi di monitoraggio in loco?</p>
+
+            <label class="radio">
+                <input type="radio"
+                       name="monitoring"
+                       value="Yes"
+                       checked>
+                <span>Yes</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="monitoring"
+                       value="No">
+                <span>No</span>
+            </label>
+
+            <div id="monitoring-wrapper">
+
+                <p>Specifica i sistemi di monitoraggio.</p>
+
+                <div class="list-item no-padding">
+
+                    <div class="list-item-text padding-start">
+
+                        <p class="list-item-text-p">
+                            Spia
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="list-item last-list-item no-padding">
+
+                    <div class="list-item-text padding-start">
+
+                        <p class="list-item-text-p">
+                            Griglia
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>Aggiungi sistema di monitoraggio
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-monitoring-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p">
+                    Tipologia del sistema di monitoraggio
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="monitoring-type-select" class="label custom-selector">
+                        <span class="label-description">
+                            Seleziona la tipologia
+                        </span>
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+                    </label>
+
+                    <select id="monitoring-type-select" class="select">
+                        <option value="none" style="display: none"></option>
+                        <option value="o1">Option 1</option>
+                        <option value="o2">Option 2</option>
+                        <option value="o3">Option 3</option>
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="monitoring-new-cancel" class="text-button">CANCEL</div>
+
+                <div id="monitoring-new-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Damages -->
+    <div style="display: none" id="dialog-damages" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="damages-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Danni
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="damages-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">Che danno ha prodotto la frana?</p>
+
+            <label class="radio">
+                <input type="radio"
+                       name="damages"
+                       value="No damage"
+                       checked>
+                <span>Nessun danno</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="damages"
+                       value="Direct damage">
+                <span>Danno diretto</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="damages"
+                       value="Barrage">
+                <span>Sbarramento corso d'acqua</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="damages"
+                       value="Dam or bank breaking">
+                <span>Rottura diga o argine</span>
+            </label>
+
+            <label class="radio">
+                <input type="radio"
+                       name="damages"
+                       value="Undetectable">
+                <span>Indeterminabile</span>
+            </label>
+
+
+            <div id="damages-wrapper">
+
+                <p>Specifica gli oggetti danneggiati.</p>
+
+                <div class="list-item no-padding">
+
+                    <div class="list-item-text padding-start">
+
+                        <p class="list-item-text-p">
+                            Opera di mitigazione
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="list-item last-list-item no-padding">
+
+                    <div class="list-item-text padding-start">
+
+                        <p class="list-item-text-p">
+                            Edificio
+                        </p>
+
+                    </div>
+
+                    <div class="details-list-item-delete">
+                        <i class="material-icons">cancel</i>
+                    </div>
+
+                </div>
+
+                <div class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>Aggiungi oggetto danneggiato
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-damages-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p">
+                    Aggiungi oggetto danneggiato
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="damages-type-select" class="label custom-selector">
+                        <span class="label-description">
+                            Seleziona un oggetto
+                        </span>
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+                    </label>
+
+                    <select id="damages-type-select" class="select">
+                        <option value="none" style="display: none"></option>
+                        <option value="o1">Option 1</option>
+                        <option value="o2">Option 2</option>
+                        <option value="o3">Option 3</option>
+                    </select>
+
+                </div>
+
+                <div class="custom-text-input">
+
+                    <label>
+                        <input type="text"
+                               placeholder="Specifica"
+                               maxlength="50">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="damages-new-cancel" class="text-button">CANCEL</div>
+
+                <div id="damages-new-ok" class="text-button">OK</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Notes -->
+    <div style="display: none" id="dialog-notes" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="notes-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title">
+                Note aggiuntive
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="notes-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p">Note aggiuntive</p>
+
+            <textarea id="notes"
+                      class="custom-textarea"
+                      rows="10"
+                      placeholder="Max 500 characters..."
+                      maxlength="500"></textarea>
+
+        </div>
+
+    </div>
 
 </div>
 

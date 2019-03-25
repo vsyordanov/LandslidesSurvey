@@ -7,7 +7,7 @@
   background : #FFFFFF;
 
   /* MAIN PAGE */
-  #insert-ls-main-base {
+  .insert-ls-main {
     width  : 100%;
     height : 100%;
 
@@ -54,13 +54,24 @@
 
       }
 
-      #photo-request {
+      .photo-request {
         margin : 36px 0 1.5rem 0;
       }
 
     }
 
   }
+
+
+  /* NEW DAMAGES DIALOG */
+  #dialog-damages-new {
+
+    .custom-text-input {
+      margin-top : 20px;
+    }
+
+  }
+
 
   /* PHOTO DIALOG */
   #dialog-photo {

@@ -2,6 +2,8 @@
 
 .top-bar {
   width      : 100%;
+  position   : fixed;
+  top        : 0;
   z-index    : 1;
   @include flex-center;
   height     : $top-bar-height;
@@ -29,6 +31,10 @@
     @include font(500, $font-title);
     @include vendor("flex", "1");
     text-align : center;
+  }
+
+  & + .custom-container {
+    margin-top : $top-bar-height;
   }
 
 }

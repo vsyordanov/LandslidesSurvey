@@ -1,8 +1,27 @@
-- Località -> OSM nominatim x controllo incrociato con coordinate
+- Lato server:
 
-- Coordinate -> salvare accuratezza
+    - località -> OSM nominatim x controllo incrociato con coordinate
 
-Quota ortometrica -> modello del geoide -> calcolare lato server
-	- accuratezza non importante
+    - quota ortometrica -> modello del geoide (accuratezza non importante)
 
-Foto -> 1 obbligatoria, fino a tre
+
+- Salvare:
+
+    - coordinate
+
+    - accuratezza
+
+    -foto:
+
+        - 1 obbligatoria, fino a 3
+
+        - orientazione telefono
+
+        - inclinazione telefono
+
+
+- Reset a chiusura
+- Alert vari
+- i18n
+
+- Quando salvo la frana, devo stare attento a salvare le liste solo se il radio giusto è selezionato

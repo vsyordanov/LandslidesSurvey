@@ -12,6 +12,15 @@ $font-body : 16px;
 $font-body-small : 14px;
 
 
+// Z-INDEXES
+$z-map-container : 1000;
+$z-insert-main : 0;
+$z-top-bar : 1;
+$z-opaque-overlay : 4;
+$z-full-dialog : 3;
+$z-dialog : 5;
+
+
 // CONTAINER
 $container-margin : 16px;
 @function container-size() {

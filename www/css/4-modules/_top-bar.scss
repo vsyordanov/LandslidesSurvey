@@ -4,7 +4,7 @@
   width      : 100%;
   position   : fixed;
   top        : 0;
-  z-index    : 1;
+  z-index    : $z-top-bar;
   @include flex-center;
   height     : $top-bar-height;
   background : $color-main-dark;

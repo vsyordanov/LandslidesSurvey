@@ -315,6 +315,7 @@ p {
 #insert-ls .insert-ls-main {
   width: 100%;
   height: 100%;
+  z-index: 0;
 }
 #insert-ls .insert-ls-main .requests-container {
   display: -moz-flex;
@@ -552,7 +553,7 @@ p {
 /* DIALOG */
 .opaque-overlay {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   top: 0;
   left: 0;
   width: 100%;
@@ -563,8 +564,10 @@ p {
 .full-screen-dialog {
   width: 100%;
   height: 100%;
-  position: absolute;
+  z-index: 3;
+  position: fixed;
   top: 0;
+  background: #FFFFFF;
 }
 .full-screen-dialog .custom-container {
   padding-top: 32px;
@@ -581,7 +584,7 @@ p {
 
 .dialog-wrapper {
   position: fixed;
-  z-index: 3;
+  z-index: 5;
   top: 0;
   left: 0;
   display: -moz-flex;
@@ -929,7 +932,7 @@ p {
 }
 
 /* DETAILS LIST */
-.list-item {
+.list-wrapper .list-item {
   width: 100%;
   display: -moz-flex;
   display: -webkit-flex;
@@ -947,32 +950,32 @@ p {
   border-top: 1px solid #C5C5C5;
   color: #000000;
 }
-.list-item.last-list-item {
+.list-wrapper .list-item.last-list-item {
   border-bottom: 1px solid #C5C5C5;
 }
-.list-item.no-padding {
+.list-wrapper .list-item.no-padding {
   padding: 0 0 3px 0;
 }
-.list-item .list-item-text {
+.list-wrapper .list-item .list-item-text {
   -moz-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   font: 400 16px system-ui;
 }
-.list-item .list-item-text.padding-start {
+.list-wrapper .list-item .list-item-text.padding-start {
   padding-left: 8px;
 }
-.list-item .list-item-text .list-item-text-p {
+.list-wrapper .list-item .list-item-text .list-item-text-p {
   margin: 0;
 }
-.list-item .list-item-text .list-item-text-p:not(:first-child) {
+.list-wrapper .list-item .list-item-text .list-item-text-p:not(:first-child) {
   margin-top: 5px;
 }
-.list-item .list-item-text .list-item-text-p .list-item-entry-title {
+.list-wrapper .list-item .list-item-text .list-item-text-p .list-item-entry-title {
   color: #FF5722;
 }
-.list-item .details-list-item-delete {
+.list-wrapper .list-item .details-list-item-delete {
   -moz-flex: 0 0 48px;
   -webkit-flex: 0 0 48px;
   -ms-flex: 0 0 48px;
@@ -981,10 +984,13 @@ p {
   padding: 12px;
   cursor: pointer;
 }
-.list-item .details-list-item-delete i {
+.list-wrapper .list-item .details-list-item-delete i {
   width: 24px;
   height: 24px;
   color: #1a1a1a;
+}
+.list-wrapper section:last-child {
+  border-bottom: 1px solid #C5C5C5;
 }
 
 .add-list-item {

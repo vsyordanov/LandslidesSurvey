@@ -6,7 +6,7 @@ $dialog-width : 280px;
 
 .opaque-overlay {
   position   : absolute;
-  z-index    : 2;
+  z-index    : $z-opaque-overlay;
   top        : 0;
   left       : 0;
   width      : 100%;
@@ -16,10 +16,12 @@ $dialog-width : 280px;
 
 
 .full-screen-dialog {
-  width    : 100%;
-  height   : 100%;
-  position : absolute;
-  top      : 0;
+  width      : 100%;
+  height     : 100%;
+  z-index    : $z-full-dialog;
+  position   : fixed;
+  top        : 0;
+  background : #FFFFFF;
 
   .custom-container {
     padding-top : 32px;
@@ -42,7 +44,7 @@ $dialog-width : 280px;
 
 .dialog-wrapper {
   position   : fixed;
-  z-index    : 3;
+  z-index    : $z-dialog;
   top        : 0;
   left       : 0;
   @include flex-center;

@@ -29,6 +29,13 @@ function initAppMapUI() {
 
     $(".leaflet-control-container").hide();
 
+    $("#map-new-ls").click(() => {
+
+        $("#map").hide();
+        $("#insert-ls").show();
+
+    });
+
 }
 
 

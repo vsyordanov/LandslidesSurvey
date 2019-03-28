@@ -18,7 +18,7 @@ $map-control-second-row-margin : 12px;
 
   .map-container {
     height  : 100%;
-    z-index : 1000;
+    z-index : $z-map-container;
     @include font(400, $font-body);
 
     .map-control {

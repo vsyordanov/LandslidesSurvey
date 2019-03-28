@@ -79,23 +79,6 @@
 
         <div class="custom-container requests-container">
 
-            <!-- Locality -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">place</i></div>
-
-                <div id="locality-request-base" class="request-content">
-
-                    <p class="request-name">Località</p>
-
-                    <p id="locality-text-base" class="request-text">Specifica la località</p>
-
-                </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
-
-            </div>
-
             <!-- Ls type -->
             <div class="request">
 
@@ -197,23 +180,6 @@
         </div>
 
         <div class="custom-container requests-container">
-
-            <!-- Locality -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">place</i></div>
-
-                <div id="locality-request-expert" class="request-content">
-
-                    <p class="request-name">Località</p>
-
-                    <p id="locality-text-expert" class="request-text">Specifica la località</p>
-
-                </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
-
-            </div>
 
             <!-- Ls type -->
             <div class="request">
@@ -380,8 +346,6 @@
         </div>
 
     </div>
-
-    <!-- Locality -->
 
     <!-- Ls type -->
     <div style="display: none" id="dialog-ls-type" class="full-screen-dialog">
@@ -722,32 +686,28 @@
                     <label class="radio">
                         <input type="radio"
                                name="position"
-                               value="Upper part"
-                               checked>
+                               value="Upper part">
                         <span>Parte alta</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="position"
-                               value="Middel part"
-                               checked>
+                               value="Middel part">
                         <span>Parte media</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="position"
-                               value="Lower part"
-                               checked>
+                               value="Lower part">
                         <span>Parte bassa</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="position"
-                               value="Valley floor"
-                               checked>
+                               value="Valley floor">
                         <span>Fondovalle</span>
                     </label>
 
@@ -759,7 +719,7 @@
 
                 <div id="position-cancel" class="text-button">CANCEL</div>
 
-                <div id=position-ok" class="text-button">OK</div>
+                <div id="position-ok" class="text-button">OK</div>
 
             </div>
 
@@ -856,32 +816,28 @@
                     <label class="radio">
                         <input type="radio"
                                name="vegetation"
-                               value="Short plants"
-                               checked>
+                               value="Short plants">
                         <span>Piante basse</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="vegetation"
-                               value="Trees"
-                               checked>
+                               value="Trees">
                         <span>Alberi</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="vegetation"
-                               value="Mixed"
-                               checked>
+                               value="Mixed">
                         <span>Mista</span>
                     </label>
 
                     <label class="radio">
                         <input type="radio"
                                name="vegetation"
-                               value="Absent"
-                               checked>
+                               value="Absent">
                         <span>Assente</span>
                     </label>
 
@@ -987,47 +943,9 @@
 
                 <p>Specifica le opere di mitigazione.</p>
 
-                <div class="list-item">
+                <div id="mitigation-list" class="list-wrapper"></div>
 
-                    <div class="list-item-text">
-
-                        <p class="list-item-text-p">
-                            <span class="list-item-entry-title">Tipologia:</span> muro di sostegno
-                        </p>
-
-                        <p class="list-item-text-p">
-                            <span class="list-item-entry-title">Stato:</span> funzionante
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="list-item last-list-item">
-
-                    <div class="list-item-text">
-
-                        <p class="list-item-text-p">
-                            <span class="list-item-entry-title">Tipologia:</span> muro di sostegno
-                        </p>
-
-                        <p class="list-item-text-p">
-                            <span class="list-item-entry-title">Stato:</span> funzionante
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="add-list-item">
+                <div id="mitigation-add" class="add-list-item">
 
                     <i class="material-icons">add_circle</i>Aggiungi opera
 
@@ -1149,39 +1067,9 @@
 
                 <p>Specifica i sistemi di monitoraggio.</p>
 
-                <div class="list-item no-padding">
+                <div id="monitoring-list" class="list-wrapper"></div>
 
-                    <div class="list-item-text padding-start">
-
-                        <p class="list-item-text-p">
-                            Spia
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="list-item last-list-item no-padding">
-
-                    <div class="list-item-text padding-start">
-
-                        <p class="list-item-text-p">
-                            Griglia
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="add-list-item">
+                <div id="monitoring-add" class="add-list-item">
 
                     <i class="material-icons">add_circle</i>Aggiungi sistema di monitoraggio
 
@@ -1301,39 +1189,9 @@
 
                 <p>Specifica gli oggetti danneggiati.</p>
 
-                <div class="list-item no-padding">
+                <div id="damages-list" class="list-wrapper"></div>
 
-                    <div class="list-item-text padding-start">
-
-                        <p class="list-item-text-p">
-                            Opera di mitigazione
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="list-item last-list-item no-padding">
-
-                    <div class="list-item-text padding-start">
-
-                        <p class="list-item-text-p">
-                            Edificio
-                        </p>
-
-                    </div>
-
-                    <div class="details-list-item-delete">
-                        <i class="material-icons">cancel</i>
-                    </div>
-
-                </div>
-
-                <div class="add-list-item">
+                <div id="damages-add" class="add-list-item">
 
                     <i class="material-icons">add_circle</i>Aggiungi oggetto danneggiato
 
@@ -1371,14 +1229,16 @@
                         <option value="o1">Option 1</option>
                         <option value="o2">Option 2</option>
                         <option value="o3">Option 3</option>
+                        <option value="other">Altro</option>
                     </select>
 
                 </div>
 
-                <div class="custom-text-input">
+                <div style="display: none" id="damage-other-input-wrapper" class="custom-text-input">
 
                     <label>
-                        <input type="text"
+                        <input id="damage-other-input"
+                               type="text"
                                placeholder="Specifica"
                                maxlength="50">
                     </label>

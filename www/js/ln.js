@@ -34,7 +34,7 @@ let ln = {
         //         console.log(error);
         //     }
         // );
-        i18n.setLng("en-US", function () {
+        i18n.setLng("en", function () {
             $("body").i18n();
         });
         init();

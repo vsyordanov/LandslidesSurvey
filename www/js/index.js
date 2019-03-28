@@ -27,7 +27,7 @@ function init() {
     isMobile = true;
     isApp    = true;
 
-    isExpertMode = false;
+    isExpertMode = true;
 
     onResize();
     initMap();

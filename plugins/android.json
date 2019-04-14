@@ -27,6 +27,9 @@
     },
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
     }
   },
   "dependent_plugins": {}

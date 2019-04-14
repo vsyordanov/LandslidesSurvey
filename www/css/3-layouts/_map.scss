@@ -2,8 +2,8 @@
 
 $map-control-top : 16px;
 $map-control-bottom : 16px;
-$map-control-left : 0px;
-$map-control-right : 0px;
+$map-control-left : 16px;
+$map-control-right : 16px;
 
 $map-control-second-row-margin : 12px;
 
@@ -16,34 +16,51 @@ $map-control-second-row-margin : 12px;
     display : none;
   }
 
-  .map-container {
-    height  : 100%;
-    z-index : $z-map-container;
+  .map-control {
+    z-index  : $z-map-container;
     @include font(400, $font-body);
+    position : absolute;
+  }
 
-    .map-control {
-      position : absolute;
-    }
+  .fab {
+    background : #FFFFFF;
+    color      : #000000;
+    border     : 0.1px solid rgba(0, 0, 0, 0.4);
+  }
 
-    #map-control-hint {
-      top  : $map-control-top;
-      left : $map-control-left;
-    }
+  .map-control-left {
+    left : $map-control-left;
+  }
 
-    #map-control-layers {
-      top   : $map-control-top;
-      right : $map-control-right;
-    }
+  .map-control-right {
+    right : $map-control-right;
+  }
 
-    #map-control-gps {
-      top   : $map-control-top + $fab-size + $map-control-second-row-margin;
-      right : $map-control-right;
-    }
+  .map-control-center {
+    right : $map-control-right;
+    left  : $map-control-left;
+  }
 
-    #map-new-ls {
-      right  : $map-control-right;
-      bottom : $map-control-bottom;
-      left   : $map-control-left;
+  .map-control-top-1 {
+    top : $map-control-top;
+  }
+
+  .map-control-top-2 {
+    top : $map-control-top + $fab-size + $map-control-second-row-margin;
+  }
+
+  .map-control-bottom {
+    bottom : $map-control-bottom;
+  }
+
+  .gps-on {
+    color : #2196F3;
+  }
+
+  .leaflet-marker-icon {
+
+    &:focus {
+      outline : none !important;
     }
 
   }

@@ -11,9 +11,7 @@ body {
 }
 
 body {
-  font-family : system-ui;
-  font-size   : 16px;
-  font-weight : 400;
+  @include font(400, $font-body);
   line-height : 1.2;
   overflow-y  : hidden;
   margin      : 0;
@@ -39,5 +37,5 @@ p {
 
 .custom-container {
   margin : 0 $container-margin;
-  width  : container-size();
+  width  : container-size($container-margin);
 }

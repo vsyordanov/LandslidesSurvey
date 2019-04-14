@@ -22,22 +22,21 @@ let ln = {
     },
 
     getLanguage: function () {
-        // navigator.globalization.getLocaleName(
-        //     function (lang) {
-        //         ln.language = lang.value.substring(0, 2);
-        //         i18n.setLng(ln.language, function () {
-        //             $("body").i18n();
-        //         });
-        //         init();
-        //     },
-        //     function (error) {
-        //         console.log(error);
-        //     }
-        // );
-        i18n.setLng("en", function () {
-            $("body").i18n();
-        });
-        init();
+
+        if (isCordova) {
+            navigator.globalization.getLocaleName(
+                lang => {
+                    ln.language = lang.value.substring(0, 2);
+                    i18n.setLng(ln.language, () => $("body").i18n());
+                    init();
+                },
+                error => console.log(error)
+            );
+        } else {
+            i18n.setLng("en", () => $("body").i18n());
+            init();
+        }
+
     }
 
 };

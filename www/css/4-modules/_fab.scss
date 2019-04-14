@@ -19,18 +19,16 @@
 
 .fab {
   @extend %fab-base;
-  //background : #FFFFFF;
-  //color      : #000000;
 }
 
 .fab-extended {
   @extend %fab-base;
-  width  : 80%;
-  height : 48px;
-  margin : 0 auto;
+  width          : 80%;
+  height         : 48px;
+  margin         : 0 auto;
+  text-transform : uppercase;
 
   .fab-extended-text {
-    font-weight : 700;
-    font-size   : $font-body;
+    @include font(700, $font-body);
   }
 }

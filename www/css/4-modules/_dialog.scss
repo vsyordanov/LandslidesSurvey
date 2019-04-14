@@ -5,12 +5,12 @@ $dialog-width : 280px;
 
 
 .opaque-overlay {
-  position   : absolute;
+  position   : fixed;
   z-index    : $z-opaque-overlay;
   top        : 0;
   left       : 0;
   width      : 100%;
-  height     : 200%;
+  height     : 100%;
   background : rgba(0, 0, 0, .6);
 }
 
@@ -22,6 +22,7 @@ $dialog-width : 280px;
   position   : fixed;
   top        : 0;
   background : #FFFFFF;
+  overflow-y : scroll;
 
   .custom-container {
     padding-top : 32px;

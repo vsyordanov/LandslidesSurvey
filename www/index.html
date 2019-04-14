@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -28,35 +27,34 @@
 <body onresize="onResize()" onload="onLoad()">
 
 <!-- Map -->
-<div style="display: none" id="map">
+<div id="map">
 
-    <div class="custom-container map-container">
+    <div id="map-control-settings" class="map-control map-control-left map-control-top-1 fab">
+        <i class="material-icons fab-icon">settings</i>
+    </div>
 
-        <div id="map-control-hint" class="map-control fab">
-            <i class="material-icons fab-icon">settings</i>
-        </div>
+    <div id="map-control-layers" class="map-control map-control-right map-control-top-1 fab">
+        <i class="material-icons fab-icon">layers</i>
+    </div>
 
-        <div id="map-control-layers" class="map-control fab">
-            <i class="material-icons fab-icon">layers</i>
-        </div>
+    <div id="map-control-gps" class="map-control map-control-right map-control-top-2 fab">
+        <i class="material-icons fab-icon">gps_fixed</i>
+    </div>
 
-        <div id="map-control-gps" class="map-control fab">
-            <i class="material-icons fab-icon">gps_fixed</i>
-        </div>
-
-        <div id="map-new-ls" class="map-control fab-extended">
-            <p class="fab-extended-text">NUOVA FRANA</p>
-        </div>
-
+    <div id="map-new-ls" class="map-control map-control-center map-control-bottom fab-extended">
+        <p class="fab-extended-text" data-i18n="map.fabText">New landslide</p>
     </div>
 
 </div>
 
+
 <!-- Insert ls -->
-<div id="insert-ls">
+<div style="display: none" id="insert-ls">
+
 
     <!-- Opaque overlay -->
     <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
+
 
     <!-- Main screen base -->
     <div style="display: none" id="insert-ls-main-base" class="insert-ls-main">
@@ -67,8 +65,8 @@
                 <i id="new-ls-base-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Nuova frana
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
+                New landslide
             </div>
 
             <div class="top-bar-right-icon">
@@ -86,13 +84,12 @@
 
                 <div id="ls-type-request-base" class="request-content">
 
-                    <p class="request-name">Tipologia di dissesto</p>
+                    <p class="request-name" data-i18n="insert.lsType.name">Instability type</p>
 
-                    <p id="ls-type-text-base" class="request-text">Specifica la tipologia del dissesto</p>
+                    <p id="ls-type-text-base" class="request-text"
+                       data-i18n="insert.lsType.defaultText">Specify the type of the instability</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -103,13 +100,12 @@
 
                 <div id="material-type-request-base" class="request-content">
 
-                    <p class="request-name">Tipo di materiale</p>
+                    <p class="request-name" data-i18n="insert.material.name">Material type</p>
 
-                    <p id="material-type-text-base" class="request-text">Specifica il tipo di materiale</p>
+                    <p id="material-type-text-base" class="request-text"
+                       data-i18n="insert.material.defaultText">Specify the type of the material</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -120,13 +116,12 @@
 
                 <div id="water-request-base" class="request-content">
 
-                    <p class="request-name">Presenza di acqua</p>
+                    <p class="request-name" data-i18n="insert.water.name">Water presence</p>
 
-                    <p id="water-text-base" class="request-text">Valuta la presenza di acqua</p>
+                    <p id="water-text-base" class="request-text"
+                       data-i18n="insert.water.defaultText">Evaluate the water presence</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -137,13 +132,12 @@
 
                 <div id="mitigation-request-base" class="request-content">
 
-                    <p class="request-name">Opere di mitigazione</p>
+                    <p class="request-name" data-i18n="insert.mitigation.name">Mitigation measures</p>
 
-                    <p id="mitigation-text-base" class="request-text">Valuta le opere di mitigazione</p>
+                    <p id="mitigation-text-base" class="request-text"
+                       data-i18n="insert.mitigation.defaultText">Evaluate the mitigation measures</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -152,7 +146,7 @@
 
                 <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
 
-                <div id="photo-text-base" class="btn-text">Add a photo</div>
+                <div id="photo-text-base" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
 
             </div>
 
@@ -169,8 +163,8 @@
                 <i id="new-ls-expert-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Nuova frana
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
+                New landslide
             </div>
 
             <div class="top-bar-right-icon">
@@ -188,13 +182,12 @@
 
                 <div id="ls-type-request-expert" class="request-content">
 
-                    <p class="request-name">Tipologia di dissesto</p>
+                    <p class="request-name" data-i18n="insert.lsType.name">Instability type</p>
 
-                    <p id="ls-type-text-expert" class="request-text">Specifica la tipologia del dissesto</p>
+                    <p id="ls-type-text-expert" class="request-text"
+                       data-i18n="insert.lsType.defaultText">Specify the type of the instability</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -205,13 +198,12 @@
 
                 <div id="material-type-request-expert" class="request-content">
 
-                    <p class="request-name">Tipo di materiale</p>
+                    <p class="request-name" data-i18n="insert.material.name">Material type</p>
 
-                    <p id="material-type-text-expert" class="request-text">Specifica il tipo di materiale</p>
+                    <p id="material-type-text-expert" class="request-text"
+                       data-i18n="insert.material.defaultText">Specify the type of the material</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -222,13 +214,12 @@
 
                 <div id="position-request-expert" class="request-content">
 
-                    <p class="request-name">Posizione sul versante</p>
+                    <p class="request-name" data-i18n="insert.position.name">Position on the crest</p>
 
-                    <p id="position-text-expert" class="request-text">Specifica la posizione della frana</p>
+                    <p id="position-text-expert" class="request-text"
+                       data-i18n="insert.position.defaultText">Specify the position of the landslide</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -239,13 +230,12 @@
 
                 <div id="water-request-expert" class="request-content">
 
-                    <p class="request-name">Presenza di acqua</p>
+                    <p class="request-name" data-i18n="insert.water.name">Water presence</p>
 
-                    <p id="water-text-expert" class="request-text">Valuta la presenza di acqua</p>
+                    <p id="water-text-expert" class="request-text"
+                       data-i18n="insert.water.defaultText">Evaluate the water presence</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -256,13 +246,12 @@
 
                 <div id="vegetation-request-expert" class="request-content">
 
-                    <p class="request-name">Presenza di vegetazione</p>
+                    <p class="request-name" data-i18n="insert.vegetation.name">Vegetation</p>
 
-                    <p id="vegetation-text-expert" class="request-text">Valuta la presenza di vegetazione</p>
+                    <p id="vegetation-text-expert" class="request-text"
+                       data-i18n="insert.vegetation.defaultText">Evaluate the vegetation presence</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -273,13 +262,12 @@
 
                 <div id="mitigation-request-expert" class="request-content">
 
-                    <p class="request-name">Opere di mitigazione</p>
+                    <p class="request-name" data-i18n="insert.mitigation.name">Mitigation measures</p>
 
-                    <p id="mitigation-text-expert" class="request-text">Valuta le opere di mitigazione</p>
+                    <p id="mitigation-text-expert" class="request-text"
+                       data-i18n="insert.mitigation.defaultText">Evaluate the mitigation measures</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -290,13 +278,12 @@
 
                 <div id="monitoring-request-expert" class="request-content">
 
-                    <p class="request-name">Sistemi di monitoraggio</p>
+                    <p class="request-name" data-i18n="insert.monitoring.name">Monitoring systems</p>
 
-                    <p id="monitoring-text-expert" class="request-text">Valuta i sistemi di monitoraggio</p>
+                    <p id="monitoring-text-expert" class="request-text"
+                       data-i18n="insert.monitoring.defaultText">Evaluate the monitoring systems</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -307,13 +294,12 @@
 
                 <div id="damages-request-expert" class="request-content">
 
-                    <p class="request-name">Danni</p>
+                    <p class="request-name" data-i18n="insert.damages.name">Damages</p>
 
-                    <p id="damages-text-expert" class="request-text">Valuta i danni</p>
+                    <p id="damages-text-expert" class="request-text"
+                       data-i18n="insert.damages.defaultText">Evaluate the damages</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -324,13 +310,12 @@
 
                 <div id="notes-request-expert" class="request-content">
 
-                    <p class="request-name">Note aggiuntive</p>
+                    <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
 
-                    <p id="notes-text-expert" class="request-text">Aggiungi note</p>
+                    <p id="notes-text-expert" class="request-text"
+                       data-i18n="insert.notes.defaultText">Add additional notes</p>
 
                 </div>
-
-                <div class="request-icon-right"><i class="material-icons">error_outline</i></div>
 
             </div>
 
@@ -339,13 +324,14 @@
 
                 <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
 
-                <div id="photo-text-expert" class="btn-text">Add a photo</div>
+                <div id="photo-text-expert" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Ls type -->
     <div style="display: none" id="dialog-ls-type" class="full-screen-dialog">
@@ -356,8 +342,8 @@
                 <i id="ls-type-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Tipologia di dissesto
+            <div class="top-bar-title" data-i18n="insert.lsType.topBarTitle">
+                Instability type
             </div>
 
             <div class="top-bar-right-icon">
@@ -376,7 +362,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Rockfall"
+                           value="rockfall"
                            checked/>
 
                     <div class="radio-card">
@@ -389,7 +375,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Crollo</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.rockfall">
+                                Rockfall
+                            </div>
 
                         </div>
 
@@ -403,7 +392,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Topple"/>
+                           value="topple"/>
 
                     <div class="radio-card">
 
@@ -415,7 +404,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Ribaltamento</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.topple">
+                                Topple
+                            </div>
 
                         </div>
 
@@ -433,7 +425,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Rotational landslide"/>
+                           value="rotationalLandslide"/>
 
                     <div class="radio-card">
 
@@ -445,7 +437,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Scivolamento rotazionale</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.rotationalLandslide">
+                                Rotational landslide
+                            </div>
 
                         </div>
 
@@ -459,7 +454,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Translational landslide"/>
+                           value="translationalLandslide"/>
 
                     <div class="radio-card">
 
@@ -471,7 +466,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Scivolamento planare</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.translationalLandslide">
+                                Translational landslide
+                            </div>
 
                         </div>
 
@@ -489,7 +487,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Debris flow"/>
+                           value="debrisFlow"/>
 
                     <div class="radio-card">
 
@@ -501,7 +499,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Colata di detrito</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.debrisFlow">
+                                Debris flow
+                            </div>
 
                         </div>
 
@@ -515,7 +516,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Earth flow"/>
+                           value="earthFlow"/>
 
                     <div class="radio-card">
 
@@ -527,7 +528,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Colata di fango</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.earthFlow">
+                                Earth flow
+                            </div>
 
                         </div>
 
@@ -545,7 +549,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Complex landslide"/>
+                           value="complexLandslide"/>
 
                     <div class="radio-card">
 
@@ -557,7 +561,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Frana complessa</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.complexLandslide">
+                                Complex landslide
+                            </div>
 
                         </div>
 
@@ -571,7 +578,7 @@
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="Other"/>
+                           value="other"/>
 
                     <div class="radio-card">
 
@@ -583,7 +590,10 @@
 
                         <div class="radio-card-text-wrapper">
 
-                            <div class="radio-card-text">Altro</div>
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.other">
+                                Other
+                            </div>
 
                         </div>
 
@@ -597,6 +607,7 @@
 
     </div>
 
+
     <!-- Material type -->
     <div style="display: none" id="dialog-material-type" class="dialog-wrapper">
 
@@ -604,46 +615,62 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
-                    Specifica il tipo di materiale.
+                <p class="dialog-text"
+                   data-i18n="insert.material.questionMaterial">
+                    Specify the type of the material
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="materialType"
-                               value="Rock"
+                               value="rock"
                                checked>
-                        <span>Roccia</span>
+
+                        <span data-i18n="insert.material.enum.rock">Rock</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="materialType"
-                               value="Debris">
-                        <span>Detrito</span>
+                               value="debris">
+
+                        <span data-i18n="insert.material.enum.debris">Debris</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="materialType"
-                               value="Dirt">
-                        <span>Terra</span>
+                               value="dirt">
+
+                        <span data-i18n="insert.material.enum.dirt">Dirt</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="materialType"
-                               value="Miscellaneous">
-                        <span>Misto</span>
+                               value="miscellaneous">
+
+                        <span data-i18n="insert.material.enum.miscellaneous">Miscellaneous</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="materialType"
-                               value="Undetectable">
-                        <span>Non determinabile</span>
+                               value="undetectable">
+
+                        <span data-i18n="insert.material.enum.undetectable">Undetectable</span>
+
                     </label>
 
                 </div>
@@ -652,15 +679,24 @@
 
             <div class="dialog-footer">
 
-                <div id="material-type-cancel" class="text-button">CANCEL</div>
+                <div id="material-type-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="material-type-ok" class="text-button">OK</div>
+                <div id="material-type-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Position -->
     <div style="display: none" id="dialog-position" class="dialog-wrapper">
@@ -669,46 +705,62 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
-                    Specifica la posizione della frana sul versante.
+                <p class="dialog-text"
+                   data-i18n="insert.position.questionPosition">>
+                    Specify the position of the landslide
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="position"
-                               value="Crest"
+                               value="crest"
                                checked>
-                        <span>In cresta</span>
+
+                        <span data-i18n="insert.position.enum.crest">Crest</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="position"
-                               value="Upper part">
-                        <span>Parte alta</span>
+                               value="upperPart">
+
+                        <span data-i18n="insert.position.enum.upperPart">Upper part</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="position"
-                               value="Middel part">
-                        <span>Parte media</span>
+                               value="middlePart">
+
+                        <span data-i18n="insert.position.enum.middlePart">Middle part</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="position"
-                               value="Lower part">
-                        <span>Parte bassa</span>
+                               value="lowerPart">
+
+                        <span data-i18n="insert.position.enum.lowerPart">Lower part</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="position"
-                               value="Valley floor">
-                        <span>Fondovalle</span>
+                               value="valleyFloor">
+
+                        <span data-i18n="insert.position.enum.valleyFloor">Valley floor</span>
+
                     </label>
 
                 </div>
@@ -717,15 +769,24 @@
 
             <div class="dialog-footer">
 
-                <div id="position-cancel" class="text-button">CANCEL</div>
+                <div id="position-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="position-ok" class="text-button">OK</div>
+                <div id="position-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Water -->
     <div style="display: none" id="dialog-water" class="dialog-wrapper">
@@ -734,46 +795,62 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
-                    Valuta la presenza di acqua.
+                <p class="dialog-text"
+                   data-i18n="insert.water.questionWater">
+                    Evaluate the water presence
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="water"
-                               value="Dry"
+                               value="dry"
                                checked>
-                        <span>Secco</span>
+
+                        <span data-i18n="insert.water.enum.dry">Dry</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="water"
-                               value="Moist">
-                        <span>Umido</span>
+                               value="moist">
+
+                        <span data-i18n="insert.water.enum.moist">Moist</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="water"
-                               value="Wet">
-                        <span>Bagnato</span>
+                               value="wet">
+
+                        <span data-i18n="insert.water.enum.wet">Wet</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="water"
-                               value="Very wet">
-                        <span>Molto bagnato</span>
+                               value="veryWet">
+
+                        <span data-i18n="insert.water.enum.veryWet">Very wet</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="water"
-                               value="Undetectable">
-                        <span>Non determinabile</span>
+                               value="undetectable">
+
+                        <span data-i18n="insert.water.enum.undetectable">Undetectable</span>
+
                     </label>
 
                 </div>
@@ -782,15 +859,24 @@
 
             <div class="dialog-footer">
 
-                <div id="water-cancel" class="text-button">CANCEL</div>
+                <div id="water-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="water-ok" class="text-button">OK</div>
+                <div id="water-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Vegetation -->
     <div style="display: none" id="dialog-vegetation" class="dialog-wrapper">
@@ -799,46 +885,62 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
-                    Valuta la presenza di vegetazione.
+                <p class="dialog-text"
+                   data-i18n="insert.vegetation.questionVegetation">>
+                    Evaluate the vegetation presence
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="vegetation"
-                               value="Grass"
+                               value="grass"
                                checked>
-                        <span>Erba</span>
+
+                        <span data-i18n="insert.vegetation.enum.grass">Grass</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="vegetation"
-                               value="Short plants">
-                        <span>Piante basse</span>
+                               value="shortPlants">
+
+                        <span data-i18n="insert.vegetation.enum.shortPlants">Short plants</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="vegetation"
-                               value="Trees">
-                        <span>Alberi</span>
+                               value="trees">
+
+                        <span data-i18n="insert.vegetation.enum.trees">Trees</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="vegetation"
-                               value="Mixed">
-                        <span>Mista</span>
+                               value="mixed">
+
+                        <span data-i18n="insert.vegetation.enum.mixed">Mixed</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="vegetation"
-                               value="Absent">
-                        <span>Assente</span>
+                               value="absent">
+
+                        <span data-i18n="insert.vegetation.enum.absent">Absent</span>
+
                     </label>
 
                 </div>
@@ -847,15 +949,24 @@
 
             <div class="dialog-footer">
 
-                <div id="vegetation-cancel" class="text-button">CANCEL</div>
+                <div id="vegetation-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="vegetation-ok" class="text-button">OK</div>
+                <div id="vegetation-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Mitigation base -->
     <div style="display: none" id="dialog-mitigation-base" class="dialog-wrapper">
@@ -864,25 +975,32 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text">
-                    Sono presenti opere di mitigazione?
+                <p class="dialog-text"
+                   data-i18n="insert.mitigation.questionMitigation">
+                    Is there any mitigation measure?
                 </p>
 
                 <div>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="mitigationBase"
-                               value="Yes"
+                               value="yes"
                                checked>
-                        <span>Yes</span>
+
+                        <span data-i18n="insert.mitigation.enum.yes">Yes</span>
+
                     </label>
 
                     <label class="radio">
+
                         <input type="radio"
                                name="mitigationBase"
-                               value="No">
-                        <span>No</span>
+                               value="no">
+
+                        <span data-i18n="insert.mitigation.enum.no">No</span>
+
                     </label>
 
                 </div>
@@ -891,9 +1009,17 @@
 
             <div class="dialog-footer">
 
-                <div id="mitigation-base-cancel" class="text-button">CANCEL</div>
+                <div id="mitigation-base-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="mitigation-base-ok" class="text-button">OK</div>
+                <div id="mitigation-base-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
@@ -910,8 +1036,8 @@
                 <i id="mitigation-expert-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Opere di mitigazione
+            <div class="top-bar-title" data-i18n="insert.mitigation.topBarTitle">
+                Mitigation measures
             </div>
 
             <div class="top-bar-right-icon">
@@ -922,32 +1048,44 @@
 
         <div class="custom-container">
 
-            <p class="first-p">Sono presenti opere di mitigazione?</p>
+            <p class="first-p"
+               data-i18n="insert.mitigation.questionMitigation">
+                Is there any mitigation measure?
+            </p>
 
             <label class="radio">
+
                 <input type="radio"
                        name="mitigationExpert"
-                       value="Yes"
+                       value="yes"
                        checked>
-                <span>Yes</span>
+
+                <span data-i18n="insert.mitigation.enum.yes">Yes</span>
+
             </label>
 
             <label class="radio">
+
                 <input type="radio"
                        name="mitigationExpert"
-                       value="No">
-                <span>No</span>
+                       value="no">
+
+                <span data-i18n="insert.mitigation.enum.no">No</span>
+
             </label>
 
             <div id="mitigations-wrapper">
 
-                <p>Specifica le opere di mitigazione.</p>
+                <p data-i18n="insert.mitigation.questionSpecify">
+                    Specify the mitigation measure(s)
+                </p>
 
                 <div id="mitigation-list" class="list-wrapper"></div>
 
                 <div id="mitigation-add" class="add-list-item">
 
-                    <i class="material-icons">add_circle</i>Aggiungi opera
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.mitigation.add">Add a mitigation measure</span>
 
                 </div>
 
@@ -963,50 +1101,86 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text first-p">
-                    Tipologia dell'opera
+                <p class="dialog-text first-p" data-i18n="insert.mitigation.questionType">
+                    Type of the mitigation work
                 </p>
 
                 <div class="custom-selector-box">
 
                     <label for="mitigation-type-select" class="label custom-selector">
-                        <span class="label-description">
-                            Seleziona la tipologia
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
                         </span>
+
                         <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
+
                     </label>
 
                     <select id="mitigation-type-select" class="select">
+
                         <option value="none" style="display: none"></option>
-                        <option value="o1">Option 1</option>
-                        <option value="o2">Option 2</option>
-                        <option value="o3">Option 3</option>
+
+                        <option value="o1"
+                                data-i18n="insert.mitigation.enum.o1">
+                            Option 1
+                        </option>
+
+                        <option value="o2"
+                                data-i18n="insert.mitigation.enum.o2">
+                            Option 2
+                        </option>
+
+                        <option value="o3"
+                                data-i18n="insert.mitigation.enum.o3">
+                            Option 3
+                        </option>
+
                     </select>
 
                 </div>
 
-                <p class="dialog-text">
-                    Stato dell'opera
+                <p class="dialog-text" data-i18n="insert.mitigation.questionStatus">
+                    Status of the mitigation work
                 </p>
 
                 <div class="custom-selector-box">
 
                     <label for="mitigation-status-select" class="label custom-selector">
-                        <span class="label-description">
-                            Seleziona lo stato
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
                         </span>
+
                         <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
+
                     </label>
 
                     <select id="mitigation-status-select" class="select">
+
                         <option value="none" style="display: none"></option>
-                        <option value="o1">Option 1</option>
-                        <option value="o2">Option 2</option>
-                        <option value="o3">Option 3</option>
+
+                        <option value="o1"
+                                data-i18n="insert.mitigation.enum.o1">
+                            Option 1
+                        </option>
+
+                        <option value="o2"
+                                data-i18n="insert.mitigation.enum.o2">
+                            Option 2
+                        </option>
+
+                        <option value="o3"
+                                data-i18n="insert.mitigation.enum.o3">
+                            Option 3
+                        </option>
+
                     </select>
 
                 </div>
@@ -1015,15 +1189,25 @@
 
             <div class="dialog-footer">
 
-                <div id="mitigation-expert-new-cancel" class="text-button">CANCEL</div>
+                <div id="mitigation-expert-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="mitigation-expert-new-ok" class="text-button">OK</div>
+
+                <div id="mitigation-expert-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Monitoring -->
     <div style="display: none" id="dialog-monitoring" class="full-screen-dialog">
@@ -1034,8 +1218,8 @@
                 <i id="monitoring-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Sistemi di monitoraggio
+            <div class="top-bar-title" data-i18n="insert.monitoring.topBarTitle">
+                Monitoring systems
             </div>
 
             <div class="top-bar-right-icon">
@@ -1046,32 +1230,48 @@
 
         <div class="custom-container">
 
-            <p class="first-p">Sono presenti sistemi di monitoraggio in loco?</p>
+            <div>
 
-            <label class="radio">
-                <input type="radio"
-                       name="monitoring"
-                       value="Yes"
-                       checked>
-                <span>Yes</span>
-            </label>
+                <p class="first-p"
+                   data-i18n="insert.monitoring.questionMonitoring">
+                    Is there any monitoring system?
+                </p>
 
-            <label class="radio">
-                <input type="radio"
-                       name="monitoring"
-                       value="No">
-                <span>No</span>
-            </label>
+                <label class="radio">
+
+                    <input type="radio"
+                           name="monitoring"
+                           value="yes"
+                           checked>
+
+                    <span data-i18n="insert.monitoring.enum.yes">Yes</span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="monitoring"
+                           value="no">
+
+                    <span data-i18n="insert.monitoring.enum.no">No</span>
+
+                </label>
+
+            </div>
 
             <div id="monitoring-wrapper">
 
-                <p>Specifica i sistemi di monitoraggio.</p>
+                <p data-i18n="insert.monitoring.questionSpecify">
+                    Specify the monitoring system(s)
+                </p>
 
                 <div id="monitoring-list" class="list-wrapper"></div>
 
                 <div id="monitoring-add" class="add-list-item">
 
-                    <i class="material-icons">add_circle</i>Aggiungi sistema di monitoraggio
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.monitoring.add">Add a monitoring system</span>
 
                 </div>
 
@@ -1087,26 +1287,44 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text first-p">
-                    Tipologia del sistema di monitoraggio
+                <p class="dialog-text first-p" data-i18n="insert.monitoring.questionType">
+                    Type of the monitoring system
                 </p>
 
                 <div class="custom-selector-box">
 
                     <label for="monitoring-type-select" class="label custom-selector">
-                        <span class="label-description">
-                            Seleziona la tipologia
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
                         </span>
+
                         <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
+
                     </label>
 
                     <select id="monitoring-type-select" class="select">
+
                         <option value="none" style="display: none"></option>
-                        <option value="o1">Option 1</option>
-                        <option value="o2">Option 2</option>
-                        <option value="o3">Option 3</option>
+
+                        <option value="o1"
+                                data-i18n="insert.monitoring.enum.o1">
+                            Option 1
+                        </option>
+
+                        <option value="o2"
+                                data-i18n="insert.monitoring.enum.o2">
+                            Option 2
+                        </option>
+
+                        <option value="o3"
+                                data-i18n="insert.monitoring.enum.o3">
+                            Option 3
+                        </option>
+
                     </select>
 
                 </div>
@@ -1115,15 +1333,24 @@
 
             <div class="dialog-footer">
 
-                <div id="monitoring-new-cancel" class="text-button">CANCEL</div>
+                <div id="monitoring-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="monitoring-new-ok" class="text-button">OK</div>
+                <div id="monitoring-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Damages -->
     <div style="display: none" id="dialog-damages" class="full-screen-dialog">
@@ -1134,8 +1361,8 @@
                 <i id="damages-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Danni
+            <div class="top-bar-title" data-i18n="insert.damages.topBarTitle">
+                Damages
             </div>
 
             <div class="top-bar-right-icon">
@@ -1146,54 +1373,79 @@
 
         <div class="custom-container">
 
-            <p class="first-p">Che danno ha prodotto la frana?</p>
+            <div>
 
-            <label class="radio">
-                <input type="radio"
-                       name="damages"
-                       value="No damage"
-                       checked>
-                <span>Nessun danno</span>
-            </label>
+                <p class="first-p"
+                   data-i18n="insert.damages.questionDamage">
+                    What kind of damage did the landslide caused?
+                </p>
 
-            <label class="radio">
-                <input type="radio"
-                       name="damages"
-                       value="Direct damage">
-                <span>Danno diretto</span>
-            </label>
 
-            <label class="radio">
-                <input type="radio"
-                       name="damages"
-                       value="Barrage">
-                <span>Sbarramento corso d'acqua</span>
-            </label>
+                <label class="radio">
 
-            <label class="radio">
-                <input type="radio"
-                       name="damages"
-                       value="Dam or bank breaking">
-                <span>Rottura diga o argine</span>
-            </label>
+                    <input type="radio"
+                           name="damages"
+                           value="noDamage"
+                           checked>
 
-            <label class="radio">
-                <input type="radio"
-                       name="damages"
-                       value="Undetectable">
-                <span>Indeterminabile</span>
-            </label>
+                    <span data-i18n="insert.damages.enum.noDamage">No damage</span>
 
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="directDamage">
+
+                    <span data-i18n="insert.damages.enum.directDamage">Direct damage</span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="barrage">
+
+                    <span data-i18n="insert.damages.enum.barrage">Barrage</span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="damBankBreaking">
+
+                    <span data-i18n="insert.damages.enum.damBankBreaking">Dam or bank breaking</span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="undetectable">
+
+                    <span data-i18n="insert.damages.enum.undetectable">Undetectable</span>
+
+                </label>
+
+            </div>
 
             <div id="damages-wrapper">
 
-                <p>Specifica gli oggetti danneggiati.</p>
+                <p data-i18n="insert.damages.questionSpecify">
+                    Specify the damaged object(s)
+                </p>
 
                 <div id="damages-list" class="list-wrapper"></div>
 
                 <div id="damages-add" class="add-list-item">
 
-                    <i class="material-icons">add_circle</i>Aggiungi oggetto danneggiato
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.damages.add">Aggiungi oggetto danneggiato</span>
 
                 </div>
 
@@ -1209,27 +1461,50 @@
 
             <div class="dialog-container">
 
-                <p class="dialog-text first-p">
-                    Aggiungi oggetto danneggiato
+                <p class="dialog-text first-p" data-i18n="insert.damages.questionType">
+                    Type of the damaged object
                 </p>
 
                 <div class="custom-selector-box">
 
                     <label for="damages-type-select" class="label custom-selector">
-                        <span class="label-description">
-                            Seleziona un oggetto
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
                         </span>
+
+
                         <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
+
                     </label>
 
                     <select id="damages-type-select" class="select">
+
                         <option value="none" style="display: none"></option>
-                        <option value="o1">Option 1</option>
-                        <option value="o2">Option 2</option>
-                        <option value="o3">Option 3</option>
-                        <option value="other">Altro</option>
+
+                        <option value="o1"
+                                data-i18n="insert.damages.enum.o1">
+                            Option 1
+                        </option>
+
+                        <option value="o2"
+                                data-i18n="insert.damages.enum.o2">
+                            Option 2
+                        </option>
+
+                        <option value="o3"
+                                data-i18n="insert.damages.enum.o3">
+                            Option 3
+                        </option>
+
+                        <option value="other"
+                                data-i18n="insert.damages.enum.other">
+                            Other
+                        </option>
+
                     </select>
 
                 </div>
@@ -1239,7 +1514,7 @@
                     <label>
                         <input id="damage-other-input"
                                type="text"
-                               placeholder="Specifica"
+                               data-i18n="[placeholder]insert.damages.specify"
                                maxlength="50">
                     </label>
 
@@ -1249,15 +1524,24 @@
 
             <div class="dialog-footer">
 
-                <div id="damages-new-cancel" class="text-button">CANCEL</div>
+                <div id="damages-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
 
-                <div id="damages-new-ok" class="text-button">OK</div>
+                <div id="damages-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 
     <!-- Notes -->
     <div style="display: none" id="dialog-notes" class="full-screen-dialog">
@@ -1268,8 +1552,9 @@
                 <i id="notes-close" class="material-icons">close</i>
             </div>
 
-            <div class="top-bar-title">
-                Note aggiuntive
+            <div class="top-bar-title"
+                 data-i18n="insert.notes.topBarTitle">>
+                Additional notes
             </div>
 
             <div class="top-bar-right-icon">
@@ -1280,17 +1565,96 @@
 
         <div class="custom-container">
 
-            <p class="first-p">Note aggiuntive</p>
+            <p class="first-p" data-i18n="insert.notes.questionNotes">Additional notes</p>
 
+            <label for="notes"></label>
             <textarea id="notes"
                       class="custom-textarea"
                       rows="10"
-                      placeholder="Max 500 characters..."
+                      data-i18n="[placeholder]insert.notes.notesPlaceholder"
                       maxlength="500"></textarea>
 
         </div>
 
     </div>
+
+
+    <!-- Photo -->
+    <div style="display: none" id="dialog-photo" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="photo-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title"
+                 data-i18n="insert.photo.topBarTitle">
+                Add a photo
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="photo-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div style="display: none" id="photo-cancel-btn" class="photo-cancel-wrapper">
+
+            <div class="photo-cancel">
+
+                <i class="material-icons">cancel</i>
+
+            </div>
+
+        </div>
+
+        <div id="photo-dialog-container" class="custom-container">
+
+            <div id="photo-preview-wrapper" class="photo-preview-wrapper">
+
+                <img id="ls-photo-preview"
+                     class="photo-preview"
+                     src="img/img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+            <div id="btn-camera" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">photo_camera</i></div>
+
+                <div class="btn-text"
+                     data-i18n="insert.photo.cameraBtn">
+                    Take a picture
+                </div>
+
+            </div>
+
+            <div class="photo-or"
+                 data-i18n="insert.photo.or">
+                - or -
+            </div>
+
+            <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">folder</i></div>
+
+                <div class="btn-text"
+                     data-i18n="insert.photo.galleryBtn">
+                    Choose from the gallery
+                </div>
+
+            </div>
+
+            <input id="tmp-photo-input"
+                   type="file"
+                   accept=".png, .jpg, .jpeg">
+
+        </div>
+
+    </div>
+
 
 </div>
 
@@ -1319,6 +1683,8 @@
 
 <!-- Main JS -->
 <script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
+<script type="text/javascript" src="js/landslide.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/insert.js"></script>
 <script type="text/javascript" src="js/index.js"></script>

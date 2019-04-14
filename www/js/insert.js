@@ -1,5 +1,7 @@
 "use strict";
 
+let isModify = false;
+
 let lsType            = "",
     materialType      = "",
     position          = "",
@@ -15,28 +17,26 @@ let lsType            = "",
     damagesList       = [],
     damagesListNew    = [],
     notes             = "",
-    photo             = "";
+    photo             = "",
+    newPhoto          = "";
+
+let btnCancelPhotoTop  = 0,
+    btnCancelPhotoLeft = 0;
 
 
-function initInsertion(isExpert) {
+function initInsert() {
 
-    if (!isExpert) {
-        $("#insert-ls-main-base").show();
-        initMainPageBase();
-    } else {
-        $("#insert-ls-main-expert").show();
-        initMainPageExpert();
-        initPositionDialog();
-        initVegetationDialog();
-        initMitigationExpertDialog();
-        initMitigationInsertDialog();
-        initMonitoringDialog();
-        initMonitoringInsertDialog();
-        initDamagesDialog();
-        initDamagesInsertDialog();
-        initNotesDialog();
-    }
-
+    initMainPageBase();
+    initMainPageExpert();
+    initPositionDialog();
+    initVegetationDialog();
+    initMitigationExpertDialog();
+    initMitigationInsertDialog();
+    initMonitoringDialog();
+    initMonitoringInsertDialog();
+    initDamagesDialog();
+    initDamagesInsertDialog();
+    initNotesDialog();
     initLsTypeDialog();
     initMaterialTypeDialog();
     initWaterDialog();
@@ -45,114 +45,98 @@ function initInsertion(isExpert) {
 
 }
 
+function openInsert() {
+
+    if (isExpertMode) {
+        $("#insert-ls-main-expert").show();
+        $("#insert-ls-main-base").hide();
+    } else {
+        $("#insert-ls-main-expert").hide();
+        $("#insert-ls-main-base").show();
+    }
+
+    $("#insert-ls").show();
+
+}
+
+function closeInsert() {
+
+    $("#insert-ls-main-expert").hide();
+    $("#insert-ls-main-base").hide();
+    $("#insert-ls").scrollTop(0).hide();
+
+    resetFields();
+
+}
+
 
 // Main page base
 function initMainPageBase() {
 
-    $("#new-ls-base-close").click(() => {
+    $("#new-ls-base-close").click(() => closeInsert());
 
-        $("#insert-ls").hide();
-        $("#map").show();
+    $("#new-ls-base-done").click(() => insertLandslide());
 
-    });
+    $("#ls-type-request-base").click(() => openLsTypeDialog());
 
-    $("#new-ls-base-done").click(() => {
+    $("#material-type-request-base").click(() => openMaterialTypeDialog());
 
-        console.log("Insert done");
-
-    });
-
-    $("#ls-type-request-base").click(() => {
-
-        $("input[name='lsType'][value='" + lsType + "']").prop("checked", "true");
-
-        openFullscreenDialog($("#dialog-ls-type"));
-
-    });
-
-    $("#material-type-request-base").click(() => {
-
-        $("input[name='materialType'][value='" + materialType + "']").prop("checked", "true");
-
-        openDialog($("#dialog-material-type"));
-
-    });
-
-    $("#water-request-base").click(() => {
-
-        $("input[name='water'][value='" + water + "']").prop("checked", "true");
-
-        openDialog($("#dialog-water"));
-
-    });
+    $("#water-request-base").click(() => openWaterDialog());
 
     $("#mitigation-request-base").click(() => {
 
-        $("input[name='mitigationBase'][value='" + mitigation + "']").prop("checked", "true");
+        let toSelect = mitigation;
+
+        if (mitigation === "")
+            toSelect = "yes";
+
+        $("input[name='mitigationBase'][value='" + toSelect + "']")
+            .prop("checked", "true");
 
         openDialog($("#dialog-mitigation-base"));
 
     });
 
-    $("#photo-request-base").click(() => {
-
-        console.log("Photo clicked");
-
-    });
+    $("#photo-request-base").click(() => openDialogPhoto());
 
 }
 
 // Main page expert
 function initMainPageExpert() {
 
-    $("#new-ls-expert-close").click(() => {
+    $("#new-ls-expert-close").click(() => closeInsert());
 
-        $("#insert-ls").hide();
-        $("#map").show();
+    $("#new-ls-expert-done").click(() => insertLandslide());
 
-    });
+    $("#ls-type-request-expert").click(() => openLsTypeDialog());
 
-    $("#new-ls-expert-done").click(() => {
-
-        console.log("Insert done");
-
-    });
-
-    $("#ls-type-request-expert").click(() => {
-
-        $("input[name='lsType'][value='" + lsType + "']").prop("checked", "true");
-
-        openFullscreenDialog($("#dialog-ls-type"));
-
-    });
-
-    $("#material-type-request-expert").click(() => {
-
-        $("input[name='materialType'][value='" + materialType + "']").prop("checked", "true");
-
-        openDialog($("#dialog-material-type"));
-
-    });
+    $("#material-type-request-expert").click(() => openMaterialTypeDialog());
 
     $("#position-request-expert").click(() => {
 
-        $("input[name='position'][value='" + position + "']").prop("checked", "true");
+        let toSelect = position;
+
+        if (position === "")
+            toSelect = "crest";
+
+        $("input[name='position'][value='" + toSelect + "']")
+            .prop("checked", "true");
 
         openDialog($("#dialog-position"));
 
     });
 
-    $("#water-request-expert").click(() => {
-
-        $("input[name='water'][value='" + water + "']").prop("checked", "true");
-
-        openDialog($("#dialog-water"));
-
-    });
+    $("#water-request-expert").click(() => openWaterDialog());
 
     $("#vegetation-request-expert").click(() => {
 
-        $("input[name='vegetation'][value='" + vegetation + "']").prop("checked", "true");
+        let toSelect = vegetation;
+
+        if (vegetation === "")
+            toSelect = "grass";
+
+
+        $("input[name='vegetation'][value='" + toSelect + "']").prop("checked", "true");
 
         openDialog($("#dialog-vegetation"));
 
@@ -160,9 +144,15 @@ function initMainPageExpert() {
 
     $("#mitigation-request-expert").click(() => {
 
-        $("input[name='mitigationExpert'][value='" + mitigation + "']").prop("checked", "true");
+        let toSelect = mitigation;
 
-        if (mitigation === "" || mitigation === "Yes")
+        if (mitigation === "")
+            toSelect = "yes";
+
+        $("input[name='mitigationExpert'][value='" + toSelect + "']")
+            .prop("checked", "true");
+
+        if (toSelect === "yes")
             $("#mitigations-wrapper").show();
         else
             $("#mitigations-wrapper").hide();
@@ -172,13 +162,20 @@ function initMainPageExpert() {
         mitigationList.forEach(item => createMitigationItem(item.type, item.status));
 
         openFullscreenDialog($("#dialog-mitigation-expert"));
+
     });
 
     $("#monitoring-request-expert").click(() => {
 
-        $("input[name='monitoring'][value='" + monitoring + "']").prop("checked", "true");
+        let toSelect = monitoring;
 
-        if (monitoring === "" || monitoring === "Yes")
+        if (monitoring === "")
+            toSelect = "yes";
+
+        $("input[name='monitoring'][value='" + toSelect + "']")
+            .prop("checked", "true");
+
+        if (toSelect === "yes")
             $("#monitoring-wrapper").show();
         else
             $("#monitoring-wrapper").hide();
@@ -188,13 +185,19 @@ function initMainPageExpert() {
         monitoringList.forEach(item => createMonitoringItem(item.type));
 
         openFullscreenDialog($("#dialog-monitoring"));
+
     });
 
     $("#damages-request-expert").click(() => {
 
-        $("input[name='damages'][value='" + damages + "']").prop("checked", "true");
+        let toSelect = damages;
 
-        if (damages === "Direct damage")
+        if (damages === "")
+            toSelect = "noDamage";
+
+        $("input[name='damages'][value='" + toSelect + "']").prop("checked", "true");
+
+        if (toSelect === "directDamage")
             $("#damages-wrapper").show();
         else
             $("#damages-wrapper").hide();
@@ -214,11 +217,62 @@ function initMainPageExpert() {
 
     });
 
-    $("#photo-request-expert").click(() => {
+    $("#photo-request-expert").click(() => openDialogPhoto());
 
-        console.log("Photo clicked");
+}
 
-    });
+// Create the landslide object
+function insertLandslide() {
+
+    if (lsType === "") {
+        console.log("You must provide at least the ls type");
+        return;
+    }
+
+    if (isExpertMode) {
+
+        if (mitigation !== "yes")
+            mitigationList = [];
+
+        if (monitoring !== "yes")
+            monitoringList = [];
+
+        if (damages !== "directDamage")
+            damagesList = [];
+
+    }
+
+    let currDate = new Date().toISOString();
+
+    let hasPhoto = photo !== "";
+
+    let landslide = new Landslide(
+        Landslide.generateUID(),
+        currDate,
+        currDate,
+        isExpertMode,
+        currLatLong,
+        currAccuracy,
+        currAltitude,
+        lsType,
+        materialType,
+        position,
+        water,
+        vegetation,
+        mitigation,
+        mitigationList,
+        monitoring,
+        monitoringList,
+        damages,
+        damagesList,
+        notes,
+        hasPhoto
+    );
+
+    landslide.addAttachment(photo);
+    landslide.insert();
+
+    closeInsert();
 
 }
 
@@ -233,13 +287,27 @@ function initLsTypeDialog() {
         lsType = $("input[name='lsType']:checked").val();
 
         if (!isExpertMode)
-            $("#ls-type-text-base").html(lsType);
+            $("#ls-type-text-base").html(i18n.t("insert.lsType.enum." + lsType));
         else
-            $("#ls-type-text-expert").html(lsType);
+            $("#ls-type-text-expert").html(i18n.t("insert.lsType.enum." + lsType));
 
         closeFullscreenDialog($("#dialog-ls-type"));
 
     });
+
+}
+
+function openLsTypeDialog() {
+
+    let toSelect = lsType;
+
+    if (lsType === "")
+        toSelect = "rockfall";
+
+    $("input[name='lsType'][value='" + toSelect + "']")
+        .prop("checked", "true");
+
+    openFullscreenDialog($("#dialog-ls-type"));
 
 }
 
@@ -254,13 +322,27 @@ function initMaterialTypeDialog() {
         materialType = $("input[name='materialType']:checked").val();
 
         if (!isExpertMode)
-            $("#material-type-text-base").html(materialType);
+            $("#material-type-text-base").html(i18n.t("insert.material.enum." + materialType));
         else
-            $("#material-type-text-expert").html(materialType);
+            $("#material-type-text-expert").html(i18n.t("insert.material.enum." + materialType));
 
         closeDialog($("#dialog-material-type"));
 
     });
+
+}
+
+function openMaterialTypeDialog() {
+
+    let toSelect = materialType;
+
+    if (materialType === "")
+        toSelect = "rock";
+
+    $("input[name='materialType'][value='" + toSelect + "']")
+        .prop("checked", "true");
+
+    openDialog($("#dialog-material-type"));
 
 }
 
@@ -273,7 +355,8 @@ function initPositionDialog() {
     $("#position-ok").click(() => {
 
         position = $("input[name='position']:checked").val();
-        $("#position-text-expert").html(position);
+
+        $("#position-text-expert").html(i18n.t("insert.position.enum." + position));
 
         closeDialog($("#dialog-position"));
 
@@ -292,13 +375,27 @@ function initWaterDialog() {
         water = $("input[name='water']:checked").val();
 
         if (!isExpertMode)
-            $("#water-text-base").html(water);
+            $("#water-text-base").html(i18n.t("insert.water.enum." + water));
         else
-            $("#water-text-expert").html(water);
+            $("#water-text-expert").html(i18n.t("insert.water.enum." + water));
 
         closeDialog($("#dialog-water"));
 
     });
+
+}
+
+function openWaterDialog() {
+
+    let toSelect = water;
+
+    if (water === "")
+        toSelect = "dry";
+
+    $("input[name='water'][value='" + toSelect + "']")
+        .prop("checked", "true");
+
+    openDialog($("#dialog-water"));
 
 }
 
@@ -312,7 +409,7 @@ function initVegetationDialog() {
 
         vegetation = $("input[name='vegetation']:checked").val();
 
-        $("#vegetation-text-expert").html(vegetation);
+        $("#vegetation-text-expert").html(i18n.t("insert.vegetation.enum." + vegetation));
 
         closeDialog($("#dialog-vegetation"));
 
@@ -329,7 +426,8 @@ function initMitigationBaseDialog() {
     $("#mitigation-base-ok").click(() => {
 
         mitigation = $("input[name='mitigationBase']:checked").val();
-        $("#mitigation-text-base").html(mitigation);
+
+        $("#mitigation-text-base").html(i18n.t("insert.mitigation.enum." + mitigation));
 
         closeDialog($("#dialog-mitigation-base"));
 
@@ -344,7 +442,7 @@ function initMitigationExpertDialog() {
 
         let checked = $("input[name='mitigationExpert']:checked").val();
 
-        if (checked === "Yes")
+        if (checked === "yes")
             $("#mitigations-wrapper").show();
         else
             $("#mitigations-wrapper").hide();
@@ -360,7 +458,7 @@ function initMitigationExpertDialog() {
         mitigation     = $("input[name='mitigationExpert']:checked").val();
         mitigationList = cleanArray(mitigationListNew);
 
-        $("#mitigation-text-expert").html("Edit the mitigation works");
+        $("#mitigation-text-expert").html(i18n.t("insert.mitigation.editText"));
 
         closeFullscreenDialog($("#dialog-mitigation-expert"))
 
@@ -410,7 +508,7 @@ function initMonitoringDialog() {
 
         let checked = $("input[name='monitoring']:checked").val();
 
-        if (checked === "Yes")
+        if (checked === "yes")
             $("#monitoring-wrapper").show();
         else
             $("#monitoring-wrapper").hide();
@@ -426,7 +524,7 @@ function initMonitoringDialog() {
         monitoring     = $("input[name='monitoring']:checked").val();
         monitoringList = cleanArray(monitoringListNew);
 
-        $("#monitoring-text-expert").html("Edit the monitoring works");
+        $("#monitoring-text-expert").html(i18n.t("insert.monitoring.editText"));
 
         closeFullscreenDialog($("#dialog-monitoring"))
 
@@ -471,7 +569,7 @@ function initDamagesDialog() {
 
         let checked = $("input[name='damages']:checked").val();
 
-        if (checked === "Direct damage")
+        if (checked === "directDamage")
             $("#damages-wrapper").show();
         else
             $("#damages-wrapper").hide();
@@ -487,7 +585,7 @@ function initDamagesDialog() {
         damages     = $("input[name='damages']:checked").val();
         damagesList = cleanArray(damagesListNew);
 
-        $("#damages-text-expert").html("Edit the damages");
+        $("#damages-text-expert").html(i18n.t("insert.damages.editText"));
 
         closeFullscreenDialog($("#dialog-damages"))
 
@@ -528,7 +626,7 @@ function initDamagesInsertDialog() {
         }
 
         if (type === "other" && $otherInput.val() === "") {
-            console.log("You must specify"); // ToDo
+            console.log("You must specify a type"); // ToDo
             return;
         }
 
@@ -553,7 +651,7 @@ function initNotesDialog() {
 
         notes = $("#notes").val();
 
-        $("#notes-text-expert").html("Edit your additional notes");
+        $("#notes-text-expert").html(i18n.t("insert.notes.editText"));
 
         closeFullscreenDialog($("#dialog-notes"))
 
@@ -565,7 +663,151 @@ function initNotesDialog() {
 // Photo
 function initPhotoDialog() {
 
-    // ToDo
+    // ToDO delete
+    $("#tmp-photo-input").change(() => {
+
+        console.log("Change");
+
+        let file   = $("#tmp-photo-input")[0].files[0];
+        let reader = new FileReader();
+
+        if (file)
+            reader.readAsDataURL(file);
+
+        reader.onload = function (event) {
+
+            let dataURL = event.target.result;
+
+            getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
+        }
+    });
+
+
+    $("#btn-camera").click(() => getPicture(Camera.PictureSourceType.CAMERA));
+
+    $("#btn-gallery").click(() => getPicture(Camera.PictureSourceType.SAVEDPHOTOALBUM));
+
+
+    function getPicture(srcType) {
+
+        let options = {
+            quality           : 50,
+            destinationType   : Camera.DestinationType.DATA_URL,
+            sourceType        : srcType,
+            encodingType      : Camera.EncodingType.JPEG,
+            mediaType         : Camera.MediaType.PICTURE,
+            allowEdit         : false,
+            correctOrientation: true
+        };
+
+        navigator.camera.getPicture(getPictureSuccess, getPictureFail, options);
+    }
+
+    function getPictureSuccess(data) {
+
+        let $btnCancelPhoto = $("#photo-cancel-btn");
+
+        console.log("Picture success");
+
+        newPhoto = data;
+
+        let img    = new Image();
+        img.src    = "data:image/jpeg;base64," + data;
+        img.onload = () => {
+
+            let imgWidth  = img.width,
+                imgHeight = img.height,
+                ratio     = imgWidth / imgHeight;
+
+            if (ratio >= 1) {
+                if (imgWidth > 200) {
+                    imgWidth  = 200;
+                    imgHeight = imgWidth / ratio;
+                }
+            } else {
+                if (imgHeight > 200) {
+                    imgHeight = 200;
+                    imgWidth  = imgHeight * ratio;
+                }
+            }
+
+            let $photoPreviewWrapper = $("#photo-preview-wrapper");
+
+            previewPhoto(data);
+
+            let top = parseInt($(".top-bar").first().css("height")) +
+                parseInt($("#photo-dialog-container").css("margin-top")) +
+                parseInt($photoPreviewWrapper.css("height")) / 2 -
+                imgHeight / 2 -
+                parseInt($btnCancelPhoto.css("height"));
+
+            let left = $(document).width() / 2 +
+                imgWidth / 2 -
+                parseInt($btnCancelPhoto.css("height")) / 2;
+
+            $btnCancelPhoto.css("left", left).css("top", top).show();
+        };
+
+    }
+
+    function getPictureFail(error) {
+        console.log("Picture error: " + error)
+    }
+
+
+    $("#photo-cancel-btn").click(() => {
+
+        newPhoto = "";
+
+        $("#photo-cancel-btn").hide();
+        previewPhoto(newPhoto);
+
+        $("#tmp-photo-input").val(""); // ToDo delete
+
+    });
+
+
+    $("#photo-close").click(() => {
+
+        newPhoto = "";
+        closeFullscreenDialog($("#dialog-photo"));
+
+    });
+
+    $("#photo-done").click(() => {
+
+        let $btnCancelPhoto = $("#photo-cancel-btn");
+
+        photo              = newPhoto;
+        newPhoto           = "";
+        btnCancelPhotoTop  = parseInt($btnCancelPhoto.css("top"));
+        btnCancelPhotoLeft = parseInt($btnCancelPhoto.css("left"));
+
+        if (photo === "")
+            $("#photo-text").html(i18n.t("insert.photo.name"));
+        else
+            $("#photo-text").html(i18n.t("insert.photo.editText"));
+
+        closeFullscreenDialog($("#dialog-photo"));
+
+    });
+
+}
+
+function openDialogPhoto() {
+
+    newPhoto = "";
+    previewPhoto(photo);
+
+    if (photo !== "")
+        $("#photo-cancel-btn")
+            .css("left", btnCancelPhotoLeft)
+            .css("top", btnCancelPhotoTop)
+            .show();
+    else
+        $("#photo-cancel-btn").hide();
+
+    openFullscreenDialog($("#dialog-photo"));
 
 }
 
@@ -579,7 +821,7 @@ function openFullscreenDialog(dialog) {
 }
 
 function closeFullscreenDialog(dialog) {
-    dialog.hide();
+    dialog.scrollTop(0).hide();
 }
 
 
@@ -596,14 +838,14 @@ function closeDialog(toClose) {
 }
 
 
-function changeSelectorLabel(selectorId) {  //mitigation-status-select
+function changeSelectorLabel(selectorId) {
 
     let id        = "#" + selectorId,
         $selector = $(id),
         label     = $("[for='" + selectorId + "'").find(".label-description");
 
     if ($selector.val() === "none")
-        label.html("Select an option"); // ToDo change using i18n
+        label.html(i18n.t("insert.defaultSelectorLabel"));
     else
         label.html($selector.find("option:selected").text());
 
@@ -648,10 +890,10 @@ function createMitigationItem(type, status) {
         "<section class='list-item'>" +
         "<div class='list-item-text'>" +
         "<p class='list-item-text-p'>" +
-        "<span class='list-item-entry-title'>Tipologia:</span> " + type +
+        "<span class='list-item-entry-title' data-i18n='insert.mitigation.type'>Type:</span> " + type +
         "</p>" +
         "<p class='list-item-text-p'>" +
-        "<span class='list-item-entry-title'>Stato:</span> " + status +
+        "<span class='list-item-entry-title' data-i18n='insert.mitigation.status'>Status:</span> " + status +
         "</p>" +
         "</div>" +
         "<div id='" + btnId + "' class='details-list-item-delete'>" +
@@ -687,9 +929,7 @@ function createMonitoringItem(type) {
 
     $("#" + btnId).click(() => deleteListItem(monitoringListNew, "monitoring-list", btnId));
 
-    monitoringListNew.push({
-        type: type
-    });
+    monitoringListNew.push(type);
 
 }
 
@@ -725,9 +965,51 @@ function createDamagesItem(type, specification) {
 
 function previewPhoto(photo) {
 
-    if (photo === "")
-        $("#def-photo-preview").attr("src", "img/img-placeholder-200.png");
+    if (photo === "") {
+        $("#ls-photo-preview").attr("src", "img/img-placeholder-200.png");
+    } else {
+        if (isModify)
+            $("#ls-photo-preview").attr("src", photo);
+        else
+            $("#ls-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
+    }
 
-    else
-        $("#def-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
+}
+
+
+function resetFields() {
+
+    lsType            = "";
+    materialType      = "";
+    position          = "";
+    water             = "";
+    vegetation        = "";
+    mitigation        = "";
+    mitigationList    = [];
+    mitigationListNew = [];
+    monitoring        = "";
+    monitoringList    = [];
+    monitoringListNew = [];
+    damages           = "";
+    damagesList       = [];
+    damagesListNew    = [];
+    notes             = "";
+    photo             = "";
+
+    $("#ls-type-text-base").html(i18n.t("insert.lsType.defaultText"));
+    $("#ls-type-text-expert").html(i18n.t("insert.lsType.defaultText"));
+    $("#material-type-text-base").html(i18n.t("insert.material.defaultText"));
+    $("#material-type-text-expert").html(i18n.t("insert.material.defaultText"));
+    $("#position-text-expert").html(i18n.t("insert.position.defaultText"));
+    $("#water-text-base").html(i18n.t("insert.water.defaultText"));
+    $("#water-text-expert").html(i18n.t("insert.water.defaultText"));
+    $("#vegetation-text-expert").html(i18n.t("insert.vegetation.defaultText"));
+    $("#mitigation-text-base").html(i18n.t("insert.mitigation.defaultText"));
+    $("#mitigation-text-expert").html(i18n.t("insert.mitigation.defaultText"));
+    $("#monitoring-text-expert").html(i18n.t("insert.monitoring.defaultText"));
+    $("#damages-text-expert").html(i18n.t("insert.damages.defaultText"));
+    $("#notes-text-expert").html(i18n.t("insert.notes.defaultText"));
+    $("#photo-text-base").html(i18n.t("insert.photo.name"));
+    $("#photo-text-expert").html(i18n.t("insert.photo.name"));
+
 }

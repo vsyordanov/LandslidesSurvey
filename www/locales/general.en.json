@@ -1,0 +1,172 @@
+{
+  "messages" : {
+    "ok" : "OK",
+    "yes" : "Yes",
+    "no" : "No",
+    "generalError" : "Error!",
+    "noInternet" : "The contributions cannot be displayed due to no Internet connection.",
+    "positionMarkerPopup" : "If it's not your current location, please drag the marker to the correct one.",
+    "pcGPSError" : "GPS error! Please drag the marker to set your current location.",
+    "mobileGPSError" : "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
+    "localStorageError" : "This browser does not support local storage.",
+    "contributionSuccess" : "Thank you for your contribution!",
+    "contributionSuccessNoInternet" : "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
+    "bingNoInternet" : "Bing Aerial cannot be displayed due to no Internet connection.",
+    "osmNoInternet" : "OpenStreetMap cannot be displayed due to no Internet connection.",
+    "confirmCancellation" : "Are you sure you want to delete this defibrillator?",
+    "cancelError" : "An error occurred while deleting the defibrillator.",
+    "cancelSuccess" : "Defibrillator successfully deleted!",
+    "btnCancel" : "Cancel"
+  },
+  "dialogs" : {
+    "btnCancel" : "CANCEL",
+    "btnOk" : "OK"
+  },
+  "map" : {
+    "fabText" : "New landslide"
+  },
+  "insert" : {
+    "defaultSelectorLabel" : "Select an option",
+    "mainScreen" : {
+      "topBarTitle" : "New landslide"
+    },
+    "lsType" : {
+      "name" : "Instability type",
+      "defaultText" : "Specify the type of the instability",
+      "topBarTitle" : "Instability type",
+      "enum" : {
+        "rockfall" : "Rockfall",
+        "topple" : "Topple",
+        "rotationalLandslide" : "Rotational landslide",
+        "translationalLandslide" : "Translational landslide",
+        "debrisFlow" : "Debris flow",
+        "earthFlow" : "Earth flow",
+        "complexLandslide" : "Complex landslide",
+        "other" : "Other"
+      }
+    },
+    "material" : {
+      "name" : "Material type",
+      "defaultText" : "Specify the type of the material",
+      "questionMaterial" : "Specify the type of the material",
+      "enum" : {
+        "rock" : "Rock",
+        "debris" : "Debris",
+        "dirt" : "Dirt",
+        "miscellaneous" : "Miscellaneous",
+        "undetectable" : "Undetectable"
+      }
+    },
+    "position" : {
+      "name" : "Position on the crest",
+      "defaultText" : "Specify the position of the landslide",
+      "questionPosition" : "Specify the position of the landslide on the crest",
+      "enum" : {
+        "crest" : "Crest",
+        "upperPart" : "Upper part",
+        "middlePart" : "Middle part",
+        "lowerPart" : "Lower part",
+        "valleyFloor" : "Valley floor"
+      }
+    },
+    "water" : {
+      "name" : "Water presence",
+      "defaultText" : "Evaluate the water presence",
+      "questionWater" : "Evaluate the water presence",
+      "enum" : {
+        "dry" : "Dry",
+        "moist" : "Moist",
+        "wet" : "Wet",
+        "veryWet" : "Very wet",
+        "undetectable" : "Undetectable"
+      }
+    },
+    "vegetation" : {
+      "name" : "Vegetation",
+      "defaultText" : "Evaluate the vegetation presence",
+      "questionVegetation" : "Evaluate the vegetation presence",
+      "enum" : {
+        "grass" : "Grass",
+        "shortPlants" : "Short plants",
+        "trees" : "Trees",
+        "mixed" : "Mixed",
+        "absent" : "Absent"
+      }
+    },
+    "mitigation" : {
+      "name" : "Mitigation measures",
+      "defaultText" : "Evaluate the mitigation measures",
+      "editText" : "Edit the mitigation measures",
+      "topBarTitle" : "Mitigation measures",
+      "questionMitigation" : "Is there any mitigation measure?",
+      "questionSpecify" : "Specify the mitigation measure(s)",
+      "add" : "Add a mitigation measure",
+      "questionType" : "Type of the mitigation work",
+      "questionStatus" : "Status of the mitigation work",
+      "type" : "Type",
+      "status" : "Status",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "o1" : "Option 1",
+        "o2" : "Option 2",
+        "o3" : "Option 3"
+      }
+    },
+    "monitoring" : {
+      "name" : "Monitoring systems",
+      "defaultText" : "Evaluate the monitoring systems",
+      "editText" : "Edit the monitoring systems",
+      "topBarTitle" : "Monitoring systems",
+      "questionMonitoring" : "Is there any monitoring system?",
+      "questionSpecify" : "Specify the monitoring system(s)",
+      "add" : "Add a monitoring system",
+      "questionType" : "Type of the monitoring system",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "o1" : "Option 1",
+        "o2" : "Option 2",
+        "o3" : "Option 3"
+      }
+    },
+    "damages" : {
+      "name" : "Damages",
+      "defaultText" : "Evaluate the damages",
+      "editText" : "Edit the damages",
+      "topBarTitle" : "Damages",
+      "questionDamage" : "What kind of damage did the landslide caused?",
+      "questionSpecify" : "Specify the damaged object(s)",
+      "add" : "Add a damaged object",
+      "questionType" : "Type of the damaged object",
+      "specify" : "Specify...",
+      "enum" : {
+        "noDamage" : "No damage",
+        "directDamage" : "Direct damage",
+        "barrage" : "Barrage",
+        "damBankBreaking" : "Dam or bank breaking",
+        "undetectable" : "Undetectable",
+        "o1" : "Option 1",
+        "o2" : "Option 2",
+        "o3" : "Option 3",
+        "other" : "Other"
+      }
+    },
+    "notes" : {
+      "name" : "Additional notes",
+      "defaultText" : "Add additional notes",
+      "editText" : "Edit your additional notes",
+      "topBarTitle" : "Additional notes",
+      "questionNotes" : "Additional notes",
+      "notesPlaceholder" : "Max 500 characters..."
+    },
+    "photo" : {
+      "name" : "Add a photo",
+      "editText" : "Edit your photo",
+      "topBarTitle" : "Add a photo",
+      "cameraBtn" : "Take a picture",
+      "or" : "- or -",
+      "galleryBtn" : "Choose from the gallery"
+    }
+  }
+}

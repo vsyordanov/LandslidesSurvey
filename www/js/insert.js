@@ -26,8 +26,8 @@ let btnCancelPhotoTop  = 0,
 
 function initInsert() {
 
-    initMainPageBase();
-    initMainPageExpert();
+    initMainPage();
+
     initPositionDialog();
     initVegetationDialog();
     initMitigationExpertDialog();
@@ -48,12 +48,19 @@ function initInsert() {
 function openInsert() {
 
     if (isExpertMode) {
-        $("#insert-ls-main-expert").show();
-        $("#insert-ls-main-base").hide();
+        $("#position-request-wrapper").show();
+        $("#vegetation-request-wrapper").show();
+        $("#monitoring-request-wrapper").show();
+        $("#damages-request-wrapper").show();
+        $("#notes-request-wrapper").show();
     } else {
-        $("#insert-ls-main-expert").hide();
-        $("#insert-ls-main-base").show();
+        $("#position-request-wrapper").hide();
+        $("#vegetation-request-wrapper").hide();
+        $("#monitoring-request-wrapper").hide();
+        $("#damages-request-wrapper").hide();
+        $("#notes-request-wrapper").hide();
     }
+
 
     $("#insert-ls").show();
 
@@ -61,58 +68,48 @@ function openInsert() {
 
 function closeInsert() {
 
-    $("#insert-ls-main-expert").hide();
-    $("#insert-ls-main-base").hide();
     $("#insert-ls").scrollTop(0).hide();
-
     resetFields();
 
 }
 
 
-// Main page base
-function initMainPageBase() {
+// Main page
+function initMainPage() {
 
-    $("#new-ls-base-close").click(() => closeInsert());
+    $("#new-ls-close").click(() => closeInsert());
 
-    $("#new-ls-base-done").click(() => insertLandslide());
+    $("#new-ls-done").click(() => insertLandslide());
 
-    $("#ls-type-request-base").click(() => openLsTypeDialog());
+    $("#ls-type-request").click(() => {
 
-    $("#material-type-request-base").click(() => openMaterialTypeDialog());
+        let toSelect = lsType;
 
-    $("#water-request-base").click(() => openWaterDialog());
+        if (lsType === "")
+            toSelect = "rockfall";
 
-    $("#mitigation-request-base").click(() => {
-
-        let toSelect = mitigation;
-
-        if (mitigation === "")
-            toSelect = "yes";
-
-        $("input[name='mitigationBase'][value='" + toSelect + "']")
+        $("input[name='lsType'][value='" + toSelect + "']")
             .prop("checked", "true");
 
-        openDialog($("#dialog-mitigation-base"));
+        openFullscreenDialog($("#dialog-ls-type"));
 
     });
 
-    $("#photo-request-base").click(() => openDialogPhoto());
+    $("#material-type-request").click(() => {
 
-}
+        let toSelect = materialType;
 
-// Main page expert
-function initMainPageExpert() {
+        if (materialType === "")
+            toSelect = "rock";
 
-    $("#new-ls-expert-close").click(() => closeInsert());
+        $("input[name='materialType'][value='" + toSelect + "']")
+            .prop("checked", "true");
 
-    $("#new-ls-expert-done").click(() => insertLandslide());
+        openDialog($("#dialog-material-type"));
 
-    $("#ls-type-request-expert").click(() => openLsTypeDialog());
+    });
 
-    $("#material-type-request-expert").click(() => openMaterialTypeDialog());
-
-    $("#position-request-expert").click(() => {
+    $("#position-request").click(() => {
 
         let toSelect = position;
 
@@ -126,9 +123,21 @@ function initMainPageExpert() {
 
     });
 
-    $("#water-request-expert").click(() => openWaterDialog());
+    $("#water-request").click(() => {
 
-    $("#vegetation-request-expert").click(() => {
+        let toSelect = water;
+
+        if (water === "")
+            toSelect = "dry";
+
+        $("input[name='water'][value='" + toSelect + "']")
+            .prop("checked", "true");
+
+        openDialog($("#dialog-water"));
+
+    });
+
+    $("#vegetation-request").click(() => {
 
         let toSelect = vegetation;
 
@@ -142,30 +151,41 @@ function initMainPageExpert() {
 
     });
 
-    $("#mitigation-request-expert").click(() => {
+    $("#mitigation-request").click(() => {
 
         let toSelect = mitigation;
 
         if (mitigation === "")
             toSelect = "yes";
 
-        $("input[name='mitigationExpert'][value='" + toSelect + "']")
-            .prop("checked", "true");
+        if (isExpertMode) {
 
-        if (toSelect === "yes")
-            $("#mitigations-wrapper").show();
-        else
-            $("#mitigations-wrapper").hide();
+            $("input[name='mitigationExpert'][value='" + toSelect + "']")
+                .prop("checked", "true");
 
-        mitigationListNew = [];
-        clearDomList("mitigation-list");
-        mitigationList.forEach(item => createMitigationItem(item.type, item.status));
+            if (toSelect === "yes")
+                $("#mitigations-wrapper").show();
+            else
+                $("#mitigations-wrapper").hide();
 
-        openFullscreenDialog($("#dialog-mitigation-expert"));
+            mitigationListNew = [];
+            clearDomList("mitigation-list");
+            mitigationList.forEach(item => createMitigationItem(item.type, item.status));
+
+            openFullscreenDialog($("#dialog-mitigation-expert"));
+
+        } else {
+
+            $("input[name='mitigationBase'][value='" + toSelect + "']")
+                .prop("checked", "true");
+
+            openDialog($("#dialog-mitigation-base"));
+
+        }
 
     });
 
-    $("#monitoring-request-expert").click(() => {
+    $("#monitoring-request").click(() => {
 
         let toSelect = monitoring;
 
@@ -188,7 +208,7 @@ function initMainPageExpert() {
 
     });
 
-    $("#damages-request-expert").click(() => {
+    $("#damages-request").click(() => {
 
         let toSelect = damages;
 
@@ -209,7 +229,7 @@ function initMainPageExpert() {
         openFullscreenDialog($("#dialog-damages"));
     });
 
-    $("#notes-request-expert").click(() => {
+    $("#notes-request").click(() => {
 
         $("#notes").val(notes);
 
@@ -217,9 +237,26 @@ function initMainPageExpert() {
 
     });
 
-    $("#photo-request-expert").click(() => openDialogPhoto());
+    $("#photo-request").click(() => {
+
+        newPhoto = "";
+        previewPhoto(photo);
+
+        if (photo !== "")
+            $("#photo-cancel-btn")
+                .css("left", btnCancelPhotoLeft)
+                .css("top", btnCancelPhotoTop)
+                .show();
+        else
+            $("#photo-cancel-btn").hide();
+
+        openFullscreenDialog($("#dialog-photo"));
+
+    });
+
 
 }
+
 
 // Create the landslide object
 function insertLandslide() {
@@ -252,8 +289,8 @@ function insertLandslide() {
         currDate,
         isExpertMode,
         currLatLong,
-        currAccuracy,
         currAltitude,
+        currAccuracy,
         lsType,
         materialType,
         position,
@@ -285,29 +322,11 @@ function initLsTypeDialog() {
     $("#ls-type-done").click(() => {
 
         lsType = $("input[name='lsType']:checked").val();
-
-        if (!isExpertMode)
-            $("#ls-type-text-base").html(i18n.t("insert.lsType.enum." + lsType));
-        else
-            $("#ls-type-text-expert").html(i18n.t("insert.lsType.enum." + lsType));
+        $("#ls-type-text").html(i18n.t("insert.lsType.enum." + lsType));
 
         closeFullscreenDialog($("#dialog-ls-type"));
 
     });
-
-}
-
-function openLsTypeDialog() {
-
-    let toSelect = lsType;
-
-    if (lsType === "")
-        toSelect = "rockfall";
-
-    $("input[name='lsType'][value='" + toSelect + "']")
-        .prop("checked", "true");
-
-    openFullscreenDialog($("#dialog-ls-type"));
 
 }
 
@@ -320,29 +339,11 @@ function initMaterialTypeDialog() {
     $("#material-type-ok").click(() => {
 
         materialType = $("input[name='materialType']:checked").val();
-
-        if (!isExpertMode)
-            $("#material-type-text-base").html(i18n.t("insert.material.enum." + materialType));
-        else
-            $("#material-type-text-expert").html(i18n.t("insert.material.enum." + materialType));
+        $("#material-type-text").html(i18n.t("insert.material.enum." + materialType));
 
         closeDialog($("#dialog-material-type"));
 
     });
-
-}
-
-function openMaterialTypeDialog() {
-
-    let toSelect = materialType;
-
-    if (materialType === "")
-        toSelect = "rock";
-
-    $("input[name='materialType'][value='" + toSelect + "']")
-        .prop("checked", "true");
-
-    openDialog($("#dialog-material-type"));
 
 }
 
@@ -355,8 +356,7 @@ function initPositionDialog() {
     $("#position-ok").click(() => {
 
         position = $("input[name='position']:checked").val();
-
-        $("#position-text-expert").html(i18n.t("insert.position.enum." + position));
+        $("#position-text").html(i18n.t("insert.position.enum." + position));
 
         closeDialog($("#dialog-position"));
 
@@ -373,29 +373,11 @@ function initWaterDialog() {
     $("#water-ok").click(() => {
 
         water = $("input[name='water']:checked").val();
-
-        if (!isExpertMode)
-            $("#water-text-base").html(i18n.t("insert.water.enum." + water));
-        else
-            $("#water-text-expert").html(i18n.t("insert.water.enum." + water));
+        $("#water-text").html(i18n.t("insert.water.enum." + water));
 
         closeDialog($("#dialog-water"));
 
     });
-
-}
-
-function openWaterDialog() {
-
-    let toSelect = water;
-
-    if (water === "")
-        toSelect = "dry";
-
-    $("input[name='water'][value='" + toSelect + "']")
-        .prop("checked", "true");
-
-    openDialog($("#dialog-water"));
 
 }
 
@@ -408,8 +390,7 @@ function initVegetationDialog() {
     $("#vegetation-ok").click(() => {
 
         vegetation = $("input[name='vegetation']:checked").val();
-
-        $("#vegetation-text-expert").html(i18n.t("insert.vegetation.enum." + vegetation));
+        $("#vegetation-text").html(i18n.t("insert.vegetation.enum." + vegetation));
 
         closeDialog($("#dialog-vegetation"));
 
@@ -426,8 +407,7 @@ function initMitigationBaseDialog() {
     $("#mitigation-base-ok").click(() => {
 
         mitigation = $("input[name='mitigationBase']:checked").val();
-
-        $("#mitigation-text-base").html(i18n.t("insert.mitigation.enum." + mitigation));
+        $("#mitigation-text").html(i18n.t("insert.mitigation.enum." + mitigation));
 
         closeDialog($("#dialog-mitigation-base"));
 
@@ -457,8 +437,7 @@ function initMitigationExpertDialog() {
 
         mitigation     = $("input[name='mitigationExpert']:checked").val();
         mitigationList = cleanArray(mitigationListNew);
-
-        $("#mitigation-text-expert").html(i18n.t("insert.mitigation.editText"));
+        $("#mitigation-text").html(i18n.t("insert.mitigation.editText"));
 
         closeFullscreenDialog($("#dialog-mitigation-expert"))
 
@@ -523,8 +502,7 @@ function initMonitoringDialog() {
 
         monitoring     = $("input[name='monitoring']:checked").val();
         monitoringList = cleanArray(monitoringListNew);
-
-        $("#monitoring-text-expert").html(i18n.t("insert.monitoring.editText"));
+        $("#monitoring-text").html(i18n.t("insert.monitoring.editText"));
 
         closeFullscreenDialog($("#dialog-monitoring"))
 
@@ -584,8 +562,7 @@ function initDamagesDialog() {
 
         damages     = $("input[name='damages']:checked").val();
         damagesList = cleanArray(damagesListNew);
-
-        $("#damages-text-expert").html(i18n.t("insert.damages.editText"));
+        $("#damages-text").html(i18n.t("insert.damages.editText"));
 
         closeFullscreenDialog($("#dialog-damages"))
 
@@ -650,8 +627,7 @@ function initNotesDialog() {
     $("#notes-done").click(() => {
 
         notes = $("#notes").val();
-
-        $("#notes-text-expert").html(i18n.t("insert.notes.editText"));
+        $("#notes-text").html(i18n.t("insert.notes.editText"));
 
         closeFullscreenDialog($("#dialog-notes"))
 
@@ -791,23 +767,6 @@ function initPhotoDialog() {
         closeFullscreenDialog($("#dialog-photo"));
 
     });
-
-}
-
-function openDialogPhoto() {
-
-    newPhoto = "";
-    previewPhoto(photo);
-
-    if (photo !== "")
-        $("#photo-cancel-btn")
-            .css("left", btnCancelPhotoLeft)
-            .css("top", btnCancelPhotoTop)
-            .show();
-    else
-        $("#photo-cancel-btn").hide();
-
-    openFullscreenDialog($("#dialog-photo"));
 
 }
 
@@ -996,20 +955,15 @@ function resetFields() {
     notes             = "";
     photo             = "";
 
-    $("#ls-type-text-base").html(i18n.t("insert.lsType.defaultText"));
-    $("#ls-type-text-expert").html(i18n.t("insert.lsType.defaultText"));
-    $("#material-type-text-base").html(i18n.t("insert.material.defaultText"));
-    $("#material-type-text-expert").html(i18n.t("insert.material.defaultText"));
-    $("#position-text-expert").html(i18n.t("insert.position.defaultText"));
-    $("#water-text-base").html(i18n.t("insert.water.defaultText"));
-    $("#water-text-expert").html(i18n.t("insert.water.defaultText"));
-    $("#vegetation-text-expert").html(i18n.t("insert.vegetation.defaultText"));
-    $("#mitigation-text-base").html(i18n.t("insert.mitigation.defaultText"));
-    $("#mitigation-text-expert").html(i18n.t("insert.mitigation.defaultText"));
-    $("#monitoring-text-expert").html(i18n.t("insert.monitoring.defaultText"));
-    $("#damages-text-expert").html(i18n.t("insert.damages.defaultText"));
-    $("#notes-text-expert").html(i18n.t("insert.notes.defaultText"));
-    $("#photo-text-base").html(i18n.t("insert.photo.name"));
-    $("#photo-text-expert").html(i18n.t("insert.photo.name"));
+    $("#ls-type-text").html(i18n.t("insert.lsType.defaultText"));
+    $("#material-type-text").html(i18n.t("insert.material.defaultText"));
+    $("#position-text").html(i18n.t("insert.position.defaultText"));
+    $("#water-text").html(i18n.t("insert.water.defaultText"));
+    $("#vegetation-text").html(i18n.t("insert.vegetation.defaultText"));
+    $("#mitigation-text").html(i18n.t("insert.mitigation.defaultText"));
+    $("#monitoring-text").html(i18n.t("insert.monitoring.defaultText"));
+    $("#damages-text").html(i18n.t("insert.damages.defaultText"));
+    $("#notes-text").html(i18n.t("insert.notes.defaultText"));
+    $("#photo-text").html(i18n.t("insert.photo.name"));
 
 }

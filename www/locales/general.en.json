@@ -168,5 +168,27 @@
       "or" : "- or -",
       "galleryBtn" : "Choose from the gallery"
     }
+  },
+  "info" : {
+    "topBarTitle" : "Details",
+    "id" : "id",
+    "creationDate" : "Creation date",
+    "lastModified" : "Last modified",
+    "coordinates" : "Coordinates",
+    "altitude" : "Altitude",
+    "accuracy" : "Accuracy",
+    "lsType" : "Landslide type",
+    "material" : "Material",
+    "position" : "Position on the crest",
+    "water" : "Water",
+    "vegetation" : "Vegetation",
+    "mitigation" : "Mitigation",
+    "mitigationList" : "List of mitigation measures",
+    "monitoring" : "Monitoring",
+    "monitoringList" : "List of monitoring systems",
+    "damages" : "Damages",
+    "damagesList" : "List of damaged structures",
+    "notes" : "Notes",
+    "cancelBtn" : "Cancel"
   }
 }

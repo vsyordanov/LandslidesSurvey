@@ -56,13 +56,13 @@
     <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
 
 
-    <!-- Main screen base -->
-    <div style="display: none" id="insert-ls-main-base" class="insert-ls-main">
+    <!-- Main screen -->
+    <div id="insert-ls-main" class="insert-ls-main">
 
         <div class="top-bar">
 
             <div class="top-bar-left-icon">
-                <i id="new-ls-base-close" class="material-icons">close</i>
+                <i id="new-ls-close" class="material-icons">close</i>
             </div>
 
             <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
@@ -70,7 +70,7 @@
             </div>
 
             <div class="top-bar-right-icon">
-                <i id="new-ls-base-done" class="material-icons">done</i>
+                <i id="new-ls-done" class="material-icons">done</i>
             </div>
 
         </div>
@@ -78,15 +78,15 @@
         <div class="custom-container requests-container">
 
             <!-- Ls type -->
-            <div class="request">
+            <div id="ls-type-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">category</i></div>
 
-                <div id="ls-type-request-base" class="request-content">
+                <div id="ls-type-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.lsType.name">Instability type</p>
 
-                    <p id="ls-type-text-base" class="request-text"
+                    <p id="ls-type-text" class="request-text"
                        data-i18n="insert.lsType.defaultText">Specify the type of the instability</p>
 
                 </div>
@@ -94,113 +94,15 @@
             </div>
 
             <!-- Material type -->
-            <div class="request">
+            <div id="material-type-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">landscape</i></div>
 
-                <div id="material-type-request-base" class="request-content">
+                <div id="material-type-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.material.name">Material type</p>
 
-                    <p id="material-type-text-base" class="request-text"
-                       data-i18n="insert.material.defaultText">Specify the type of the material</p>
-
-                </div>
-
-            </div>
-
-            <!-- Water -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
-
-                <div id="water-request-base" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.water.name">Water presence</p>
-
-                    <p id="water-text-base" class="request-text"
-                       data-i18n="insert.water.defaultText">Evaluate the water presence</p>
-
-                </div>
-
-            </div>
-
-            <!-- Mitigation measures -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">build</i></div>
-
-                <div id="mitigation-request-base" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.mitigation.name">Mitigation measures</p>
-
-                    <p id="mitigation-text-base" class="request-text"
-                       data-i18n="insert.mitigation.defaultText">Evaluate the mitigation measures</p>
-
-                </div>
-
-            </div>
-
-            <!-- Photo -->
-            <div id="photo-request-base" class="button flex-btn full-width-btn outline-btn photo-request">
-
-                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
-
-                <div id="photo-text-base" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Main screen expert -->
-    <div id="insert-ls-main-expert" class="insert-ls-main">
-
-        <div class="top-bar">
-
-            <div class="top-bar-left-icon">
-                <i id="new-ls-expert-close" class="material-icons">close</i>
-            </div>
-
-            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
-                New landslide
-            </div>
-
-            <div class="top-bar-right-icon">
-                <i id="new-ls-expert-done" class="material-icons">done</i>
-            </div>
-
-        </div>
-
-        <div class="custom-container requests-container">
-
-            <!-- Ls type -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">category</i></div>
-
-                <div id="ls-type-request-expert" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.lsType.name">Instability type</p>
-
-                    <p id="ls-type-text-expert" class="request-text"
-                       data-i18n="insert.lsType.defaultText">Specify the type of the instability</p>
-
-                </div>
-
-            </div>
-
-            <!-- Material type -->
-            <div class="request">
-
-                <div class="request-icon-left"><i class="material-icons">landscape</i></div>
-
-                <div id="material-type-request-expert" class="request-content">
-
-                    <p class="request-name" data-i18n="insert.material.name">Material type</p>
-
-                    <p id="material-type-text-expert" class="request-text"
+                    <p id="material-type-text" class="request-text"
                        data-i18n="insert.material.defaultText">Specify the type of the material</p>
 
                 </div>
@@ -208,15 +110,15 @@
             </div>
 
             <!-- Position -->
-            <div class="request">
+            <div id="position-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">timeline</i></div>
 
-                <div id="position-request-expert" class="request-content">
+                <div id="position-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.position.name">Position on the crest</p>
 
-                    <p id="position-text-expert" class="request-text"
+                    <p id="position-text" class="request-text"
                        data-i18n="insert.position.defaultText">Specify the position of the landslide</p>
 
                 </div>
@@ -224,15 +126,15 @@
             </div>
 
             <!-- Water -->
-            <div class="request">
+            <div id="water-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
 
-                <div id="water-request-expert" class="request-content">
+                <div id="water-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.water.name">Water presence</p>
 
-                    <p id="water-text-expert" class="request-text"
+                    <p id="water-text" class="request-text"
                        data-i18n="insert.water.defaultText">Evaluate the water presence</p>
 
                 </div>
@@ -240,15 +142,15 @@
             </div>
 
             <!-- Vegetation -->
-            <div class="request">
+            <div id="vegetation-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">nature</i></div>
 
-                <div id="vegetation-request-expert" class="request-content">
+                <div id="vegetation-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.vegetation.name">Vegetation</p>
 
-                    <p id="vegetation-text-expert" class="request-text"
+                    <p id="vegetation-text" class="request-text"
                        data-i18n="insert.vegetation.defaultText">Evaluate the vegetation presence</p>
 
                 </div>
@@ -256,15 +158,15 @@
             </div>
 
             <!-- Mitigation measures -->
-            <div class="request">
+            <div id="mitigation-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">build</i></div>
 
-                <div id="mitigation-request-expert" class="request-content">
+                <div id="mitigation-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.mitigation.name">Mitigation measures</p>
 
-                    <p id="mitigation-text-expert" class="request-text"
+                    <p id="mitigation-text" class="request-text"
                        data-i18n="insert.mitigation.defaultText">Evaluate the mitigation measures</p>
 
                 </div>
@@ -272,15 +174,15 @@
             </div>
 
             <!-- Monitoring systems -->
-            <div class="request">
+            <div id="monitoring-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">router</i></div>
 
-                <div id="monitoring-request-expert" class="request-content">
+                <div id="monitoring-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.monitoring.name">Monitoring systems</p>
 
-                    <p id="monitoring-text-expert" class="request-text"
+                    <p id="monitoring-text" class="request-text"
                        data-i18n="insert.monitoring.defaultText">Evaluate the monitoring systems</p>
 
                 </div>
@@ -288,15 +190,15 @@
             </div>
 
             <!-- Damages -->
-            <div class="request">
+            <div id="damages-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">report</i></div>
 
-                <div id="damages-request-expert" class="request-content">
+                <div id="damages-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.damages.name">Damages</p>
 
-                    <p id="damages-text-expert" class="request-text"
+                    <p id="damages-text" class="request-text"
                        data-i18n="insert.damages.defaultText">Evaluate the damages</p>
 
                 </div>
@@ -304,15 +206,15 @@
             </div>
 
             <!-- Additional notes -->
-            <div class="request">
+            <div id="notes-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">notes</i></div>
 
-                <div id="notes-request-expert" class="request-content">
+                <div id="notes-request" class="request-content">
 
                     <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
 
-                    <p id="notes-text-expert" class="request-text"
+                    <p id="notes-text" class="request-text"
                        data-i18n="insert.notes.defaultText">Add additional notes</p>
 
                 </div>
@@ -320,11 +222,11 @@
             </div>
 
             <!-- Photo -->
-            <div id="photo-request-expert" class="button flex-btn full-width-btn outline-btn photo-request">
+            <div id="photo-request" class="button flex-btn full-width-btn outline-btn photo-request">
 
                 <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
 
-                <div id="photo-text-expert" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
+                <div id="photo-text" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
 
             </div>
 
@@ -1659,7 +1561,203 @@
 </div>
 
 
+<!-- Ls information -->
+<div style="display: none" id="ls-info">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="info-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="info.topBarTitle">
+            Details
+        </div>
+
+        <div class="top-bar-right-icon">
+            <i id="info-edit" class="material-icons">edit</i>
+        </div>
+
+    </div>
+
+    <div class="custom-container">
+
+        <!-- Id -->
+        <div id="info-id" class="info-block">
+
+            <p class="info-title" data-i18n="info.id">ID</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Creation date -->
+        <div id="info-creation-date" class="info-block">
+
+            <p class="info-title" data-i18n="info.creationDate">Creation date</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!--Last modified -->
+        <div id="info-last-modified" class="info-block">
+
+            <p class="info-title" data-i18n="info.lastModified">Last modified</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Coordinates -->
+        <div id="info-coordinates" class="info-block">
+
+            <p class="info-title" data-i18n="info.coordinates">Coordinates</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Altitude -->
+        <div id="info-altitude" class="info-block">
+
+            <p class="info-title" data-i18n="info.altitude">Altitude</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Accuracy -->
+        <div id="info-accuracy" class="info-block">
+
+            <p class="info-title" data-i18n="info.accuracy">Accuracy</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Ls type -->
+        <div id="info-ls-type" class="info-block">
+
+            <p class="info-title" data-i18n="info.lsType">Landslide type</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Material -->
+        <div id="info-material" class="info-block">
+
+            <p class="info-title" data-i18n="info.material">Accuracy</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Crest position -->
+        <div id="info-position" class="info-block">
+
+            <p class="info-title" data-i18n="info.position">Position on the crest</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Water -->
+        <div id="info-water" class="info-block">
+
+            <p class="info-title" data-i18n="info.water">Water</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Vegetation -->
+        <div id="info-vegetation" class="info-block">
+
+            <p class="info-title" data-i18n="info.vegetation">Vegetation</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Mitigation -->
+        <div id="info-mitigation" class="info-block">
+
+            <p class="info-title" data-i18n="info.mitigation">Mitigation</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Mitigation lists -->
+        <div id="info-mitigation-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.mitigationList">List of mitigation measures</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Monitoring -->
+        <div id="info-monitoring" class="info-block">
+
+            <p class="info-title" data-i18n="info.monitoring">Monitoring</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Monitoring list -->
+        <div id="info-monitoring-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.monitoringList">List of monitoring systems</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Damages -->
+        <div id="info-damages" class="info-block">
+
+            <p class="info-title" data-i18n="info.damages">Damages</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Damages list -->
+        <div id="info-damages-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.damagesList">List of damaged structures</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Notes -->
+        <div id="info-notes" class="info-block">
+
+            <p class="info-title" data-i18n="info.notes">Notes</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Photo -->
+        <div id="info-photo">
+
+            <div class="photo-preview-wrapper">
+
+                <img id="info-photo-preview"
+                     class="photo-preview"
+                     src="img/no-img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+        </div>
+
+        <!-- Btn cancel -->
+        <div id="info-btn-cancel" class="button flex-btn full-width-btn full-btn">
+
+            <div class="btn-text"
+                 data-i18n="info.cancelBtn">
+                Cancel
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
 <!-- Cordova -->
+<!--suppress HtmlUnknownTarget -->
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 <!-- jQuery -->

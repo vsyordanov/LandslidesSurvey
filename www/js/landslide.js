@@ -34,7 +34,7 @@
 
 class Landslide {
 
-    constructor(id, creationDate, lastModified, isExpert, position, altitude, accuracy, lsType, materialType,
+    constructor(id, creationDate, lastModified, isExpert, coordinates, altitude, accuracy, lsType, materialType,
                 crestPosition, water, vegetation, mitigation, mitigationsList, monitoring, monitoringList, damages,
                 damagesList, notes, hasPhoto) {
 
@@ -42,7 +42,7 @@ class Landslide {
         this.creationDate    = creationDate;
         this.lastModified    = lastModified;
         this.isExpert        = isExpert;
-        this.position        = position;
+        this.coordinates     = coordinates;
         this.altitude        = altitude; // Altitude of the position in meters, relative to sea level
         this.accuracy        = accuracy;
         this.lsType          = lsType;
@@ -134,27 +134,211 @@ class Landslide {
     show() {
 
         let marker = L.marker(
-            this.position, {
+            this.coordinates, {
                 icon     : landslideIcon,
                 draggable: false
             }
         );
         marker._id = this._id;
 
-        marker.on("click", () => {
-
-            console.log(this);
-
-            // this.showInfo();
-            // $("#defibrillator-info").show();
-
-        });
+        marker.on("click", () => this.openInfo());
 
         markers.push(marker);
 
         marker.addTo(map);
 
         return marker;
+
+    }
+
+
+    openInfo() {
+
+        if (this.isExpert) {
+
+            $("#info-position").show();
+            $("#info-vegetation").show();
+            $("#info-monitoring").show();
+            $("#info-damages").show();
+            $("#info-notes").show();
+
+            if (this.mitigation === "yes")
+                $("#info-mitigation-list").show();
+            else
+                $("#info-mitigation-list").hide();
+
+            if (this.monitoring === "yes")
+                $("#info-monitoring-list").show();
+            else
+                $("#info-monitoring-list").hide();
+
+            if (this.damages === "directDamage")
+                $("#info-damages-list").show();
+            else
+                $("#info-damages-list").hide();
+
+        } else {
+
+            $("#info-position").hide();
+            $("#info-vegetation").hide();
+            $("#info-mitigation-list").hide();
+            $("#info-monitoring").hide();
+            $("#info-monitoring-list").hide();
+            $("#info-damages").hide();
+            $("#info-notes").hide();
+            $("#info-damages-list").hide();
+
+        }
+
+        this.showInfo();
+        $("#ls-info").show();
+
+    }
+
+
+    showInfo() {
+
+        $("#info-edit").unbind("click").click(() => console.log("Edit"));
+
+        $("#info-id .info-content").html(this._id);
+
+        $("#info-creation-date .info-content").html(this.creationDate);
+
+        $("#info-last-modified .info-content").html(this.lastModified);
+
+        $("#info-coordinates .info-content").html(Landslide.generateInfo("coordinates", this.coordinates));
+
+        $("#info-altitude .info-content").html(this.altitude);
+
+        $("#info-accuracy .info-content").html(this.accuracy);
+
+        $("#info-ls-type .info-content").html(Landslide.generateInfo("lsType", this.lsType));
+
+        $("#info-material .info-content").html(Landslide.generateInfo("material", this.materialType));
+
+        $("#info-position .info-content").html(Landslide.generateInfo("position", this.crestPosition));
+
+        $("#info-water .info-content").html(Landslide.generateInfo("water", this.water));
+
+        $("#info-vegetation .info-content").html(Landslide.generateInfo("vegetation", this.vegetation));
+
+        $("#info-mitigation .info-content").html(Landslide.generateInfo("mitigation", this.mitigation));
+
+        $("#info-mitigation-list .info-content")
+            .html(Landslide.generateInfo("mitigationList", this.mitigationsList));
+
+        $("#info-monitoring .info-content").html(Landslide.generateInfo("monitoring", this.monitoring));
+
+        $("#info-monitoring-list .info-content")
+            .html(Landslide.generateInfo("monitoringList", this.monitoringList));
+
+        $("#info-damages .info-content").html(Landslide.generateInfo("damages", this.damages));
+
+        $("#info-damages-list .info-content")
+            .html(Landslide.generateInfo("damagesList", this.damagesList));
+
+        $("#info-notes .info-content").html(Landslide.generateInfo("notes", this.notes));
+
+        if (!this.hasPhoto) {
+            $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+        } else {
+            let photoSrc = REMOTE_POINTS_DB + "/" + this._id + "/image";
+
+            if (isApp)
+                photoSrc = HOSTED_POINTS_DB + "/" + this._id + "/image";
+
+            $("#info-photo-preview").attr("src", photoSrc);
+        }
+
+        $("#info-btn-cancel").click(() => this.cancel());
+
+    }
+
+
+    edit() {
+
+    }
+
+
+    cancel() {
+
+    }
+
+
+    static generateInfo(category, val) {
+
+        if (val === "" || val === [])
+            return "-";
+
+        if (category === "coordinates")
+            return val[0] + ", " + val[1];
+
+        if (category === "mitigationList") {
+
+            if (val.length === 0)
+                return "-";
+
+            let content = "<ul class='info-list'>";
+
+            for (let i = 0; i < val.length; i++) {
+                content = content +
+                    "<li>" +
+                    i18n.t("insert.mitigation.enum." + val[i].type) +
+                    " (" + i18n.t("insert.mitigation.enum." + val[i].status) + ")" +
+                    "</li>";
+            }
+
+            content = content + "</ul>";
+
+            return content;
+        }
+
+        if (category === "monitoringList") {
+
+            if (val.length === 0)
+                return "-";
+
+            let content = "<ul class='info-list'>";
+
+            for (let i = 0; i < val.length; i++) {
+                content = content +
+                    "<li>" +
+                    i18n.t("insert.monitoring.enum." + val[i]) +
+                    "</li>";
+            }
+
+            content = content + "</ul>";
+
+            return content;
+        }
+
+        if (category === "damagesList") {
+
+            if (val.length === 0)
+                return "-";
+
+            let content = "<ul class='info-list'>";
+
+            for (let i = 0; i < val.length; i++) {
+                content = content + "<li>";
+
+                if (val[i].type === "other")
+                    content = content + val[i].specification;
+                else
+                    content = content + i18n.t("insert.mitigation.enum." + val[i].type);
+
+                content = content + "</li>";
+            }
+
+            content = content + "</ul>";
+
+            return content;
+        }
+
+        if (category === "notes")
+            return val;
+
+        return i18n.t("insert." + category + ".enum." + val);
 
     }
 

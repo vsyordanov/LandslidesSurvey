@@ -1,0 +1,62 @@
+/* LS INFO LAYOUT */
+
+
+$font-info-title : 13px;
+$font-info-content : 17px;
+
+$info-container-margin : 24px;
+
+#ls-info {
+  width      : 100%;
+  height     : 100%;
+  position   : absolute;
+  top        : 0;
+  z-index    : $z-info-wrapper;
+  overflow-y : scroll;
+  background : #FFFFFF;
+
+  .custom-container {
+    padding-top  : 20px;
+    margin-left  : $info-container-margin;
+    margin-right : $info-container-margin;
+    width        : container-size($info-container-margin);
+
+    .info-block {
+      margin-bottom : 20px;
+    }
+
+    .info-title {
+      @include font(500, $font-info-title);
+      text-transform : uppercase;
+      color          : $color-main;
+      margin-bottom  : 2px;
+    }
+
+    .info-content {
+      @include font(400, $font-info-content);
+      color : $color-text;
+    }
+
+    #info-notes {
+      margin-bottom : 40px;
+    }
+
+    #info-photo {
+      margin-bottom : 60px;
+    }
+
+    #info-btn-cancel {
+      background-color : #D50000;
+      text-transform   : uppercase;
+      margin-bottom    : 40px;
+    }
+
+    .info-list {
+      margin     : 0;
+      list-style : none;
+      padding    : 0;
+    }
+
+  }
+
+}

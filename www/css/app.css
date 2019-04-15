@@ -445,6 +445,52 @@ p {
   height: auto;
 }
 
+/* LS INFO LAYOUT */
+#ls-info {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 1000;
+  overflow-y: scroll;
+  background: #FFFFFF;
+}
+#ls-info .custom-container {
+  padding-top: 20px;
+  margin-left: 24px;
+  margin-right: 24px;
+  width: calc(100% - 24px * 2);
+}
+#ls-info .custom-container .info-block {
+  margin-bottom: 20px;
+}
+#ls-info .custom-container .info-title {
+  font: 500 13px system-ui;
+  text-transform: uppercase;
+  color: #FF5722;
+  margin-bottom: 2px;
+}
+#ls-info .custom-container .info-content {
+  font: 400 17px system-ui;
+  color: #000000;
+}
+#ls-info .custom-container #info-notes {
+  margin-bottom: 40px;
+}
+#ls-info .custom-container #info-photo {
+  margin-bottom: 60px;
+}
+#ls-info .custom-container #info-btn-cancel {
+  background-color: #D50000;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+#ls-info .custom-container .info-list {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+}
+
 /* FLOATING ACTION BUTTON */
 .fab-extended, .fab {
   width: 52px;

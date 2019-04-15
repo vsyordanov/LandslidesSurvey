@@ -6,7 +6,7 @@ let isCordova,
     isMobile,
     isApp;
 
-let isExpertMode = true; // ToDo change
+let isExpertMode = false;
 
 let markers = [];
 
@@ -72,6 +72,9 @@ function init() {
     initDb();
     getLandslides();
     initInsert();
+
+    $("#info-close").click(() => closeInfoPage());
+
 }
 
 
@@ -111,7 +114,7 @@ function getLandslides() {
                     row.doc.creationDate,
                     row.doc.lastModified,
                     row.doc.isExpert,
-                    row.doc.position,
+                    row.doc.coordinates,
                     row.doc.altitude,
                     row.doc.accuracy,
                     row.doc.lsType,
@@ -133,6 +136,29 @@ function getLandslides() {
             });
         }
     })
+
+}
+
+
+function closeInfoPage() {
+
+    $("#ls-info").scrollTop(0).hide();
+
+    $("#info-id .info-content").html("");
+    $("#info-creation-date .info-content").html("");
+    $("#info-last-modified .info-content").html("");
+    $("#info-coordinates .info-content").html("");
+    $("#info-accuracy .info-content").html("");
+    $("#info-presence .info-content").html("");
+    $("#info-category .info-content").html("");
+    $("#info-visual-reference .info-content").html("");
+    $("#info-floor .info-content").html("");
+    $("#info-temporal-accessibility .info-content").html("");
+    $("#info-recovery .info-content").html("");
+    $("#info-signage .info-content").html("");
+    $("#info-brand .info-content").html("");
+    $("#info-notes .info-content").html("");
+    $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
 
 }
 

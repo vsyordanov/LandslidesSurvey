@@ -11,7 +11,7 @@
  * accuracy: Float,
  * lsType: String,
  * materialType: String ?,
- * crestPosition: String ?,
+ * hillPosition: String ?,
  * water: String ?,
  * vegetation: String ?,
  * mitigation: String ?,
@@ -35,7 +35,7 @@
 class Landslide {
 
     constructor(id, creationDate, lastModified, isExpert, coordinates, altitude, accuracy, lsType, materialType,
-                crestPosition, water, vegetation, mitigation, mitigationsList, monitoring, monitoringList, damages,
+                hillPosition, water, vegetation, mitigation, mitigationsList, monitoring, monitoringList, damages,
                 damagesList, notes, hasPhoto) {
 
         this._id             = id;
@@ -47,7 +47,7 @@ class Landslide {
         this.accuracy        = accuracy;
         this.lsType          = lsType;
         this.materialType    = materialType;
-        this.crestPosition   = crestPosition;
+        this.hillPosition    = hillPosition;
         this.water           = water;
         this.vegetation      = vegetation;
         this.mitigation      = mitigation;
@@ -156,7 +156,7 @@ class Landslide {
 
         if (this.isExpert) {
 
-            $("#info-position").show();
+            $("#info-hill-position").show();
             $("#info-vegetation").show();
             $("#info-monitoring").show();
             $("#info-damages").show();
@@ -179,7 +179,7 @@ class Landslide {
 
         } else {
 
-            $("#info-position").hide();
+            $("#info-hill-position").hide();
             $("#info-vegetation").hide();
             $("#info-mitigation-list").hide();
             $("#info-monitoring").hide();
@@ -216,7 +216,8 @@ class Landslide {
 
         $("#info-material .info-content").html(Landslide.generateInfo("material", this.materialType));
 
-        $("#info-position .info-content").html(Landslide.generateInfo("position", this.crestPosition));
+        $("#info-hill-position .info-content")
+            .html(Landslide.generateInfo("hillPosition", this.hillPosition));
 
         $("#info-water .info-content").html(Landslide.generateInfo("water", this.water));
 
@@ -284,7 +285,6 @@ class Landslide {
                 content = content +
                     "<li>" +
                     i18n.t("insert.mitigation.enum." + val[i].type) +
-                    " (" + i18n.t("insert.mitigation.enum." + val[i].status) + ")" +
                     "</li>";
             }
 
@@ -303,7 +303,8 @@ class Landslide {
             for (let i = 0; i < val.length; i++) {
                 content = content +
                     "<li>" +
-                    i18n.t("insert.monitoring.enum." + val[i]) +
+                    i18n.t("insert.monitoring.enum." + val[i].type) +
+                    " (" + i18n.t("insert.monitoring.enum." + val[i].status) + ")" +
                     "</li>";
             }
 
@@ -325,7 +326,7 @@ class Landslide {
                 if (val[i].type === "other")
                     content = content + val[i].specification;
                 else
-                    content = content + i18n.t("insert.mitigation.enum." + val[i].type);
+                    content = content + i18n.t("insert.damages.enum." + val[i].type);
 
                 content = content + "</li>";
             }

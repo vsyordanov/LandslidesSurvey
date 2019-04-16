@@ -119,7 +119,7 @@ function getLandslides() {
                     row.doc.accuracy,
                     row.doc.lsType,
                     row.doc.materialType,
-                    row.doc.crestPosition,
+                    row.doc.hillPosition,
                     row.doc.water,
                     row.doc.vegetation,
                     row.doc.mitigation,
@@ -177,5 +177,14 @@ function showAlert(msg) {
     } else {
         alert(i18n.t(msg));
     }
+
+}
+
+function logOrToast(msg) {
+
+    if (!isCordova)
+        console.log(msg);
+    else
+        window.plugins.toast.showShortBottom(msg);
 
 }

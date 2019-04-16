@@ -84,10 +84,10 @@
 
                 <div id="ls-type-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.lsType.name">Instability type</p>
+                    <p class="request-name" data-i18n="insert.lsType.name">Type of landslide</p>
 
                     <p id="ls-type-text" class="request-text"
-                       data-i18n="insert.lsType.defaultText">Specify the type of the instability</p>
+                       data-i18n="insert.lsType.defaultText">Specify the type of the landslide</p>
 
                 </div>
 
@@ -100,7 +100,7 @@
 
                 <div id="material-type-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.material.name">Material type</p>
+                    <p class="request-name" data-i18n="insert.material.name">Type of material</p>
 
                     <p id="material-type-text" class="request-text"
                        data-i18n="insert.material.defaultText">Specify the type of the material</p>
@@ -109,17 +109,18 @@
 
             </div>
 
-            <!-- Position -->
-            <div id="position-request-wrapper" class="request">
+            <!-- Hill position -->
+            <div id="hill-position-request-wrapper" class="request">
 
                 <div class="request-icon-left"><i class="material-icons">timeline</i></div>
 
-                <div id="position-request" class="request-content">
+                <div id="hill-position-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.position.name">Position on the crest</p>
+                    <p class="request-name" data-i18n="insert.hillPosition.name">Position along the hill</p>
 
-                    <p id="position-text" class="request-text"
-                       data-i18n="insert.position.defaultText">Specify the position of the landslide</p>
+                    <p id="hill-position-text" class="request-text" data-i18n="insert.hillPosition.defaultText">
+                        Specify the position of the landslide
+                    </p>
 
                 </div>
 
@@ -132,10 +133,10 @@
 
                 <div id="water-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.water.name">Water presence</p>
+                    <p class="request-name" data-i18n="insert.water.name">Presence of water</p>
 
                     <p id="water-text" class="request-text"
-                       data-i18n="insert.water.defaultText">Evaluate the water presence</p>
+                       data-i18n="insert.water.defaultText">Evaluate the presence of water</p>
 
                 </div>
 
@@ -148,10 +149,10 @@
 
                 <div id="vegetation-request" class="request-content">
 
-                    <p class="request-name" data-i18n="insert.vegetation.name">Vegetation</p>
+                    <p class="request-name" data-i18n="insert.vegetation.name">Presence of vegetation</p>
 
                     <p id="vegetation-text" class="request-text"
-                       data-i18n="insert.vegetation.defaultText">Evaluate the vegetation presence</p>
+                       data-i18n="insert.vegetation.defaultText">Evaluate the presence of vegetation</p>
 
                 </div>
 
@@ -245,7 +246,7 @@
             </div>
 
             <div class="top-bar-title" data-i18n="insert.lsType.topBarTitle">
-                Instability type
+                Type of landslide
             </div>
 
             <div class="top-bar-right-icon">
@@ -288,13 +289,13 @@
 
                 </label>
 
-                <!-- Topple -->
+                <!-- Toppling -->
                 <label class="radio-card-label">
 
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="topple"/>
+                           value="toppling"/>
 
                     <div class="radio-card">
 
@@ -307,8 +308,8 @@
                         <div class="radio-card-text-wrapper">
 
                             <div class="radio-card-text"
-                                 data-i18n="insert.lsType.enum.topple">
-                                Topple
+                                 data-i18n="insert.lsType.enum.toppling">
+                                Toppling
                             </div>
 
                         </div>
@@ -321,13 +322,13 @@
 
             <div class="card-row">
 
-                <!-- Rotational ls -->
+                <!-- Rotational slide -->
                 <label class="radio-card-label">
 
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="rotationalLandslide"/>
+                           value="rotationalSlide"/>
 
                     <div class="radio-card">
 
@@ -340,8 +341,8 @@
                         <div class="radio-card-text-wrapper">
 
                             <div class="radio-card-text"
-                                 data-i18n="insert.lsType.enum.rotationalLandslide">
-                                Rotational landslide
+                                 data-i18n="insert.lsType.enum.rotationalSlide">
+                                Rotational slide
                             </div>
 
                         </div>
@@ -350,13 +351,13 @@
 
                 </label>
 
-                <!-- Translational ls -->
+                <!-- Planar slide -->
                 <label class="radio-card-label">
 
                     <input class="radio-card-input"
                            type="radio"
                            name="lsType"
-                           value="translationalLandslide"/>
+                           value="planarSlide"/>
 
                     <div class="radio-card">
 
@@ -369,8 +370,8 @@
                         <div class="radio-card-text-wrapper">
 
                             <div class="radio-card-text"
-                                 data-i18n="insert.lsType.enum.translationalLandslide">
-                                Translational landslide
+                                 data-i18n="insert.lsType.enum.planarSlide">
+                                Planar slide
                             </div>
 
                         </div>
@@ -559,9 +560,9 @@
 
                         <input type="radio"
                                name="materialType"
-                               value="miscellaneous">
+                               value="mixed">
 
-                        <span data-i18n="insert.material.enum.miscellaneous">Miscellaneous</span>
+                        <span data-i18n="insert.material.enum.mixed">Mixed</span>
 
                     </label>
 
@@ -569,9 +570,9 @@
 
                         <input type="radio"
                                name="materialType"
-                               value="undetectable">
+                               value="cannotDetermine">
 
-                        <span data-i18n="insert.material.enum.undetectable">Undetectable</span>
+                        <span data-i18n="insert.material.enum.cannotDetermine">Cannot determine</span>
 
                     </label>
 
@@ -600,15 +601,15 @@
     </div>
 
 
-    <!-- Position -->
-    <div style="display: none" id="dialog-position" class="dialog-wrapper">
+    <!-- Hill position -->
+    <div style="display: none" id="dialog-hill-position" class="dialog-wrapper">
 
         <div class="dialog">
 
             <div class="dialog-container">
 
                 <p class="dialog-text"
-                   data-i18n="insert.position.questionPosition">>
+                   data-i18n="insert.hillPosition.questionPosition">
                     Specify the position of the landslide
                 </p>
 
@@ -617,51 +618,51 @@
                     <label class="radio">
 
                         <input type="radio"
-                               name="position"
-                               value="crest"
+                               name="hillPosition"
+                               value="atTheTop"
                                checked>
 
-                        <span data-i18n="insert.position.enum.crest">Crest</span>
+                        <span data-i18n="insert.hillPosition.enum.atTheTop">At the top</span>
 
                     </label>
 
                     <label class="radio">
 
                         <input type="radio"
-                               name="position"
-                               value="upperPart">
+                               name="hillPosition"
+                               value="uphill">
 
-                        <span data-i18n="insert.position.enum.upperPart">Upper part</span>
-
-                    </label>
-
-                    <label class="radio">
-
-                        <input type="radio"
-                               name="position"
-                               value="middlePart">
-
-                        <span data-i18n="insert.position.enum.middlePart">Middle part</span>
+                        <span data-i18n="insert.hillPosition.enum.uphill">Uphill</span>
 
                     </label>
 
                     <label class="radio">
 
                         <input type="radio"
-                               name="position"
-                               value="lowerPart">
+                               name="hillPosition"
+                               value="midslope">
 
-                        <span data-i18n="insert.position.enum.lowerPart">Lower part</span>
+                        <span data-i18n="insert.hillPosition.enum.midslope">Midslope</span>
 
                     </label>
 
                     <label class="radio">
 
                         <input type="radio"
-                               name="position"
-                               value="valleyFloor">
+                               name="hillPosition"
+                               value="downhill">
 
-                        <span data-i18n="insert.position.enum.valleyFloor">Valley floor</span>
+                        <span data-i18n="insert.hillPosition.enum.downhill">Downhill</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="inTheValley">
+
+                        <span data-i18n="insert.hillPosition.enum.inTheValley">In the valley</span>
 
                     </label>
 
@@ -671,13 +672,13 @@
 
             <div class="dialog-footer">
 
-                <div id="position-cancel"
+                <div id="hill-position-cancel"
                      class="text-button"
                      data-i18n="dialogs.btnCancel">
                     CANCEL
                 </div>
 
-                <div id="position-ok"
+                <div id="hill-position-ok"
                      class="text-button"
                      data-i18n="dialogs.btnOk">
                     OK
@@ -699,7 +700,7 @@
 
                 <p class="dialog-text"
                    data-i18n="insert.water.questionWater">
-                    Evaluate the water presence
+                    Evaluate the presence of water
                 </p>
 
                 <div>
@@ -719,9 +720,9 @@
 
                         <input type="radio"
                                name="water"
-                               value="moist">
+                               value="humid">
 
-                        <span data-i18n="insert.water.enum.moist">Moist</span>
+                        <span data-i18n="insert.water.enum.humid">Humid</span>
 
                     </label>
 
@@ -749,9 +750,9 @@
 
                         <input type="radio"
                                name="water"
-                               value="undetectable">
+                               value="cannotDetermine">
 
-                        <span data-i18n="insert.water.enum.undetectable">Undetectable</span>
+                        <span data-i18n="insert.water.enum.cannotDetermine">Cannot determine</span>
 
                     </label>
 
@@ -789,7 +790,7 @@
 
                 <p class="dialog-text"
                    data-i18n="insert.vegetation.questionVegetation">>
-                    Evaluate the vegetation presence
+                    Evaluate the presence of vegetation
                 </p>
 
                 <div>
@@ -809,9 +810,9 @@
 
                         <input type="radio"
                                name="vegetation"
-                               value="shortPlants">
+                               value="lowGrowingPlants">
 
-                        <span data-i18n="insert.vegetation.enum.shortPlants">Short plants</span>
+                        <span data-i18n="insert.vegetation.enum.lowGrowingPlants">Low-growing plants</span>
 
                     </label>
 
@@ -1025,63 +1026,14 @@
                     <select id="mitigation-type-select" class="select">
 
                         <option value="none" style="display: none"></option>
-
-                        <option value="o1"
-                                data-i18n="insert.mitigation.enum.o1">
-                            Option 1
-                        </option>
-
-                        <option value="o2"
-                                data-i18n="insert.mitigation.enum.o2">
-                            Option 2
-                        </option>
-
-                        <option value="o3"
-                                data-i18n="insert.mitigation.enum.o3">
-                            Option 3
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <p class="dialog-text" data-i18n="insert.mitigation.questionStatus">
-                    Status of the mitigation work
-                </p>
-
-                <div class="custom-selector-box">
-
-                    <label for="mitigation-status-select" class="label custom-selector">
-
-                        <span class="label-description"
-                              data-i18n="insert.defaultSelectorLabel">
-                            Select an option
-                        </span>
-
-                        <span class="label-icon">
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </span>
-
-                    </label>
-
-                    <select id="mitigation-status-select" class="select">
-
-                        <option value="none" style="display: none"></option>
-
-                        <option value="o1"
-                                data-i18n="insert.mitigation.enum.o1">
-                            Option 1
-                        </option>
-
-                        <option value="o2"
-                                data-i18n="insert.mitigation.enum.o2">
-                            Option 2
-                        </option>
-
-                        <option value="o3"
-                                data-i18n="insert.mitigation.enum.o3">
-                            Option 3
-                        </option>
+                        <option value="retainingWall" data-i18n="insert.mitigation.enum.retainingWall"></option>
+                        <option value="gabions" data-i18n="insert.mitigation.enum.gabions"></option>
+                        <option value="anchorage" data-i18n="insert.mitigation.enum.anchorage"></option>
+                        <option value="rockfallBarriers" data-i18n="insert.mitigation.enum.rockfallBarriers"></option>
+                        <option value="spritzBeton" data-i18n="insert.mitigation.enum.spritzBeton"></option>
+                        <option value="frictionNets" data-i18n="insert.mitigation.enum.frictionNets"></option>
+                        <option value="drains" data-i18n="insert.mitigation.enum.drains"></option>
+                        <option value="geogrids" data-i18n="insert.mitigation.enum.geogrids"></option>
 
                     </select>
 
@@ -1211,21 +1163,46 @@
                     <select id="monitoring-type-select" class="select">
 
                         <option value="none" style="display: none"></option>
+                        <option value="inclinometer" data-i18n="insert.monitoring.enum.inclinometer"></option>
+                        <option value="externsometer" data-i18n="insert.monitoring.enum.externsometer"></option>
+                        <option value="distometer" data-i18n="insert.monitoring.enum.distometer"></option>
+                        <option value="topographicInstruments"
+                                data-i18n="insert.monitoring.enum.topographicInstruments"></option>
+                        <option value="GPS" data-i18n="insert.monitoring.enum.GPS"></option>
+                        <option value="interferometricRadar"
+                                data-i18n="insert.monitoring.enum.interferometricRadar"></option>
+                        <option value="videoSurveillance" data-i18n="insert.monitoring.enum.videoSurveillance"></option>
 
-                        <option value="o1"
-                                data-i18n="insert.monitoring.enum.o1">
-                            Option 1
-                        </option>
+                    </select>
 
-                        <option value="o2"
-                                data-i18n="insert.monitoring.enum.o2">
-                            Option 2
-                        </option>
+                </div>
 
-                        <option value="o3"
-                                data-i18n="insert.monitoring.enum.o3">
-                            Option 3
-                        </option>
+                <p class="dialog-text" data-i18n="insert.monitoring.questionStatus">
+                    Status of the monitoring system
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="monitoring-status-select" class="label custom-selector">
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
+                        </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="monitoring-status-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+                        <option value="functioning" data-i18n="insert.monitoring.enum.functioning"></option>
+                        <option value="partiallyDamaged" data-i18n="insert.monitoring.enum.partiallyDamaged"></option>
+                        <option value="damaged" data-i18n="insert.monitoring.enum.damaged"></option>
+                        <option value="cannotDetermine" data-i18n="insert.monitoring.enum.cannotDetermine"></option>
 
                     </select>
 
@@ -1282,15 +1259,13 @@
                     What kind of damage did the landslide caused?
                 </p>
 
-
                 <label class="radio">
 
                     <input type="radio"
                            name="damages"
                            value="noDamage"
                            checked>
-
-                    <span data-i18n="insert.damages.enum.noDamage">No damage</span>
+                    <span data-i18n="insert.damages.enum.noDamage"></span>
 
                 </label>
 
@@ -1299,18 +1274,7 @@
                     <input type="radio"
                            name="damages"
                            value="directDamage">
-
-                    <span data-i18n="insert.damages.enum.directDamage">Direct damage</span>
-
-                </label>
-
-                <label class="radio">
-
-                    <input type="radio"
-                           name="damages"
-                           value="barrage">
-
-                    <span data-i18n="insert.damages.enum.barrage">Barrage</span>
+                    <span data-i18n="insert.damages.enum.directDamage"></span>
 
                 </label>
 
@@ -1318,9 +1282,8 @@
 
                     <input type="radio"
                            name="damages"
-                           value="damBankBreaking">
-
-                    <span data-i18n="insert.damages.enum.damBankBreaking">Dam or bank breaking</span>
+                           value="obstructionWaterCourse">
+                    <span data-i18n="insert.damages.enum.obstructionWaterCourse"></span>
 
                 </label>
 
@@ -1328,9 +1291,17 @@
 
                     <input type="radio"
                            name="damages"
-                           value="undetectable">
+                           value="collapsedBankDam">
+                    <span data-i18n="insert.damages.enum.collapsedBankDam"></span>
 
-                    <span data-i18n="insert.damages.enum.undetectable">Undetectable</span>
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="cannotDetermine">
+                    <span data-i18n="insert.damages.enum.cannotDetermine"></span>
 
                 </label>
 
@@ -1347,7 +1318,7 @@
                 <div id="damages-add" class="add-list-item">
 
                     <i class="material-icons">add_circle</i>
-                    <span data-i18n="insert.damages.add">Aggiungi oggetto danneggiato</span>
+                    <span data-i18n="insert.damages.add">Add a damaged object</span>
 
                 </div>
 
@@ -1376,7 +1347,6 @@
                             Select an option
                         </span>
 
-
                         <span class="label-icon">
                             <i class="material-icons">keyboard_arrow_down</i>
                         </span>
@@ -1387,25 +1357,18 @@
 
                         <option value="none" style="display: none"></option>
 
-                        <option value="o1"
-                                data-i18n="insert.damages.enum.o1">
-                            Option 1
-                        </option>
-
-                        <option value="o2"
-                                data-i18n="insert.damages.enum.o2">
-                            Option 2
-                        </option>
-
-                        <option value="o3"
-                                data-i18n="insert.damages.enum.o3">
-                            Option 3
-                        </option>
-
-                        <option value="other"
-                                data-i18n="insert.damages.enum.other">
-                            Other
-                        </option>
+                        <option value="defenseStructure" data-i18n="insert.damages.enum.defenseStructure"></option>
+                        <option value="road" data-i18n="insert.damages.enum.road"></option>
+                        <option value="bridge" data-i18n="insert.damages.enum.bridge"></option>
+                        <option value="hikingPath" data-i18n="insert.damages.enum.hikingPath"></option>
+                        <option value="house" data-i18n="insert.damages.enum.house"></option>
+                        <option value="building" data-i18n="insert.damages.enum.building"></option>
+                        <option value="agriculturalBuilding"
+                                data-i18n="insert.damages.enum.agriculturalBuilding"></option>
+                        <option value="movableProperty" data-i18n="insert.damages.enum.movableProperty"></option>
+                        <option value="culturalHeritage" data-i18n="insert.damages.enum.culturalHeritage"></option>
+                        <option value="utilityPole" data-i18n="insert.damages.enum.utilityPole"></option>
+                        <option value="other" data-i18n="insert.damages.enum.other"></option>
 
                     </select>
 
@@ -1646,8 +1609,8 @@
 
         </div>
 
-        <!-- Crest position -->
-        <div id="info-position" class="info-block">
+        <!-- Hill position -->
+        <div id="info-hill-position" class="info-block">
 
             <p class="info-title" data-i18n="info.position">Position on the crest</p>
             <p class="info-content"></p>

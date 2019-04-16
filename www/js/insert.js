@@ -4,7 +4,7 @@ let isModify = false;
 
 let lsType            = "",
     materialType      = "",
-    position          = "",
+    hillPosition      = "",
     water             = "",
     vegetation        = "",
     mitigation        = "",
@@ -28,7 +28,7 @@ function initInsert() {
 
     initMainPage();
 
-    initPositionDialog();
+    initHillPositionDialog();
     initVegetationDialog();
     initMitigationExpertDialog();
     initMitigationInsertDialog();
@@ -48,13 +48,13 @@ function initInsert() {
 function openInsert() {
 
     if (isExpertMode) {
-        $("#position-request-wrapper").show();
+        $("#hill-position-request-wrapper").show();
         $("#vegetation-request-wrapper").show();
         $("#monitoring-request-wrapper").show();
         $("#damages-request-wrapper").show();
         $("#notes-request-wrapper").show();
     } else {
-        $("#position-request-wrapper").hide();
+        $("#hill-position-request-wrapper").hide();
         $("#vegetation-request-wrapper").hide();
         $("#monitoring-request-wrapper").hide();
         $("#damages-request-wrapper").hide();
@@ -109,17 +109,17 @@ function initMainPage() {
 
     });
 
-    $("#position-request").click(() => {
+    $("#hill-position-request").click(() => {
 
-        let toSelect = position;
+        let toSelect = hillPosition;
 
-        if (position === "")
-            toSelect = "crest";
+        if (hillPosition === "")
+            toSelect = "atTheTop";
 
-        $("input[name='position'][value='" + toSelect + "']")
+        $("input[name='hillPosition'][value='" + toSelect + "']")
             .prop("checked", "true");
 
-        openDialog($("#dialog-position"));
+        openDialog($("#dialog-hill-position"));
 
     });
 
@@ -170,7 +170,7 @@ function initMainPage() {
 
             mitigationListNew = [];
             clearDomList("mitigation-list");
-            mitigationList.forEach(item => createMitigationItem(item.type, item.status));
+            mitigationList.forEach(item => createMitigationItem(item.type));
 
             openFullscreenDialog($("#dialog-mitigation-expert"));
 
@@ -202,7 +202,7 @@ function initMainPage() {
 
         monitoringListNew = [];
         clearDomList("monitoring-list");
-        monitoringList.forEach(item => createMonitoringItem(item.type));
+        monitoringList.forEach(item => createMonitoringItem(item.type, item.status));
 
         openFullscreenDialog($("#dialog-monitoring"));
 
@@ -262,7 +262,7 @@ function initMainPage() {
 function insertLandslide() {
 
     if (lsType === "") {
-        console.log("You must provide at least the ls type");
+        logOrToast("You must provide at least the ls type");
         return;
     }
 
@@ -293,7 +293,7 @@ function insertLandslide() {
         currAccuracy,
         lsType,
         materialType,
-        position,
+        hillPosition,
         water,
         vegetation,
         mitigation,
@@ -349,16 +349,16 @@ function initMaterialTypeDialog() {
 
 
 // Position
-function initPositionDialog() {
+function initHillPositionDialog() {
 
-    $("#position-cancel").click(() => closeDialog($("#dialog-position")));
+    $("#hill-position-cancel").click(() => closeDialog($("#dialog-hill-position")));
 
-    $("#position-ok").click(() => {
+    $("#hill-position-ok").click(() => {
 
-        position = $("input[name='position']:checked").val();
-        $("#position-text").html(i18n.t("insert.position.enum." + position));
+        hillPosition = $("input[name='hillPosition']:checked").val();
+        $("#hill-position-text").html(i18n.t("insert.hillPosition.enum." + hillPosition));
 
-        closeDialog($("#dialog-position"));
+        closeDialog($("#dialog-hill-position"));
 
     });
 
@@ -449,31 +449,26 @@ function initMitigationInsertDialog() {
 
     $("#mitigation-type-select").change(() => changeSelectorLabel("mitigation-type-select"));
 
-    $("#mitigation-status-select").change(() => changeSelectorLabel("mitigation-status-select"));
-
     $("#mitigation-expert-new-cancel").click(() => {
 
         closeDialog($("#dialog-mitigation-expert-new"));
         resetSelector("mitigation-type-select");
-        resetSelector("mitigation-status-select");
 
     });
 
     $("#mitigation-expert-new-ok").click(() => {
 
-        let type   = $("#mitigation-type-select").val(),
-            status = $("#mitigation-status-select").val();
+        let type = $("#mitigation-type-select").val();
 
-        if (type === "none" || status === "none") {
-            console.log("You must select an option"); // ToDo
+        if (type === "none") {
+            logOrToast("You must select an option"); // ToDo
             return;
         }
 
-        createMitigationItem(type, status);
+        createMitigationItem(type);
 
         closeDialog($("#dialog-mitigation-expert-new"));
         resetSelector("mitigation-type-select");
-        resetSelector("mitigation-status-select");
 
     });
 
@@ -514,26 +509,31 @@ function initMonitoringInsertDialog() {
 
     $("#monitoring-type-select").change(() => changeSelectorLabel("monitoring-type-select"));
 
+    $("#monitoring-status-select").change(() => changeSelectorLabel("monitoring-status-select"));
+
     $("#monitoring-new-cancel").click(() => {
 
         closeDialog($("#dialog-monitoring-new"));
         resetSelector("monitoring-type-select");
+        resetSelector("monitoring-status-select");
 
     });
 
     $("#monitoring-new-ok").click(() => {
 
-        let type = $("#monitoring-type-select").val();
+        let type   = $("#monitoring-type-select").val(),
+            status = $("#monitoring-status-select").val();
 
-        if (type === "none") {
-            console.log("You must select an option"); // ToDo
+        if (type === "none" || status === "none") {
+            logOrToast("You must select an option for both type and status"); // ToDo
             return;
         }
 
-        createMonitoringItem(type);
+        createMonitoringItem(type, status);
 
         closeDialog($("#dialog-monitoring-new"));
         resetSelector("monitoring-type-select");
+        resetSelector("monitoring-status-select");
 
     });
 
@@ -598,12 +598,12 @@ function initDamagesInsertDialog() {
             $otherInput = $("#damage-other-input");
 
         if (type === "none") {
-            console.log("You must select an option"); // ToDo
+            logOrToast("You must select an option"); // ToDo
             return;
         }
 
         if (type === "other" && $otherInput.val() === "") {
-            console.log("You must specify a type"); // ToDo
+            logOrToast("You must specify a type"); // ToDo
             return;
         }
 
@@ -841,19 +841,15 @@ function cleanArray(array) {
 }
 
 
-function createMitigationItem(type, status) {
+function createMitigationItem(type) {
 
     let btnId = "mitigation-" + mitigationListNew.length;
 
     $("#mitigation-list").append(
-        "<section class='list-item'>" +
+        "<section class='list-item no-padding'>" +
         "<div class='list-item-text'>" +
         "<p class='list-item-text-p'>" +
-        "<span class='list-item-entry-title' data-i18n='insert.mitigation.type'>Type:</span> " + type +
-        "</p>" +
-        "<p class='list-item-text-p'>" +
-        "<span class='list-item-entry-title' data-i18n='insert.mitigation.status'>Status:</span> " + status +
-        "</p>" +
+        i18n.t("insert.mitigation.enum." + type) +
         "</div>" +
         "<div id='" + btnId + "' class='details-list-item-delete'>" +
         "<i class='material-icons'>cancel</i>" +
@@ -864,20 +860,25 @@ function createMitigationItem(type, status) {
     $("#" + btnId).click(() => deleteListItem(mitigationListNew, "mitigation-list", btnId));
 
     mitigationListNew.push({
-        type  : type,
-        status: status
+        type: type
     });
 
 }
 
-function createMonitoringItem(type) {
+function createMonitoringItem(type, status) {
 
     let btnId = "monitoring-" + monitoringListNew.length;
 
     $("#monitoring-list").append(
-        "<section class='list-item no-padding'>" +
+        "<section class='list-item'>" +
         "<div class='list-item-text padding-start'>" +
-        "<p class='list-item-text-p'>" + type +
+        "<p class='list-item-text-p'>" +
+        "<span class='list-item-entry-title' data-i18n='insert.monitoring.type'>Type:</span> " +
+        i18n.t("insert.monitoring.enum." + type) +
+        "</p>" +
+        "<p class='list-item-text-p'>" +
+        "<span class='list-item-entry-title' data-i18n='insert.monitoring.status'>Status:</span> " +
+        i18n.t("insert.monitoring.enum." + status) +
         "</p>" +
         "</div>" +
         "<div id='" + btnId + "' class='details-list-item-delete'>" +
@@ -888,7 +889,10 @@ function createMonitoringItem(type) {
 
     $("#" + btnId).click(() => deleteListItem(monitoringListNew, "monitoring-list", btnId));
 
-    monitoringListNew.push(type);
+    monitoringListNew.push({
+        type  : type,
+        status: status
+    });
 
 }
 
@@ -896,7 +900,7 @@ function createDamagesItem(type, specification) {
 
     let btnId = "damages-" + damagesListNew.length;
 
-    let info = type;
+    let info = i18n.t("insert.damages.enum." + type);
     if (specification !== "")
         info = specification;
 
@@ -940,7 +944,7 @@ function resetFields() {
 
     lsType            = "";
     materialType      = "";
-    position          = "";
+    hillPosition      = "";
     water             = "";
     vegetation        = "";
     mitigation        = "";
@@ -957,7 +961,7 @@ function resetFields() {
 
     $("#ls-type-text").html(i18n.t("insert.lsType.defaultText"));
     $("#material-type-text").html(i18n.t("insert.material.defaultText"));
-    $("#position-text").html(i18n.t("insert.position.defaultText"));
+    $("#hill-position-text").html(i18n.t("insert.hillPosition.defaultText"));
     $("#water-text").html(i18n.t("insert.water.defaultText"));
     $("#vegetation-text").html(i18n.t("insert.vegetation.defaultText"));
     $("#mitigation-text").html(i18n.t("insert.mitigation.defaultText"));

@@ -31,14 +31,14 @@
       "topBarTitle" : "New landslide"
     },
     "lsType" : {
-      "name" : "Instability type",
-      "defaultText" : "Specify the type of the instability",
-      "topBarTitle" : "Instability type",
+      "name" : "Type of landslide",
+      "defaultText" : "Specify the type of the landslide",
+      "topBarTitle" : "Type of landslide",
       "enum" : {
         "rockfall" : "Rockfall",
-        "topple" : "Topple",
-        "rotationalLandslide" : "Rotational landslide",
-        "translationalLandslide" : "Translational landslide",
+        "toppling" : "Toppling",
+        "rotationalSlide" : "Rotational slide",
+        "planarSlide" : "Planar slide",
         "debrisFlow" : "Debris flow",
         "earthFlow" : "Earth flow",
         "complexLandslide" : "Complex landslide",
@@ -46,48 +46,48 @@
       }
     },
     "material" : {
-      "name" : "Material type",
+      "name" : "Type of material",
       "defaultText" : "Specify the type of the material",
       "questionMaterial" : "Specify the type of the material",
       "enum" : {
         "rock" : "Rock",
         "debris" : "Debris",
         "dirt" : "Dirt",
-        "miscellaneous" : "Miscellaneous",
-        "undetectable" : "Undetectable"
+        "mixed" : "Mixed",
+        "cannotDetermine" : "Cannot determine"
       }
     },
-    "position" : {
-      "name" : "Position on the crest",
+    "hillPosition" : {
+      "name" : "Position along the hill",
       "defaultText" : "Specify the position of the landslide",
-      "questionPosition" : "Specify the position of the landslide on the crest",
+      "questionPosition" : "Specify the position of the landslide",
       "enum" : {
-        "crest" : "Crest",
-        "upperPart" : "Upper part",
-        "middlePart" : "Middle part",
-        "lowerPart" : "Lower part",
-        "valleyFloor" : "Valley floor"
+        "atTheTop" : "At the top",
+        "uphill" : "Uphill",
+        "midslope" : "Midslope",
+        "downhill" : "Downhill",
+        "inTheValley" : "In the valley"
       }
     },
     "water" : {
-      "name" : "Water presence",
-      "defaultText" : "Evaluate the water presence",
-      "questionWater" : "Evaluate the water presence",
+      "name" : "Presence of water",
+      "defaultText" : "Evaluate the presence of water",
+      "questionWater" : "Evaluate the presence of water",
       "enum" : {
         "dry" : "Dry",
-        "moist" : "Moist",
+        "humid" : "Humid",
         "wet" : "Wet",
         "veryWet" : "Very wet",
-        "undetectable" : "Undetectable"
+        "cannotDetermine" : "Cannot determine"
       }
     },
     "vegetation" : {
-      "name" : "Vegetation",
-      "defaultText" : "Evaluate the vegetation presence",
-      "questionVegetation" : "Evaluate the vegetation presence",
+      "name" : "Presence of vegetation",
+      "defaultText" : "Evaluate the presence of vegetation",
+      "questionVegetation" : "Evaluate the presence of vegetation",
       "enum" : {
         "grass" : "Grass",
-        "shortPlants" : "Short plants",
+        "lowGrowingPlants" : "Low-growing plants",
         "trees" : "Trees",
         "mixed" : "Mixed",
         "absent" : "Absent"
@@ -102,15 +102,17 @@
       "questionSpecify" : "Specify the mitigation measure(s)",
       "add" : "Add a mitigation measure",
       "questionType" : "Type of the mitigation work",
-      "questionStatus" : "Status of the mitigation work",
-      "type" : "Type",
-      "status" : "Status",
       "enum" : {
         "yes" : "Yes",
         "no" : "No",
-        "o1" : "Option 1",
-        "o2" : "Option 2",
-        "o3" : "Option 3"
+        "retainingWall" : "Retaining wall",
+        "gabions" : "Gabions",
+        "anchorage" : "Anchorage",
+        "rockfallBarriers" : "Rockfall barriers",
+        "spritzBeton" : "Spritz beton",
+        "frictionNets" : "Friction nets",
+        "drains" : "Drains",
+        "geogrids" : "Geogrids"
       }
     },
     "monitoring" : {
@@ -122,12 +124,23 @@
       "questionSpecify" : "Specify the monitoring system(s)",
       "add" : "Add a monitoring system",
       "questionType" : "Type of the monitoring system",
+      "questionStatus" : "Status of the monitoring system",
+      "type" : "Type",
+      "status" : "Status",
       "enum" : {
         "yes" : "Yes",
         "no" : "No",
-        "o1" : "Option 1",
-        "o2" : "Option 2",
-        "o3" : "Option 3"
+        "inclinometer" : "Inclinometer",
+        "externsometer" : "Externsometer",
+        "distometer" : "Distometer",
+        "topographicInstruments" : "Topographic instruments",
+        "GPS" : "GPS",
+        "interferometricRadar" : "Interferometric radar",
+        "videoSurveillance" : "Video surveillance",
+        "functioning": "Functioning",
+        "partiallyDamaged": "Partially damaged",
+        "damaged": "Damaged",
+        "cannotDetermine" : "Cannot determine"
       }
     },
     "damages" : {
@@ -143,13 +156,20 @@
       "enum" : {
         "noDamage" : "No damage",
         "directDamage" : "Direct damage",
-        "barrage" : "Barrage",
-        "damBankBreaking" : "Dam or bank breaking",
-        "undetectable" : "Undetectable",
-        "o1" : "Option 1",
-        "o2" : "Option 2",
-        "o3" : "Option 3",
-        "other" : "Other"
+        "obstructionWaterCourse" : "Obstruction of water course",
+        "collapsedBankDam" : "Collapsed bank or dam",
+        "cannotDetermine" : "Cannot determine",
+        "defenseStructure" : "Defense structure",
+        "road" : "Road",
+        "bridge" : "Bridge",
+        "hikingPath" : "Hiking path",
+        "house" : "House",
+        "building" : "Building",
+        "agriculturalBuilding" : "Agricultural building",
+        "movableProperty" : "Movable property",
+        "culturalHeritage" : "Cultural heritage",
+        "utilityPole" : "Utility pole",
+        "other": "Other"
       }
     },
     "notes" : {

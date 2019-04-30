@@ -25,9 +25,16 @@
 
 
 - Salvo tutte le info anche per le frane base o solo le info richieste?
+Tutte
+
+- Accuracy e elevazione con spostamento marker
+Va bene così
 
 - Foto solo con camera o anche con galleria?
+Solo galleria
 
 - Richieste obbligatorie
+Va bene così
 
 - Se modifico una frana inserita come base, vedo anche le domande esperto se ho selezionato esperto e viceversa?
+No

@@ -159,7 +159,7 @@
         "obstructionWaterCourse" : "Obstruction of water course",
         "collapsedBankDam" : "Collapsed bank or dam",
         "cannotDetermine" : "Cannot determine",
-        "defenseStructure" : "Defense structure",
+        "defenceStructure" : "Defence structure",
         "road" : "Road",
         "bridge" : "Bridge",
         "hikingPath" : "Hiking path",

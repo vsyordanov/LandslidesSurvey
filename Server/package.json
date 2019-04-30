@@ -1,0 +1,36 @@
+{
+  "name": "landslide-survey-server",
+  "version": "1.0.0",
+  "description": "A RESTful API that serves as backend for the Cordova app Landslide Survey",
+  "main": "app.js",
+  "engines": {
+    "node": "10.15.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-dev": "nodemon app.js",
+    "publishheroku": "cd ../ && git subtree push --prefix Server heroku master || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epessina/MHYCONOS-Application.git"
+  },
+  "author": "Edoardo Pessina",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/epessina/MHYCONOS-Application/issues"
+  },
+  "homepage": "https://github.com/epessina/MHYCONOS-Application#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "mongoose": "^5.5.4",
+    "multer": "^1.4.1",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}

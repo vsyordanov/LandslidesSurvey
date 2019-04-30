@@ -1,0 +1,16 @@
+/* TEXTAREA */
+
+
+.custom-textarea {
+  @include font(400, $font-body);
+  width         : 100%;
+  padding       : 12px 16px 12px 16px;
+  color         : $color-text;
+  border-color  : $color-main;
+  border-radius : 5px;
+
+  &:focus {
+    outline : none;
+  }
+
+}

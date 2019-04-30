@@ -1,0 +1,214 @@
+{
+  "messages" : {
+    "ok" : "OK",
+    "yes" : "Yes",
+    "no" : "No",
+    "generalError" : "Error!",
+    "noInternet" : "The contributions cannot be displayed due to no Internet connection.",
+    "positionMarkerPopup" : "If it's not your current location, please drag the marker to the correct one.",
+    "pcGPSError" : "GPS error! Please drag the marker to set your current location.",
+    "mobileGPSError" : "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
+    "localStorageError" : "This browser does not support local storage.",
+    "contributionSuccess" : "Thank you for your contribution!",
+    "contributionSuccessNoInternet" : "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
+    "bingNoInternet" : "Bing Aerial cannot be displayed due to no Internet connection.",
+    "osmNoInternet" : "OpenStreetMap cannot be displayed due to no Internet connection.",
+    "confirmCancellation" : "Are you sure you want to delete this defibrillator?",
+    "cancelError" : "An error occurred while deleting the defibrillator.",
+    "cancelSuccess" : "Defibrillator successfully deleted!",
+    "btnCancel" : "Cancel"
+  },
+  "dialogs" : {
+    "btnCancel" : "CANCEL",
+    "btnOk" : "OK"
+  },
+  "map" : {
+    "fabText" : "New landslide"
+  },
+  "insert" : {
+    "defaultSelectorLabel" : "Select an option",
+    "mainScreen" : {
+      "topBarTitle" : "New landslide"
+    },
+    "lsType" : {
+      "name" : "Type of landslide",
+      "defaultText" : "Specify the type of the landslide",
+      "topBarTitle" : "Type of landslide",
+      "enum" : {
+        "rockfall" : "Rockfall",
+        "toppling" : "Toppling",
+        "rotationalSlide" : "Rotational slide",
+        "planarSlide" : "Planar slide",
+        "debrisFlow" : "Debris flow",
+        "earthFlow" : "Earth flow",
+        "complexLandslide" : "Complex landslide",
+        "other" : "Other"
+      }
+    },
+    "material" : {
+      "name" : "Type of material",
+      "defaultText" : "Specify the type of the material",
+      "questionMaterial" : "Specify the type of the material",
+      "enum" : {
+        "rock" : "Rock",
+        "debris" : "Debris",
+        "dirt" : "Dirt",
+        "mixed" : "Mixed",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "hillPosition" : {
+      "name" : "Position along the hill",
+      "defaultText" : "Specify the position of the landslide",
+      "questionPosition" : "Specify the position of the landslide",
+      "enum" : {
+        "atTheTop" : "At the top",
+        "uphill" : "Uphill",
+        "midslope" : "Midslope",
+        "downhill" : "Downhill",
+        "inTheValley" : "In the valley"
+      }
+    },
+    "water" : {
+      "name" : "Presence of water",
+      "defaultText" : "Evaluate the presence of water",
+      "questionWater" : "Evaluate the presence of water",
+      "enum" : {
+        "dry" : "Dry",
+        "humid" : "Humid",
+        "wet" : "Wet",
+        "veryWet" : "Very wet",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "vegetation" : {
+      "name" : "Presence of vegetation",
+      "defaultText" : "Evaluate the presence of vegetation",
+      "questionVegetation" : "Evaluate the presence of vegetation",
+      "enum" : {
+        "grass" : "Grass",
+        "lowGrowingPlants" : "Low-growing plants",
+        "trees" : "Trees",
+        "mixed" : "Mixed",
+        "absent" : "Absent"
+      }
+    },
+    "mitigation" : {
+      "name" : "Mitigation measures",
+      "defaultText" : "Evaluate the mitigation measures",
+      "editText" : "Edit the mitigation measures",
+      "topBarTitle" : "Mitigation measures",
+      "questionMitigation" : "Is there any mitigation measure?",
+      "questionSpecify" : "Specify the mitigation measure(s)",
+      "add" : "Add a mitigation measure",
+      "questionType" : "Type of the mitigation work",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "retainingWall" : "Retaining wall",
+        "gabions" : "Gabions",
+        "anchorage" : "Anchorage",
+        "rockfallBarriers" : "Rockfall barriers",
+        "spritzBeton" : "Spritz beton",
+        "frictionNets" : "Friction nets",
+        "drains" : "Drains",
+        "geogrids" : "Geogrids"
+      }
+    },
+    "monitoring" : {
+      "name" : "Monitoring systems",
+      "defaultText" : "Evaluate the monitoring systems",
+      "editText" : "Edit the monitoring systems",
+      "topBarTitle" : "Monitoring systems",
+      "questionMonitoring" : "Is there any monitoring system?",
+      "questionSpecify" : "Specify the monitoring system(s)",
+      "add" : "Add a monitoring system",
+      "questionType" : "Type of the monitoring system",
+      "questionStatus" : "Status of the monitoring system",
+      "type" : "Type",
+      "status" : "Status",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "inclinometer" : "Inclinometer",
+        "externsometer" : "Externsometer",
+        "distometer" : "Distometer",
+        "topographicInstruments" : "Topographic instruments",
+        "GPS" : "GPS",
+        "interferometricRadar" : "Interferometric radar",
+        "videoSurveillance" : "Video surveillance",
+        "functioning": "Functioning",
+        "partiallyDamaged": "Partially damaged",
+        "damaged": "Damaged",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "damages" : {
+      "name" : "Damages",
+      "defaultText" : "Evaluate the damages",
+      "editText" : "Edit the damages",
+      "topBarTitle" : "Damages",
+      "questionDamage" : "What kind of damage did the landslide caused?",
+      "questionSpecify" : "Specify the damaged object(s)",
+      "add" : "Add a damaged object",
+      "questionType" : "Type of the damaged object",
+      "specify" : "Specify...",
+      "enum" : {
+        "noDamage" : "No damage",
+        "directDamage" : "Direct damage",
+        "obstructionWaterCourse" : "Obstruction of water course",
+        "collapsedBankDam" : "Collapsed bank or dam",
+        "cannotDetermine" : "Cannot determine",
+        "defenceStructure" : "Defence structure",
+        "road" : "Road",
+        "bridge" : "Bridge",
+        "hikingPath" : "Hiking path",
+        "house" : "House",
+        "building" : "Building",
+        "agriculturalBuilding" : "Agricultural building",
+        "movableProperty" : "Movable property",
+        "culturalHeritage" : "Cultural heritage",
+        "utilityPole" : "Utility pole",
+        "other": "Other"
+      }
+    },
+    "notes" : {
+      "name" : "Additional notes",
+      "defaultText" : "Add additional notes",
+      "editText" : "Edit your additional notes",
+      "topBarTitle" : "Additional notes",
+      "questionNotes" : "Additional notes",
+      "notesPlaceholder" : "Max 500 characters..."
+    },
+    "photo" : {
+      "name" : "Add a photo",
+      "editText" : "Edit your photo",
+      "topBarTitle" : "Add a photo",
+      "cameraBtn" : "Take a picture",
+      "or" : "- or -",
+      "galleryBtn" : "Choose from the gallery"
+    }
+  },
+  "info" : {
+    "topBarTitle" : "Details",
+    "id" : "id",
+    "creationDate" : "Creation date",
+    "lastModified" : "Last modified",
+    "coordinates" : "Coordinates",
+    "altitude" : "Altitude",
+    "accuracy" : "Accuracy",
+    "lsType" : "Landslide type",
+    "material" : "Material",
+    "position" : "Position on the crest",
+    "water" : "Water",
+    "vegetation" : "Vegetation",
+    "mitigation" : "Mitigation",
+    "mitigationList" : "List of mitigation measures",
+    "monitoring" : "Monitoring",
+    "monitoringList" : "List of monitoring systems",
+    "damages" : "Damages",
+    "damagesList" : "List of damaged structures",
+    "notes" : "Notes",
+    "cancelBtn" : "Cancel"
+  }
+}

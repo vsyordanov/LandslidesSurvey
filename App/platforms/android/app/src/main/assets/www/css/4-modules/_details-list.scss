@@ -1,0 +1,81 @@
+/* DETAILS LIST */
+
+
+$color-border : #C5C5C5;
+
+
+.list-wrapper {
+
+  .list-item {
+    width      : 100%;
+    @include flex-center;
+    padding    : 8px 0 10px 0;
+    border-top : 1px solid $color-border;
+    color      : $color-text;
+
+    &.last-list-item {
+      border-bottom : 1px solid $color-border;
+    }
+
+    &.no-padding {
+      padding : 0 0 3px 0;
+    }
+
+    .list-item-text {
+      @include vendor("flex", "1");
+      @include font(400, $font-body);
+
+      &.padding-start {
+        padding-left : 8px;
+      }
+
+      .list-item-text-p {
+        margin : 0;
+
+        &:not(:first-child) {
+          margin-top : 5px;
+        }
+
+        .list-item-entry-title {
+          color : $color-main;
+        }
+
+      }
+
+    }
+
+    .details-list-item-delete {
+      @include flex-static-size($icon-area);
+      height  : $icon-area;
+      padding : $icon-padding;
+      cursor  : pointer;
+
+      i {
+        width  : $icon-size;
+        height : $icon-size;
+        color  : lighten($color-text, 10%);
+      }
+
+    }
+
+  }
+
+  section:last-child {
+    border-bottom : 1px solid $color-border;
+  }
+
+}
+
+.add-list-item {
+  @include flex-display();
+  margin-top : 16px;
+  color      : $color-text;
+  @include font(400, $font-body);
+  cursor     : pointer;
+
+  i {
+    color        : lighten($color-text, 20%);
+    margin-right : 10px;
+  }
+
+}

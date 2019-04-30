@@ -1,0 +1,19 @@
+/* TEXT INPUT */
+
+
+.custom-text-input {
+  width : 100%;
+
+  input[type="text"] {
+    width          : 100%;
+    border         : none;
+    border-bottom  : 1px solid $color-main;
+    padding-bottom : 8px;
+
+    &:focus {
+      outline : none;
+    }
+
+  }
+
+}

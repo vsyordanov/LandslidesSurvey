@@ -1,0 +1,50 @@
+/* SELECTOR */
+
+
+.custom-selector-box {
+  width  : 100%;
+  cursor : pointer;
+
+  .select,
+  .label {
+    @include font(400, $font-body);
+    display : block;
+    color   : #414141;
+  }
+
+  .select {
+    position   : absolute;
+    top        : 0;
+    width      : 100%;
+    height     : 40px;
+    padding    : 5px 0;
+    opacity    : 0;
+    border     : 0 none;
+    background : none transparent;
+
+    &:focus {
+      outline : none;
+    }
+
+  }
+
+  .custom-selector {
+    border        : 1px solid $color-main;
+    border-radius : 5px;
+  }
+
+  .label {
+    height  : 40px;
+    margin  : 0;
+    padding : 7px 0 10px 10px;
+    cursor  : pointer;
+  }
+
+  .label-icon {
+    position : absolute;
+    top      : 0;
+    right    : 0;
+    margin   : 7px 16px 0 0;
+  }
+
+}

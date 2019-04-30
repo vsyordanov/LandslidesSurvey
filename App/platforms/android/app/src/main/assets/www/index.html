@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" type="text/css" href="css/0-lib/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.css">
+    <link rel="stylesheet" type="text/css" href="css/0-lib/MarkerCluster.Default.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+
+    <!-- Material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Modernizer -->
+    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
+
+    <title>Landslide Survey</title>
+
+</head>
+
+<body onresize="onResize()" onload="onLoad()">
+
+<!-- Map -->
+<div id="map">
+
+    <div id="map-control-settings" class="map-control map-control-left map-control-top-1 fab">
+        <i class="material-icons fab-icon">settings</i>
+    </div>
+
+    <div id="map-control-layers" class="map-control map-control-right map-control-top-1 fab">
+        <i class="material-icons fab-icon">layers</i>
+    </div>
+
+    <div id="map-control-gps" class="map-control map-control-right map-control-top-2 fab">
+        <i class="material-icons fab-icon">gps_fixed</i>
+    </div>
+
+    <div id="map-new-ls" class="map-control map-control-center map-control-bottom fab-extended">
+        <p class="fab-extended-text" data-i18n="map.fabText">New landslide</p>
+    </div>
+
+</div>
+
+
+<!-- Insert ls -->
+<div style="display: none" id="insert-ls">
+
+
+    <!-- Opaque overlay -->
+    <div style="display: none" id="opaque-overlay" class="opaque-overlay"></div>
+
+
+    <!-- Main screen -->
+    <div id="insert-ls-main" class="insert-ls-main">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="new-ls-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.mainScreen.topBarTitle">
+                New landslide
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="new-ls-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container requests-container">
+
+            <!-- Ls type -->
+            <div id="ls-type-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">category</i></div>
+
+                <div id="ls-type-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.lsType.name">Type of landslide</p>
+
+                    <p id="ls-type-text" class="request-text"
+                       data-i18n="insert.lsType.defaultText">Specify the type of the landslide</p>
+
+                </div>
+
+            </div>
+
+            <!-- Material type -->
+            <div id="material-type-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">landscape</i></div>
+
+                <div id="material-type-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.material.name">Type of material</p>
+
+                    <p id="material-type-text" class="request-text"
+                       data-i18n="insert.material.defaultText">Specify the type of the material</p>
+
+                </div>
+
+            </div>
+
+            <!-- Hill position -->
+            <div id="hill-position-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">timeline</i></div>
+
+                <div id="hill-position-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.hillPosition.name">Position along the hill</p>
+
+                    <p id="hill-position-text" class="request-text" data-i18n="insert.hillPosition.defaultText">
+                        Specify the position of the landslide
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Water -->
+            <div id="water-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">invert_colors</i></div>
+
+                <div id="water-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.water.name">Presence of water</p>
+
+                    <p id="water-text" class="request-text"
+                       data-i18n="insert.water.defaultText">Evaluate the presence of water</p>
+
+                </div>
+
+            </div>
+
+            <!-- Vegetation -->
+            <div id="vegetation-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">nature</i></div>
+
+                <div id="vegetation-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.vegetation.name">Presence of vegetation</p>
+
+                    <p id="vegetation-text" class="request-text"
+                       data-i18n="insert.vegetation.defaultText">Evaluate the presence of vegetation</p>
+
+                </div>
+
+            </div>
+
+            <!-- Mitigation measures -->
+            <div id="mitigation-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">build</i></div>
+
+                <div id="mitigation-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.mitigation.name">Mitigation measures</p>
+
+                    <p id="mitigation-text" class="request-text"
+                       data-i18n="insert.mitigation.defaultText">Evaluate the mitigation measures</p>
+
+                </div>
+
+            </div>
+
+            <!-- Monitoring systems -->
+            <div id="monitoring-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">router</i></div>
+
+                <div id="monitoring-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.monitoring.name">Monitoring systems</p>
+
+                    <p id="monitoring-text" class="request-text"
+                       data-i18n="insert.monitoring.defaultText">Evaluate the monitoring systems</p>
+
+                </div>
+
+            </div>
+
+            <!-- Damages -->
+            <div id="damages-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">report</i></div>
+
+                <div id="damages-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.damages.name">Damages</p>
+
+                    <p id="damages-text" class="request-text"
+                       data-i18n="insert.damages.defaultText">Evaluate the damages</p>
+
+                </div>
+
+            </div>
+
+            <!-- Additional notes -->
+            <div id="notes-request-wrapper" class="request">
+
+                <div class="request-icon-left"><i class="material-icons">notes</i></div>
+
+                <div id="notes-request" class="request-content">
+
+                    <p class="request-name" data-i18n="insert.notes.name">Additional notes</p>
+
+                    <p id="notes-text" class="request-text"
+                       data-i18n="insert.notes.defaultText">Add additional notes</p>
+
+                </div>
+
+            </div>
+
+            <!-- Photo -->
+            <div id="photo-request" class="button flex-btn full-width-btn outline-btn photo-request">
+
+                <div class="icon-before"><i class="material-icons">add_a_photo</i></div>
+
+                <div id="photo-text" class="btn-text" data-i18n="insert.photo.name">Add a photo</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Ls type -->
+    <div style="display: none" id="dialog-ls-type" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="ls-type-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.lsType.topBarTitle">
+                Type of landslide
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="ls-type-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <div class="card-row">
+
+                <!-- Rockfall -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="rockfall"
+                           checked/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/rockfall.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.rockfall">
+                                Rockfall
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Toppling -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="toppling"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/topple.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.toppling">
+                                Toppling
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row">
+
+                <!-- Rotational slide -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="rotationalSlide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/rotational-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.rotationalSlide">
+                                Rotational slide
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Planar slide -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="planarSlide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/translational-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.planarSlide">
+                                Planar slide
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row">
+
+                <!-- Debris flow -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="debrisFlow"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/debris-flow.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.debrisFlow">
+                                Debris flow
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Earth flow -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="earthFlow"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/earthflow.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.earthFlow">
+                                Earth flow
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+            <div class="card-row last-card-row">
+
+                <!-- Complex landslide -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="complexLandslide"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/complex-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.complexLandslide">
+                                Complex landslide
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+                <!-- Other -->
+                <label class="radio-card-label">
+
+                    <input class="radio-card-input"
+                           type="radio"
+                           name="lsType"
+                           value="other"/>
+
+                    <div class="radio-card">
+
+                        <div class="radio-card-image-wrapper">
+
+                            <img src="img/landslides/other-landslide.png" alt="">
+
+                        </div>
+
+                        <div class="radio-card-text-wrapper">
+
+                            <div class="radio-card-text"
+                                 data-i18n="insert.lsType.enum.other">
+                                Other
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Material type -->
+    <div style="display: none" id="dialog-material-type" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.material.questionMaterial">
+                    Specify the type of the material
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="materialType"
+                               value="rock"
+                               checked>
+
+                        <span data-i18n="insert.material.enum.rock">Rock</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="materialType"
+                               value="debris">
+
+                        <span data-i18n="insert.material.enum.debris">Debris</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="materialType"
+                               value="dirt">
+
+                        <span data-i18n="insert.material.enum.dirt">Dirt</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="materialType"
+                               value="mixed">
+
+                        <span data-i18n="insert.material.enum.mixed">Mixed</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="materialType"
+                               value="cannotDetermine">
+
+                        <span data-i18n="insert.material.enum.cannotDetermine">Cannot determine</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="material-type-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="material-type-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Hill position -->
+    <div style="display: none" id="dialog-hill-position" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.hillPosition.questionPosition">
+                    Specify the position of the landslide
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="atTheTop"
+                               checked>
+
+                        <span data-i18n="insert.hillPosition.enum.atTheTop">At the top</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="uphill">
+
+                        <span data-i18n="insert.hillPosition.enum.uphill">Uphill</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="midslope">
+
+                        <span data-i18n="insert.hillPosition.enum.midslope">Midslope</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="downhill">
+
+                        <span data-i18n="insert.hillPosition.enum.downhill">Downhill</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="hillPosition"
+                               value="inTheValley">
+
+                        <span data-i18n="insert.hillPosition.enum.inTheValley">In the valley</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="hill-position-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="hill-position-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Water -->
+    <div style="display: none" id="dialog-water" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.water.questionWater">
+                    Evaluate the presence of water
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="water"
+                               value="dry"
+                               checked>
+
+                        <span data-i18n="insert.water.enum.dry">Dry</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="water"
+                               value="humid">
+
+                        <span data-i18n="insert.water.enum.humid">Humid</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="water"
+                               value="wet">
+
+                        <span data-i18n="insert.water.enum.wet">Wet</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="water"
+                               value="veryWet">
+
+                        <span data-i18n="insert.water.enum.veryWet">Very wet</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="water"
+                               value="cannotDetermine">
+
+                        <span data-i18n="insert.water.enum.cannotDetermine">Cannot determine</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="water-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="water-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Vegetation -->
+    <div style="display: none" id="dialog-vegetation" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.vegetation.questionVegetation">>
+                    Evaluate the presence of vegetation
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="vegetation"
+                               value="grass"
+                               checked>
+
+                        <span data-i18n="insert.vegetation.enum.grass">Grass</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="vegetation"
+                               value="lowGrowingPlants">
+
+                        <span data-i18n="insert.vegetation.enum.lowGrowingPlants">Low-growing plants</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="vegetation"
+                               value="trees">
+
+                        <span data-i18n="insert.vegetation.enum.trees">Trees</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="vegetation"
+                               value="mixed">
+
+                        <span data-i18n="insert.vegetation.enum.mixed">Mixed</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="vegetation"
+                               value="absent">
+
+                        <span data-i18n="insert.vegetation.enum.absent">Absent</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="vegetation-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="vegetation-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Mitigation base -->
+    <div style="display: none" id="dialog-mitigation-base" class="dialog-wrapper">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text"
+                   data-i18n="insert.mitigation.questionMitigation">
+                    Is there any mitigation measure?
+                </p>
+
+                <div>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="mitigationBase"
+                               value="yes"
+                               checked>
+
+                        <span data-i18n="insert.mitigation.enum.yes">Yes</span>
+
+                    </label>
+
+                    <label class="radio">
+
+                        <input type="radio"
+                               name="mitigationBase"
+                               value="no">
+
+                        <span data-i18n="insert.mitigation.enum.no">No</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="mitigation-base-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="mitigation-base-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Mitigation expert-->
+    <div style="display: none" id="dialog-mitigation-expert" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="mitigation-expert-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.mitigation.topBarTitle">
+                Mitigation measures
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="mitigation-expert-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p"
+               data-i18n="insert.mitigation.questionMitigation">
+                Is there any mitigation measure?
+            </p>
+
+            <label class="radio">
+
+                <input type="radio"
+                       name="mitigationExpert"
+                       value="yes"
+                       checked>
+
+                <span data-i18n="insert.mitigation.enum.yes">Yes</span>
+
+            </label>
+
+            <label class="radio">
+
+                <input type="radio"
+                       name="mitigationExpert"
+                       value="no">
+
+                <span data-i18n="insert.mitigation.enum.no">No</span>
+
+            </label>
+
+            <div id="mitigations-wrapper">
+
+                <p data-i18n="insert.mitigation.questionSpecify">
+                    Specify the mitigation measure(s)
+                </p>
+
+                <div id="mitigation-list" class="list-wrapper"></div>
+
+                <div id="mitigation-add" class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.mitigation.add">Add a mitigation measure</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-mitigation-expert-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p" data-i18n="insert.mitigation.questionType">
+                    Type of the mitigation work
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="mitigation-type-select" class="label custom-selector">
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
+                        </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="mitigation-type-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+                        <option value="retainingWall" data-i18n="insert.mitigation.enum.retainingWall"></option>
+                        <option value="gabions" data-i18n="insert.mitigation.enum.gabions"></option>
+                        <option value="anchorage" data-i18n="insert.mitigation.enum.anchorage"></option>
+                        <option value="rockfallBarriers" data-i18n="insert.mitigation.enum.rockfallBarriers"></option>
+                        <option value="spritzBeton" data-i18n="insert.mitigation.enum.spritzBeton"></option>
+                        <option value="frictionNets" data-i18n="insert.mitigation.enum.frictionNets"></option>
+                        <option value="drains" data-i18n="insert.mitigation.enum.drains"></option>
+                        <option value="geogrids" data-i18n="insert.mitigation.enum.geogrids"></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="mitigation-expert-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+
+                <div id="mitigation-expert-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Monitoring -->
+    <div style="display: none" id="dialog-monitoring" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="monitoring-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.monitoring.topBarTitle">
+                Monitoring systems
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="monitoring-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <div>
+
+                <p class="first-p"
+                   data-i18n="insert.monitoring.questionMonitoring">
+                    Is there any monitoring system?
+                </p>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="monitoring"
+                           value="yes"
+                           checked>
+
+                    <span data-i18n="insert.monitoring.enum.yes">Yes</span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="monitoring"
+                           value="no">
+
+                    <span data-i18n="insert.monitoring.enum.no">No</span>
+
+                </label>
+
+            </div>
+
+            <div id="monitoring-wrapper">
+
+                <p data-i18n="insert.monitoring.questionSpecify">
+                    Specify the monitoring system(s)
+                </p>
+
+                <div id="monitoring-list" class="list-wrapper"></div>
+
+                <div id="monitoring-add" class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.monitoring.add">Add a monitoring system</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-monitoring-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p" data-i18n="insert.monitoring.questionType">
+                    Type of the monitoring system
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="monitoring-type-select" class="label custom-selector">
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
+                        </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="monitoring-type-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+                        <option value="inclinometer" data-i18n="insert.monitoring.enum.inclinometer"></option>
+                        <option value="externsometer" data-i18n="insert.monitoring.enum.externsometer"></option>
+                        <option value="distometer" data-i18n="insert.monitoring.enum.distometer"></option>
+                        <option value="topographicInstruments"
+                                data-i18n="insert.monitoring.enum.topographicInstruments"></option>
+                        <option value="GPS" data-i18n="insert.monitoring.enum.GPS"></option>
+                        <option value="interferometricRadar"
+                                data-i18n="insert.monitoring.enum.interferometricRadar"></option>
+                        <option value="videoSurveillance" data-i18n="insert.monitoring.enum.videoSurveillance"></option>
+
+                    </select>
+
+                </div>
+
+                <p class="dialog-text" data-i18n="insert.monitoring.questionStatus">
+                    Status of the monitoring system
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="monitoring-status-select" class="label custom-selector">
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
+                        </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="monitoring-status-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+                        <option value="functioning" data-i18n="insert.monitoring.enum.functioning"></option>
+                        <option value="partiallyDamaged" data-i18n="insert.monitoring.enum.partiallyDamaged"></option>
+                        <option value="damaged" data-i18n="insert.monitoring.enum.damaged"></option>
+                        <option value="cannotDetermine" data-i18n="insert.monitoring.enum.cannotDetermine"></option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="monitoring-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="monitoring-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Damages -->
+    <div style="display: none" id="dialog-damages" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="damages-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title" data-i18n="insert.damages.topBarTitle">
+                Damages
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="damages-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <div>
+
+                <p class="first-p"
+                   data-i18n="insert.damages.questionDamage">
+                    What kind of damage did the landslide caused?
+                </p>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="noDamage"
+                           checked>
+                    <span data-i18n="insert.damages.enum.noDamage"></span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="directDamage">
+                    <span data-i18n="insert.damages.enum.directDamage"></span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="obstructionWaterCourse">
+                    <span data-i18n="insert.damages.enum.obstructionWaterCourse"></span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="collapsedBankDam">
+                    <span data-i18n="insert.damages.enum.collapsedBankDam"></span>
+
+                </label>
+
+                <label class="radio">
+
+                    <input type="radio"
+                           name="damages"
+                           value="cannotDetermine">
+                    <span data-i18n="insert.damages.enum.cannotDetermine"></span>
+
+                </label>
+
+            </div>
+
+            <div id="damages-wrapper">
+
+                <p data-i18n="insert.damages.questionSpecify">
+                    Specify the damaged object(s)
+                </p>
+
+                <div id="damages-list" class="list-wrapper"></div>
+
+                <div id="damages-add" class="add-list-item">
+
+                    <i class="material-icons">add_circle</i>
+                    <span data-i18n="insert.damages.add">Add a damaged object</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="display: none" id="dialog-damages-new" class="dialog-wrapper dialog-insert">
+
+        <div class="dialog">
+
+            <div class="dialog-container">
+
+                <p class="dialog-text first-p" data-i18n="insert.damages.questionType">
+                    Type of the damaged object
+                </p>
+
+                <div class="custom-selector-box">
+
+                    <label for="damages-type-select" class="label custom-selector">
+
+                        <span class="label-description"
+                              data-i18n="insert.defaultSelectorLabel">
+                            Select an option
+                        </span>
+
+                        <span class="label-icon">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </span>
+
+                    </label>
+
+                    <select id="damages-type-select" class="select">
+
+                        <option value="none" style="display: none"></option>
+
+                        <option value="defenseStructure" data-i18n="insert.damages.enum.defenseStructure"></option>
+                        <option value="road" data-i18n="insert.damages.enum.road"></option>
+                        <option value="bridge" data-i18n="insert.damages.enum.bridge"></option>
+                        <option value="hikingPath" data-i18n="insert.damages.enum.hikingPath"></option>
+                        <option value="house" data-i18n="insert.damages.enum.house"></option>
+                        <option value="building" data-i18n="insert.damages.enum.building"></option>
+                        <option value="agriculturalBuilding"
+                                data-i18n="insert.damages.enum.agriculturalBuilding"></option>
+                        <option value="movableProperty" data-i18n="insert.damages.enum.movableProperty"></option>
+                        <option value="culturalHeritage" data-i18n="insert.damages.enum.culturalHeritage"></option>
+                        <option value="utilityPole" data-i18n="insert.damages.enum.utilityPole"></option>
+                        <option value="other" data-i18n="insert.damages.enum.other"></option>
+
+                    </select>
+
+                </div>
+
+                <div style="display: none" id="damage-other-input-wrapper" class="custom-text-input">
+
+                    <label>
+                        <input id="damage-other-input"
+                               type="text"
+                               data-i18n="[placeholder]insert.damages.specify"
+                               maxlength="50">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="dialog-footer">
+
+                <div id="damages-new-cancel"
+                     class="text-button"
+                     data-i18n="dialogs.btnCancel">
+                    CANCEL
+                </div>
+
+                <div id="damages-new-ok"
+                     class="text-button"
+                     data-i18n="dialogs.btnOk">
+                    OK
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Notes -->
+    <div style="display: none" id="dialog-notes" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="notes-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title"
+                 data-i18n="insert.notes.topBarTitle">>
+                Additional notes
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="notes-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div class="custom-container">
+
+            <p class="first-p" data-i18n="insert.notes.questionNotes">Additional notes</p>
+
+            <label for="notes"></label>
+            <textarea id="notes"
+                      class="custom-textarea"
+                      rows="10"
+                      data-i18n="[placeholder]insert.notes.notesPlaceholder"
+                      maxlength="500"></textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- Photo -->
+    <div style="display: none" id="dialog-photo" class="full-screen-dialog">
+
+        <div class="top-bar">
+
+            <div class="top-bar-left-icon">
+                <i id="photo-close" class="material-icons">close</i>
+            </div>
+
+            <div class="top-bar-title"
+                 data-i18n="insert.photo.topBarTitle">
+                Add a photo
+            </div>
+
+            <div class="top-bar-right-icon">
+                <i id="photo-done" class="material-icons">done</i>
+            </div>
+
+        </div>
+
+        <div style="display: none" id="photo-cancel-btn" class="photo-cancel-wrapper">
+
+            <div class="photo-cancel">
+
+                <i class="material-icons">cancel</i>
+
+            </div>
+
+        </div>
+
+        <div id="photo-dialog-container" class="custom-container">
+
+            <div id="photo-preview-wrapper" class="photo-preview-wrapper">
+
+                <img id="ls-photo-preview"
+                     class="photo-preview"
+                     src="img/img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+            <div id="btn-camera" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">photo_camera</i></div>
+
+                <div class="btn-text"
+                     data-i18n="insert.photo.cameraBtn">
+                    Take a picture
+                </div>
+
+            </div>
+
+            <div class="photo-or"
+                 data-i18n="insert.photo.or">
+                - or -
+            </div>
+
+            <div id="btn-gallery" class="button flex-btn full-width-btn full-btn">
+
+                <div class="icon-before"><i class="material-icons">folder</i></div>
+
+                <div class="btn-text"
+                     data-i18n="insert.photo.galleryBtn">
+                    Choose from the gallery
+                </div>
+
+            </div>
+
+            <input id="tmp-photo-input"
+                   type="file"
+                   accept=".png, .jpg, .jpeg">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- Ls information -->
+<div style="display: none" id="ls-info">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="info-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="info.topBarTitle">
+            Details
+        </div>
+
+        <div class="top-bar-right-icon">
+            <i id="info-edit" class="material-icons">edit</i>
+        </div>
+
+    </div>
+
+    <div class="custom-container">
+
+        <!-- Id -->
+        <div id="info-id" class="info-block">
+
+            <p class="info-title" data-i18n="info.id">ID</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Creation date -->
+        <div id="info-creation-date" class="info-block">
+
+            <p class="info-title" data-i18n="info.creationDate">Creation date</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!--Last modified -->
+        <div id="info-last-modified" class="info-block">
+
+            <p class="info-title" data-i18n="info.lastModified">Last modified</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Coordinates -->
+        <div id="info-coordinates" class="info-block">
+
+            <p class="info-title" data-i18n="info.coordinates">Coordinates</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Altitude -->
+        <div id="info-altitude" class="info-block">
+
+            <p class="info-title" data-i18n="info.altitude">Altitude</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Accuracy -->
+        <div id="info-accuracy" class="info-block">
+
+            <p class="info-title" data-i18n="info.accuracy">Accuracy</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Ls type -->
+        <div id="info-ls-type" class="info-block">
+
+            <p class="info-title" data-i18n="info.lsType">Landslide type</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Material -->
+        <div id="info-material" class="info-block">
+
+            <p class="info-title" data-i18n="info.material">Accuracy</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Hill position -->
+        <div id="info-hill-position" class="info-block">
+
+            <p class="info-title" data-i18n="info.position">Position on the crest</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Water -->
+        <div id="info-water" class="info-block">
+
+            <p class="info-title" data-i18n="info.water">Water</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Vegetation -->
+        <div id="info-vegetation" class="info-block">
+
+            <p class="info-title" data-i18n="info.vegetation">Vegetation</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Mitigation -->
+        <div id="info-mitigation" class="info-block">
+
+            <p class="info-title" data-i18n="info.mitigation">Mitigation</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Mitigation lists -->
+        <div id="info-mitigation-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.mitigationList">List of mitigation measures</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Monitoring -->
+        <div id="info-monitoring" class="info-block">
+
+            <p class="info-title" data-i18n="info.monitoring">Monitoring</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Monitoring list -->
+        <div id="info-monitoring-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.monitoringList">List of monitoring systems</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Damages -->
+        <div id="info-damages" class="info-block">
+
+            <p class="info-title" data-i18n="info.damages">Damages</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Damages list -->
+        <div id="info-damages-list" class="info-block">
+
+            <p class="info-title" data-i18n="info.damagesList">List of damaged structures</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Notes -->
+        <div id="info-notes" class="info-block">
+
+            <p class="info-title" data-i18n="info.notes">Notes</p>
+            <p class="info-content"></p>
+
+        </div>
+
+        <!-- Photo -->
+        <div id="info-photo">
+
+            <div class="photo-preview-wrapper">
+
+                <img id="info-photo-preview"
+                     class="photo-preview"
+                     src="img/no-img-placeholder-200.png"
+                     alt="Your image">
+
+            </div>
+
+        </div>
+
+        <!-- Btn cancel -->
+        <div id="info-btn-cancel" class="button flex-btn full-width-btn full-btn">
+
+            <div class="btn-text"
+                 data-i18n="info.cancelBtn">
+                Cancel
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- Cordova -->
+<!--suppress HtmlUnknownTarget -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+<!-- jQuery -->
+<script type="text/javascript" src="js/lib/jquery-2.2.4.min.js"></script>
+
+<!-- Leaflet -->
+<script type="text/javascript" src="js/lib/leaflet.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.markercluster-src.js"></script>
+<script type="text/javascript" src="js/lib/leaflet.featuregroup.subgroup.js"></script>
+<script type="text/javascript" src="js/lib/leaflet-bing-layer.min.js"></script>
+
+<!-- Pouch db-->
+<script type="text/javascript" src="js/lib/pouchdb-7.0.0.min.js"></script>
+<script type="text/javascript" src="js/lib/pouchdb.find.js"></script>
+
+<!-- i18next -->
+<script type="text/javascript" src="js/lib/i18next.min.js"></script>
+
+<!-- Fingerprint -->
+<script type="text/javascript" src="js/lib/fingerprint.js"></script>
+
+<!-- Main JS -->
+<script type="text/javascript" src="js/ln.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
+<script type="text/javascript" src="js/landslide.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
+<script type="text/javascript" src="js/insert.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+</body>
+
+</html>

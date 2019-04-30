@@ -1,0 +1,92 @@
+/* RADIO */
+
+
+.radio {
+  display : block;
+  margin  : 16px 0;
+  cursor  : pointer;
+
+  input {
+    display : none;
+
+    & + span {
+      line-height  : 1.2;
+      position     : relative;
+      display      : block;
+      height       : 22px;
+      padding-left : 35px;
+
+      &:before,
+      &:after {
+        position      : absolute;
+        top           : 0;
+        left          : 0;
+        display       : block;
+        width         : 20px;
+        height        : 20px;
+        content       : '';
+        border-radius : 50%;
+      }
+
+      &:before {
+        @include vendor("transition", ("background .2s ease", "transform .4s cubic-bezier(.175, .885, .32, 2)"));
+        background : #D1D7E3;
+      }
+
+      &:after {
+        @include vendor("transition", "transform .6s cubic-bezier(.175, .885, .32, 1.4)");
+        @include vendor("transform", "scale(.78)");
+        background : #FFFFFF;
+      }
+
+    }
+
+    &:checked + span {
+
+      &:before {
+        @include vendor("transform", "scale(1.04)");
+        background : $color-main;
+      }
+
+      &:after {
+        transition : transform .3s ease;
+        @include vendor("transform", "scale(.4)");
+      }
+
+    }
+
+  }
+
+  &:hover {
+
+    input {
+
+      & + span {
+
+        &:before {
+          @include vendor("transform", "scale(.92)");
+        }
+
+        &:after {
+          @include vendor("transform", "scale(.74)");
+        }
+
+      }
+
+      &:checked + span {
+
+        &:before {
+          @include vendor("transform", "scale(1.04)");
+        }
+
+        &:after {
+          @include vendor("transform", "scale(.4)");
+        }
+
+      }
+
+    }
+
+  }
+
+}

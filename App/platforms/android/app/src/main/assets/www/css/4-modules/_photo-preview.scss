@@ -1,0 +1,15 @@
+/* PHOTO PREVIEW */
+
+.photo-preview-wrapper {
+  width  : 100%;
+  max-height : 200px;
+  @include flex-center;
+
+  .photo-preview {
+    max-width     : 200px;
+    max-height    : 200px;
+    border        : 1px solid #707070;
+    border-radius : 5px;
+  }
+
+}

@@ -1,6 +1,6 @@
 "use strict";
 
-// ToDo add "www" for Cordova
+
 const positionMarkerIcon = L.icon({
     iconUrl    : "img/user-position-marker.png",
     iconSize   : [47, 71],
@@ -15,15 +15,10 @@ const landslideIcon = L.icon({
     popupAnchor: [0, -43]
 });
 
+let map;
+
 let positionMarker,
     accuracyCircle = undefined;
-
-
-let map,
-    baseMaps;
-
-let osm,
-    bing;
 
 let positionWatcherId         = undefined,
     isPositionWatcherAttached = false,
@@ -33,24 +28,31 @@ let positionWatcherId         = undefined,
         maximumAge        : 0
     };
 
-let currLatLong  = [45.464161, 9.190336],
-    currAccuracy = undefined,
-    currAltitude = undefined,
-    defaultZoom  = 10;
+const defaultLatLong = [45.464161, 9.190336],
+      defaultZoom    = 10;
+
+let currLatLong          = undefined,
+    currLatLongAccuracy  = undefined,
+    currAltitude         = undefined,
+    currAltitudeAccuracy = undefined;
 
 
 function initMap() {
 
-    map = L.map("map");
+    map = L.map("map", { zoomSnap: 0 });
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution : "&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
+        errorTileUrl: "img/errorTile.png"
+    }).addTo(map);
+
+    map.setView(defaultLatLong, defaultZoom);
 
     initAppMapUI();
 
-    map.setView(currLatLong, defaultZoom);
-
     map.on("dragend", () => detachPositionWatcher());
 
-    initLayers();
-    attachPositionWatcher();
+    // attachPositionWatcher();
     initPositionMarker();
 
 }
@@ -63,63 +65,18 @@ function initAppMapUI() {
     $("#map-control-settings").click(() => {
 
         isExpertMode = !isExpertMode;
-
-        if (isCordova) {
-
-            window.plugins.toast.showShortBottom(
-                "Expert mode set to " + isExpertMode,
-                a => console.log("Toast success: " + a),
-                e => console.log("Toast error: " + e)
-            )
-
-        } else
-            console.log("Expert mode set to " + isExpertMode);
+        logOrToast("Expert mode set to " + isExpertMode);
 
     });
 
-    $("#map-control-layers").click(() => {
+    $("#map-control-sync").click(() => saveDb());
 
-        console.log("Layers button");
-
-    });
-
-    $("#map-control-gps").click(() => {
-
-        console.log("GPS button");
-        attachPositionWatcher();
-
-    });
+    $("#map-control-gps").click(() => attachPositionWatcher());
 
     $("#map-new-ls").click(e => {
         openInsert();
         e.stopPropagation();
     });
-
-}
-
-
-// ToDo check connection
-function initLayers() {
-
-    osm = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-            attribution : "&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
-            errorTileUrl: "img/errorTile.png"
-        }
-    );
-
-    bing = new L.tileLayer.bing(
-        "AqSfYcbsnUwaN_5NvJfoNgNnsBfo1lYuRUKsiVdS5wQP3gMX6x8xuzrjZkWMcJQ1",
-        {type: "AerialWithLabels"}
-    );
-
-    baseMaps = {
-        "Open Street Map": osm,
-        "Bing Aerial"    : bing
-    };
-
-    osm.addTo(map);
 
 }
 
@@ -158,15 +115,12 @@ function detachPositionWatcher() {
 
 function onPositionSuccess(pos) {
 
-    currLatLong = [
-        pos.coords.latitude,
-        pos.coords.longitude
-    ];
+    currLatLong          = [pos.coords.latitude, pos.coords.longitude];
+    currLatLongAccuracy  = pos.coords.accuracy;
+    currAltitude         = pos.coords.altitude;
+    currAltitudeAccuracy = pos.coords.altitudeAccuracy;
 
-    currAccuracy = pos.coords.accuracy;
-    currAltitude = pos.coords.altitude;
-
-    console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currAccuracy);
+    console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currLatLongAccuracy);
 
     map.setView(currLatLong, 17);
 
@@ -175,7 +129,11 @@ function onPositionSuccess(pos) {
     if (accuracyCircle !== undefined)
         map.removeLayer(accuracyCircle);
 
-    accuracyCircle = L.circle(currLatLong, {radius: currAccuracy / 2}).addTo(map);
+    accuracyCircle = L.circle(currLatLong, {
+        radius : currLatLongAccuracy / 2,
+        color  : "green",
+        opacity: .5
+    }).addTo(map);
 
 }
 
@@ -187,8 +145,8 @@ function onPositionError(err) {
 function initPositionMarker() {
 
     positionMarker = L.marker(
-        currLatLong,
-        {icon: positionMarkerIcon, draggable: true}
+        defaultLatLong,
+        { icon: positionMarkerIcon, draggable: true }
     );
 
     positionMarker.addTo(map);
@@ -201,18 +159,14 @@ function initPositionMarker() {
             map.removeLayer(accuracyCircle);
             accuracyCircle = undefined;
         }
-
     });
 
     positionMarker.on("dragend", (e) => {
 
-        currLatLong = [
-            e.target.getLatLng().lat,
-            e.target.getLatLng().lng
-        ];
-
-        currAccuracy = 0;
-        currAltitude = -999;
+        currLatLong          = [e.target.getLatLng().lat, e.target.getLatLng().lng];
+        currLatLongAccuracy  = 0;
+        currAltitude         = -999;
+        currAltitudeAccuracy = 0;
 
         console.log("Position marker dragged to: " + currLatLong);
 

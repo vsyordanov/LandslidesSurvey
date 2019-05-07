@@ -1,6 +1,6 @@
 "use strict";
 
-let isModify = false;
+let ls = null;
 
 let lsType            = "",
     materialType      = "",
@@ -17,11 +17,9 @@ let lsType            = "",
     damagesList       = [],
     damagesListNew    = [],
     notes             = "",
-    photo             = "",
-    newPhoto          = "";
+    photos            = [];
 
-let btnCancelPhotoTop  = 0,
-    btnCancelPhotoLeft = 0;
+let $photoContainer = $("#insert-ls-main .photo-container");
 
 
 function initInsert() {
@@ -41,13 +39,51 @@ function initInsert() {
     initMaterialTypeDialog();
     initWaterDialog();
     initMitigationBaseDialog();
-    initPhotoDialog();
 
 }
 
-function openInsert() {
+function openInsert(data = null) {
 
-    if (isExpertMode) {
+    if (data) {
+
+        ls             = data;
+        lsType         = ls.lsType;
+        materialType   = ls.materialType;
+        hillPosition   = ls.hillPosition;
+        water          = ls.water;
+        vegetation     = ls.vegetation;
+        mitigation     = ls.mitigation;
+        mitigationList = ls.mitigationsList;
+        monitoring     = ls.monitoring;
+        monitoringList = ls.monitoringList;
+        damages        = ls.damages;
+        damagesList    = ls.damagesList;
+        notes          = ls.notes;
+
+        $("#ls-type-text").html(i18n.t("insert.lsType.enum." + lsType));
+
+        if (materialType !== "") $("#material-type-text").html(i18n.t("insert.materialType.enum." + materialType));
+        if (hillPosition !== "") $("#hill-position-text").html(i18n.t("insert.hillPosition.enum." + hillPosition));
+        if (water !== "") $("#water-text").html(i18n.t("insert.water.enum." + water));
+        if (vegetation !== "") $("#vegetation-text").html(i18n.t("insert.vegetation.enum." + vegetation));
+        if (mitigation !== "") $("#mitigation-text").html(i18n.t("insert.mitigation.enum." + mitigation));
+        if (monitoring !== "") $("#monitoring-text").html(i18n.t("insert.monitoring.enum." + monitoring));
+        if (damages !== "") $("#damages-text").html(i18n.t("insert.damages.enum." + damages));
+        if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.enum." + notes));
+
+        toggleExpertView(ls.expert);
+    } else
+        toggleExpertView(isExpertMode);
+
+    addPhotoContainer();
+
+    $("#insert-ls").show();
+
+}
+
+function toggleExpertView(isExpert) {
+
+    if (isExpert) {
         $("#hill-position-request-wrapper").show();
         $("#vegetation-request-wrapper").show();
         $("#monitoring-request-wrapper").show();
@@ -61,16 +97,11 @@ function openInsert() {
         $("#notes-request-wrapper").hide();
     }
 
-
-    $("#insert-ls").show();
-
 }
 
 function closeInsert() {
-
     $("#insert-ls").scrollTop(0).hide();
     resetFields();
-
 }
 
 
@@ -79,7 +110,30 @@ function initMainPage() {
 
     $("#new-ls-close").click(() => closeInsert());
 
-    $("#new-ls-done").click(() => insertLandslide());
+    $("#new-ls-done").click(() => {
+
+        // if (lsType === "") {
+        //     logOrToast("You must provide at least the ls type");
+        //     return;
+        // }
+
+        if (isExpertMode) {
+            if (mitigation !== "yes") mitigationList = [];
+            if (monitoring !== "yes") monitoringList = [];
+            if (damages !== "directDamage") damagesList = [];
+        }
+
+        photos = [];
+        $("#insert-ls-main .photo-thm-wrapper img").each(function () {
+            photos.push($(this).attr("src"));
+        });
+
+        if (ls)
+            putLandslide();
+        else
+            postLandslide();
+
+    });
 
     $("#ls-type-request").click(() => {
 
@@ -158,7 +212,12 @@ function initMainPage() {
         if (mitigation === "")
             toSelect = "yes";
 
-        if (isExpertMode) {
+        let insertExpert = false;
+        if (ls)
+            if (ls.expert)
+                insertExpert = true;
+
+        if (isExpertMode || insertExpert) {
 
             $("input[name='mitigationExpert'][value='" + toSelect + "']")
                 .prop("checked", "true");
@@ -237,79 +296,85 @@ function initMainPage() {
 
     });
 
-    $("#photo-request").click(() => {
+}
 
-        newPhoto = "";
-        previewPhoto(photo);
+function postLandslide() {
 
-        if (photo !== "")
-            $("#photo-cancel-btn")
-                .css("left", btnCancelPhotoLeft)
-                .css("top", btnCancelPhotoTop)
-                .show();
-        else
-            $("#photo-cancel-btn").hide();
+    let data = {
+        _id                : generateUID(),
+        createdAt          : new Date().toISOString(),
+        updatedAt          : new Date().toISOString(),
+        user               : { name: "User" },
+        markedForDeletion  : false,
+        checked            : false,
+        expert             : isExpertMode,
+        coordinates        : currLatLong,
+        coordinatesAccuracy: currLatLongAccuracy,
+        altitude           : currAltitude,
+        altitudeAccuracy   : currAltitudeAccuracy,
+        lsType             : lsType,
+        materialType       : materialType,
+        hillPosition       : hillPosition,
+        water              : water,
+        vegetation         : vegetation,
+        mitigation         : mitigation,
+        mitigationsList    : mitigationList,
+        monitoring         : monitoring,
+        monitoringList     : monitoringList,
+        damages            : damages,
+        damagesList        : damagesList,
+        notes              : notes,
+        imageUrl           : ""
+    };
 
-        openFullscreenDialog($("#dialog-photo"));
-
-    });
-
+    let request       = db.transaction("landslides", "readwrite").objectStore("landslides").add(data);
+    request.onerror   = e => console.log("An error occurred during the insert");
+    request.onsuccess = () => {
+        console.log("Insert done");
+        showLandslide(data._id, data.coordinates);
+        closeInsert();
+    };
 
 }
 
+function putLandslide() {
 
-// Create the landslide object
-function insertLandslide() {
+    let os = db.transaction("landslides", "readwrite").objectStore("landslides");
 
-    if (lsType === "") {
-        logOrToast("You must provide at least the ls type");
-        return;
+    let getRequest       = os.get(ls._id);
+    getRequest.onerror   = e => console.error("Cannot get the landslide", e);
+    getRequest.onsuccess = e => {
+
+        let data             = e.target.result;
+        data.updatedAt       = new Date().toISOString();
+        data.lsType          = lsType;
+        data.materialType    = materialType;
+        data.hillPosition    = hillPosition;
+        data.water           = water;
+        data.vegetation      = vegetation;
+        data.mitigation      = mitigation;
+        data.mitigationsList = mitigationList;
+        data.monitoring      = monitoring;
+        data.monitoringList  = monitoringList;
+        data.damages         = damages;
+        data.damagesList     = damagesList;
+        data.notes           = notes;
+
+        let putRequest       = os.put(data);
+        putRequest.onerror   = e => console.error("Cannot edit the landslide", e);
+        putRequest.onsuccess = e => {
+
+            let request       = db.transaction("landslides", "readwrite").objectStore("landslides").get(e.target.result);
+            request.onerror   = e => console.error("Retrieving ls failed", e);
+            request.onsuccess = e => {
+                if (e.target.result.mitigation !== "yes") $("#info-mitigationsList").hide();
+                if (e.target.result.monitoring !== "yes") $("#info-monitoringList").hide();
+                if (e.target.result.damages !== "directDamage") $("#info-damagesList").hide();
+                showInfo(e.target.result);
+                closeInsert();
+            }
+        }
     }
-
-    if (isExpertMode) {
-
-        if (mitigation !== "yes")
-            mitigationList = [];
-
-        if (monitoring !== "yes")
-            monitoringList = [];
-
-        if (damages !== "directDamage")
-            damagesList = [];
-
-    }
-
-    let currDate = new Date().toISOString();
-
-    let hasPhoto = photo !== "";
-
-    let landslide = new Landslide(
-        Landslide.generateUID(),
-        currDate,
-        currDate,
-        isExpertMode,
-        currLatLong,
-        currAltitude,
-        currAccuracy,
-        lsType,
-        materialType,
-        hillPosition,
-        water,
-        vegetation,
-        mitigation,
-        mitigationList,
-        monitoring,
-        monitoringList,
-        damages,
-        damagesList,
-        notes,
-        hasPhoto
-    );
-
-    landslide.addAttachment(photo);
-    landslide.insert();
-
-    closeInsert();
 
 }
 
@@ -339,7 +404,7 @@ function initMaterialTypeDialog() {
     $("#material-type-ok").click(() => {
 
         materialType = $("input[name='materialType']:checked").val();
-        $("#material-type-text").html(i18n.t("insert.material.enum." + materialType));
+        $("#material-type-text").html(i18n.t("insert.materialType.enum." + materialType));
 
         closeDialog($("#dialog-material-type"));
 
@@ -637,136 +702,74 @@ function initNotesDialog() {
 
 
 // Photo
-function initPhotoDialog() {
+function addPhoto($wrapper, isEdit) {
 
-    // ToDO delete
-    $("#tmp-photo-input").change(() => {
+    // ToDo move to global
+    const cameraOptions = {
+        quality           : 50,
+        destinationType   : Camera.DestinationType.FILE_URI,
+        sourceType        : Camera.PictureSourceType.CAMERA,
+        encodingType      : Camera.EncodingType.JPEG,
+        mediaType         : Camera.MediaType.PICTURE,
+        allowEdit         : false,
+        correctOrientation: true
+    };
 
-        console.log("Change");
-
-        let file   = $("#tmp-photo-input")[0].files[0];
-        let reader = new FileReader();
-
-        if (file)
-            reader.readAsDataURL(file);
-
-        reader.onload = function (event) {
-
-            let dataURL = event.target.result;
-
-            getPictureSuccess(dataURL.substr(dataURL.indexOf(",") + 1));
-        }
-    });
-
-
-    $("#btn-camera").click(() => getPicture(Camera.PictureSourceType.CAMERA));
-
-    $("#btn-gallery").click(() => getPicture(Camera.PictureSourceType.SAVEDPHOTOALBUM));
-
-
-    function getPicture(srcType) {
-
-        let options = {
-            quality           : 50,
-            destinationType   : Camera.DestinationType.DATA_URL,
-            sourceType        : srcType,
-            encodingType      : Camera.EncodingType.JPEG,
-            mediaType         : Camera.MediaType.PICTURE,
-            allowEdit         : false,
-            correctOrientation: true
-        };
-
-        navigator.camera.getPicture(getPictureSuccess, getPictureFail, options);
-    }
-
-    function getPictureSuccess(data) {
-
-        let $btnCancelPhoto = $("#photo-cancel-btn");
-
-        console.log("Picture success");
-
-        newPhoto = data;
-
-        let img    = new Image();
-        img.src    = "data:image/jpeg;base64," + data;
-        img.onload = () => {
-
-            let imgWidth  = img.width,
-                imgHeight = img.height,
-                ratio     = imgWidth / imgHeight;
-
-            if (ratio >= 1) {
-                if (imgWidth > 200) {
-                    imgWidth  = 200;
-                    imgHeight = imgWidth / ratio;
-                }
-            } else {
-                if (imgHeight > 200) {
-                    imgHeight = 200;
-                    imgWidth  = imgHeight * ratio;
-                }
+    navigator.camera.getPicture(
+        fileURI => {
+            $wrapper.children("img").attr("src", fileURI).show();
+            if (!isEdit) {
+                $wrapper.children(".add-photo").remove();
+                addPhotoContainer();
             }
+        },
+        err => {
+            logOrToast("Error taking the picture");
+            console.log(err);
+        },
+        cameraOptions
+    );
 
-            let $photoPreviewWrapper = $("#photo-preview-wrapper");
+}
 
-            previewPhoto(data);
+function addPhotoContainer() {
 
-            let top = parseInt($(".top-bar").first().css("height")) +
-                parseInt($("#photo-dialog-container").css("margin-top")) +
-                parseInt($photoPreviewWrapper.css("height")) / 2 -
-                imgHeight / 2 -
-                parseInt($btnCancelPhoto.css("height"));
+    if ($("#insert-ls-main .photo-container .photo-thm-wrapper").length < 3) {
 
-            let left = $(document).width() / 2 +
-                imgWidth / 2 -
-                parseInt($btnCancelPhoto.css("height")) / 2;
+        let $el = $("<div class='photo-thm-wrapper'>" +
+            "<div class='add-photo' onclick='addPhoto($(this).parent(), false)'>" +
+            "<i class='material-icons'>add_a_photo</i>" +
+            "</div>" +
+            "<img src='img/img-placeholder-200.png' alt='Your photo' onclick='openImgScreen($(this))'>" +
+            "</div>")
+            .height($photoContainer.width() / 100 * 30);
 
-            $btnCancelPhoto.css("left", left).css("top", top).show();
-        };
-
+        $photoContainer.append($el);
     }
 
-    function getPictureFail(error) {
-        console.log("Picture error: " + error)
-    }
+}
 
+function openImgScreen($img) {
 
-    $("#photo-cancel-btn").click(() => {
+    $("#img-screen-container img").attr("src", $img.attr("src"));
 
-        newPhoto = "";
+    $("#img-screen-delete")
+        .unbind("click")
+        .click(() => {
+            $img.parent().remove();
+            if ($("#insert-ls-main .add-photo").length === 0)
+                addPhotoContainer();
+            closeImgScreen();
+        });
 
-        $("#photo-cancel-btn").hide();
-        previewPhoto(newPhoto);
+    $("#img-screen-edit")
+        .unbind("click")
+        .click(() => {
+            closeImgScreen();
+            addPhoto($img.parent(), true);
+        });
 
-        $("#tmp-photo-input").val(""); // ToDo delete
-
-    });
-
-
-    $("#photo-close").click(() => {
-
-        newPhoto = "";
-        closeFullscreenDialog($("#dialog-photo"));
-
-    });
-
-    $("#photo-done").click(() => {
-
-        let $btnCancelPhoto = $("#photo-cancel-btn");
-
-        photo              = newPhoto;
-        newPhoto           = "";
-        btnCancelPhotoTop  = parseInt($btnCancelPhoto.css("top"));
-        btnCancelPhotoLeft = parseInt($btnCancelPhoto.css("left"));
-
-        if (photo === "")
-            $("#photo-text").html(i18n.t("insert.photo.name"));
-        else
-            $("#photo-text").html(i18n.t("insert.photo.editText"));
-
-        closeFullscreenDialog($("#dialog-photo"));
-
-    });
+    $("#img-screen").show();
 
 }
 
@@ -926,20 +929,6 @@ function createDamagesItem(type, specification) {
 }
 
 
-function previewPhoto(photo) {
-
-    if (photo === "") {
-        $("#ls-photo-preview").attr("src", "img/img-placeholder-200.png");
-    } else {
-        if (isModify)
-            $("#ls-photo-preview").attr("src", photo);
-        else
-            $("#ls-photo-preview").attr("src", "data:image/jpeg;base64," + photo);
-    }
-
-}
-
-
 function resetFields() {
 
     lsType            = "";
@@ -957,10 +946,10 @@ function resetFields() {
     damagesList       = [];
     damagesListNew    = [];
     notes             = "";
-    photo             = "";
+    photos            = [];
 
     $("#ls-type-text").html(i18n.t("insert.lsType.defaultText"));
-    $("#material-type-text").html(i18n.t("insert.material.defaultText"));
+    $("#material-type-text").html(i18n.t("insert.materialType.defaultText"));
     $("#hill-position-text").html(i18n.t("insert.hillPosition.defaultText"));
     $("#water-text").html(i18n.t("insert.water.defaultText"));
     $("#vegetation-text").html(i18n.t("insert.vegetation.defaultText"));
@@ -968,6 +957,5 @@ function resetFields() {
     $("#monitoring-text").html(i18n.t("insert.monitoring.defaultText"));
     $("#damages-text").html(i18n.t("insert.damages.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));
-    $("#photo-text").html(i18n.t("insert.photo.name"));
 
 }

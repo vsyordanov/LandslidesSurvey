@@ -1,0 +1,30 @@
+/* PLACEHOLDERS */
+
+
+@keyframes placeholderAnimate {
+  0% {
+    background-position : -650px 0;
+  }
+  100% {
+    background-position : 650px 0;
+  }
+}
+
+.placeholder {
+  overflow        : hidden;
+  background      : $color-placeholder linear-gradient(to right, #EEEEEE 2%, #DDDDDD 18%, #EEEEEE 33%);
+  background-size : 1300px;
+
+  &.ph-animate {
+    animation-duration        : 1.7s;
+    animation-fill-mode       : forwards;
+    animation-iteration-count : infinite;
+    animation-timing-function : linear;
+    animation-name            : placeholderAnimate;
+  }
+
+}
+
+.ph-hidden-content {
+  display : none;
+}

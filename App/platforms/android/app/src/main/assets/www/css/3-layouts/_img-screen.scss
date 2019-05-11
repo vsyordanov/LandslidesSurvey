@@ -22,7 +22,7 @@
     width            : 100%;
     height           : calc(100% - #{$top-bar-height});
     position         : fixed;
-    top              : $top-bar-height;
+    top              : 40px;
     left             : 0;
     background-color : transparent;
     @include flex-center;

@@ -1,6 +1,5 @@
 "use strict";
 
-// const serverUrl = "http://localhost:8080/";
 const serverUrl = "http://192.168.1.100:8080/";
 
 let db,
@@ -14,6 +13,12 @@ let isExpertMode = false;
 let markers = [];
 
 let networkState;
+
+let mainDir    = null,
+    photoDir   = null,
+    photoError = false;
+
+let toReattachPositionWatcher = false;
 
 
 function onLoad() {
@@ -41,7 +46,11 @@ function initialize() {
 function onPause() {
 
     console.log("onPause");
-    // detachPositionWatcher();
+
+    if (isPositionWatcherAttached) {
+        toReattachPositionWatcher = true;
+        detachPositionWatcher();
+    }
 
 }
 
@@ -49,7 +58,11 @@ function onPause() {
 function onResume() {
 
     console.log("onResume");
-    // attachPositionWatcher();
+
+    if (toReattachPositionWatcher) {
+        attachPositionWatcher();
+        toReattachPositionWatcher = false;
+    }
 
 }
 
@@ -67,12 +80,31 @@ function init() {
     initMap();
     initLocalDb();
     initInsert();
-    openInsert();
     initInfo();
 
-    $("#img-screen-close").click(() => closeImgScreen);
+    if (isCordova) {
 
-    // Create the folder
+        // Find or create the main directory and the image directory
+        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, rootDir => {
+
+            rootDir.getDirectory("LandslideSurvey", { create: true }, mDir => {
+
+                mainDir = mDir;
+                console.log("main directory get or created", mainDir);
+
+                mDir.getDirectory("images", { create: true }, pDir => {
+
+                    photoDir = pDir;
+                    console.log("Image directory get or created", photoDir);
+
+                }, err => console.error("Fail to get or create img directory", err))
+
+            }, err => console.error("Fail to get or create main directory", err))
+
+        }, err => console.error("Fail to resolve root directory", err));
+    }
+
+    $("#img-screen-close").click(() => closeImgScreen());
 
 }
 
@@ -137,14 +169,53 @@ function showLandslide(id, coordinates) {
 }
 
 
-function deleteLandslide(id) {
+function deleteLandslide(id, photos) {
+
+    const deletePhoto = idx => {
+        photoDir.getFile(photos[idx], { create: false }, file => {
+                file.remove(() => {
+                    console.log("Photo removed");
+                    deleteNextPhoto(idx);
+                }, err => {
+                    console.error("Error removing photo");
+                    deleteNextPhoto(idx, true);
+                })
+            },
+            err => {
+                console.error("Error getting the photo", err);
+                deleteNextPhoto(idx, true);
+            }
+        );
+    };
+
+    const deleteNextPhoto = (idx, err = false) => {
+        if (err)
+            photoError = true;
+
+        if (idx < photos.length - 1) {
+            deletePhoto(idx + 1);
+        } else {
+            console.log("Deleting...", photoError);
+            photoError = false;
+            removeMarker(id);
+            closeInfo();
+        }
+    };
 
     let request       = db.transaction("landslides", "readwrite").objectStore("landslides").delete(id);
     request.onerror   = e => console.error("Deleting failed", e);
     request.onsuccess = () => {
-        removeMarker(id);
-        closeInfo();
-    }
+        if (photos.length > 0) {
+            if (photoDir)
+                deletePhoto(0);
+            else
+                deleteNextPhoto(999, true);
+        } else {
+            removeMarker(id);
+            closeInfo();
+        }
+    };
+
 }
 
 function removeMarker(id) {

@@ -379,7 +379,7 @@ p {
 #insert-ls .insert-ls-main .requests-container .request .request-content .request-text {
   font-size: 14px;
   margin-bottom: 3px;
-  color: #FF5722;
+  color: #E2491C;
 }
 #insert-ls .insert-ls-main .photo-container {
   margin: 40px 0 60px 0;
@@ -460,6 +460,7 @@ p {
   margin-left: 24px;
   margin-right: 24px;
   width: calc(100% - 24px * 2);
+  margin-bottom: 40px;
 }
 #ls-info .custom-container .info-block {
   margin-bottom: 20px;
@@ -473,7 +474,7 @@ p {
 #ls-info .custom-container .info-title {
   font: 500 13px system-ui;
   text-transform: uppercase;
-  color: #FF5722;
+  color: #E2491C;
   margin-bottom: 6px;
 }
 #ls-info .custom-container .info-content-ph {
@@ -485,16 +486,19 @@ p {
   font: 400 17px system-ui;
   color: #000000;
 }
-#ls-info .custom-container #info-notes {
-  margin-bottom: 40px;
-}
-#ls-info .custom-container #info-photo {
-  margin-bottom: 40px;
-}
 #ls-info .custom-container .info-list {
   margin: 0;
   list-style: none;
   padding: 0;
+}
+
+#info-photo {
+  margin-bottom: 40px;
+}
+#info-photo .info-photo-ph {
+  width: 90%;
+  height: 70px;
+  border-radius: 50px;
 }
 
 /* IMAGE SCREEN */
@@ -518,7 +522,7 @@ p {
   width: 100%;
   height: calc(100% - 56px);
   position: fixed;
-  top: 56px;
+  top: 40px;
   left: 0;
   background-color: transparent;
   display: -moz-flex;
@@ -544,7 +548,7 @@ p {
   width: 52px;
   height: 52px;
   border-radius: 50px;
-  background: #FF5722;
+  background: #E2491C;
   color: #FFFFFF;
   box-shadow: 0 12px 16px 0 rgba(69, 91, 99, 0.3);
   cursor: pointer;
@@ -763,7 +767,7 @@ p {
   padding: 0 8px;
   cursor: pointer;
   text-align: center;
-  color: #FF5722;
+  color: #E2491C;
 }
 .dialog-wrapper.dialog-insert .dialog .dialog-container .dialog-text {
   margin: 20px 0 12px 0;
@@ -797,13 +801,13 @@ p {
 }
 .button.full-btn {
   border: none;
-  background: #FF5722;
+  background: #E2491C;
   color: #FFFFFF;
 }
 .button.outline-btn {
   border: 1px solid #707070;
   background: none;
-  color: #FF5722;
+  color: #E2491C;
 }
 .button .btn-text {
   font: 500 16px system-ui;
@@ -837,13 +841,13 @@ p {
   outline: none;
 }
 .custom-selector-box .custom-selector {
-  border: 1px solid #FF5722;
+  border: 1px solid #E2491C;
   border-radius: 5px;
 }
 .custom-selector-box .label {
   height: 40px;
   margin: 0;
-  padding: 7px 0 10px 10px;
+  padding: 9px 0 10px 10px;
   cursor: pointer;
 }
 .custom-selector-box .label-icon {
@@ -859,7 +863,7 @@ p {
   width: 100%;
   padding: 12px 16px 12px 16px;
   color: #000000;
-  border-color: #FF5722;
+  border-color: #E2491C;
   border-radius: 5px;
 }
 .custom-textarea:focus {
@@ -915,7 +919,7 @@ p {
   -webkit-transform: scale(1.04);
   -ms-transform: scale(1.04);
   transform: scale(1.04);
-  background: #FF5722;
+  background: #E2491C;
 }
 .radio input:checked + span:after {
   transition: transform 0.3s ease;
@@ -987,8 +991,8 @@ p {
   display: none;
 }
 .radio-card-label .radio-card-input:checked + .radio-card {
-  background: rgba(255, 87, 34, 0.1);
-  border: 1px solid #FF5722;
+  background: rgba(226, 73, 28, 0.1);
+  border: 1px solid #E2491C;
 }
 
 /* DETAILS LIST */
@@ -1033,7 +1037,7 @@ p {
   margin-top: 5px;
 }
 .list-wrapper .list-item .list-item-text .list-item-text-p .list-item-entry-title {
-  color: #FF5722;
+  color: #E2491C;
 }
 .list-wrapper .list-item .details-list-item-delete {
   -moz-flex: 0 0 48px;
@@ -1083,7 +1087,7 @@ p {
 .custom-text-input input[type=text] {
   width: 100%;
   border: none;
-  border-bottom: 1px solid #FF5722;
+  border-bottom: 1px solid #E2491C;
   padding-bottom: 8px;
 }
 .custom-text-input input[type=text]:focus {
@@ -1106,13 +1110,6 @@ p {
   -ms-justify-content: space-around;
   justify-content: space-around;
   padding: 0 8px;
-}
-.photo-container input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
 }
 .photo-container .photo-thm-wrapper {
   -moz-flex: 0 0 30%;
@@ -1145,7 +1142,6 @@ p {
   padding: 12px;
 }
 .photo-container .photo-thm-wrapper img {
-  display: none;
   z-index: 1;
   max-width: 150%;
   max-height: 150%;

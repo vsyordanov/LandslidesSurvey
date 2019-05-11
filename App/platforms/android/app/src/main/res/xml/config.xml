@@ -30,6 +30,14 @@
         <param name="onload" value="true" />
     </feature>
     <allow-navigation href="cdvfile:*" />
+    <feature name="Diagnostic">
+        <param name="android-package" value="cordova.plugins.Diagnostic" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Diagnostic_Location">
+        <param name="android-package" value="cordova.plugins.Diagnostic_Location" />
+        <param name="onload" value="true" />
+    </feature>
     <name>LandslidesSurvey</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -48,4 +56,5 @@
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="Orientation" value="portrait" />
+    <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />
 </widget>

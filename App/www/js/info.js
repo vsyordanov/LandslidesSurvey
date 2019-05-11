@@ -9,12 +9,15 @@ const dateOptions = {
     second: "2-digit"
 };
 
-let $placeholders = $("#ls-info .placeholder");
+let $placeholders       = $("#ls-info .placeholder"),
+    $infoPhotoContainer = $("#ls-info .photo-container");
+
+let infoData   = undefined,
+    infoPhotos = undefined;
 
 
 function initInfo() {
     $("#info-close").click(() => closeInfo());
-
 }
 
 
@@ -24,27 +27,31 @@ function openInfo(id) {
 
     $("#ls-info").show();
 
-    let request       = db.transaction("landslides", "readwrite").objectStore("landslides").get(id);
-    request.onerror   = e => console.error("Retrieving ls failed", e);
+    let request = db.transaction("landslides", "readwrite").objectStore("landslides").get(id);
+
+    request.onerror = e => {
+        logOrToast("Retrieving ls failed", e);
+        closeInfo();
+    };
+
     request.onsuccess = e => {
 
-        let data = e.target.result;
+        infoData = e.target.result;
 
         $("#info-delete")
             .show()
             .unbind("click")
-            .click(() => deleteLandslide(data._id));
+            .click(() => deleteLandslide(infoData._id, infoPhotos));
 
         $("#info-edit")
             .show()
             .unbind("click")
             .click(() => {
                 $("#ls-info").scrollTop(0);
-                openInsert(data);
+                openInsert(infoData);
             });
 
-        if (!data.expert) {
-
+        if (!infoData.expert) {
             $("#info-hillPosition").hide();
             $("#info-vegetation").hide();
             $("#info-mitigationsList").hide();
@@ -53,21 +60,24 @@ function openInfo(id) {
             $("#info-damages").hide();
             $("#info-damagesList").hide();
             $("#info-notes").hide();
-
         } else {
-
-            if (data.mitigation !== "yes") $("#info-mitigationsList").hide();
-            if (data.monitoring !== "yes") $("#info-monitoringList").hide();
-            if (data.damages !== "directDamage") $("#info-damagesList").hide();
-
+            if (infoData.mitigation !== "yes") $("#info-mitigationsList").hide();
+            if (infoData.monitoring !== "yes") $("#info-monitoringList").hide();
+            if (infoData.damages !== "directDamage") $("#info-damagesList").hide();
         }
 
-        $placeholders.hide().removeClass("ph-animate");
-        $("#ls-info .ph-hidden-content").show();
+        infoPhotos = infoData.images;
 
-        showInfo(data);
+        if (infoPhotos.length > 0) {
+            if (photoDir)
+                showPhoto(0);
+            else {
+                console.error("Dir not found", photoDir);
+                showNextPhoto(999, true);
+            }
+        } else
+            loadComplete();
     }
-
 }
 
 function closeInfo() {
@@ -100,9 +110,21 @@ function closeInfo() {
     $("#info-damages .info-content").html("");
     $("#info-damagesList .info-content").html("");
     $("#info-notes .info-content").html("");
+    $("#info-photo").html(" <div class='info-photo-ph placeholder'></div>");
+
+    infoData   = undefined;
+    infoPhotos = undefined;
+    photoError = false;
 
 }
 
+
+function loadComplete() {
+    console.log("Load complete");
+    showInfo(infoData);
+    $placeholders.hide().removeClass("ph-animate");
+    $("#ls-info .ph-hidden-content").show();
+}
 
 function showInfo(info) {
 
@@ -194,6 +216,57 @@ function showInfo(info) {
 
             });
     }
+
+}
+
+
+function showPhoto(idx) {
+
+    photoDir.getFile(infoPhotos[idx], { create: false }, file => {
+
+            let dim = ($(window).width() - parseInt($infoPhotoContainer.css("padding-right")) * 2) / 100 * 30;
+
+            let $el = $("<div class='photo-thm-wrapper ph-hidden-content'>" +
+                "<img src='" + file.nativeURL + "' alt='Your photo' onclick='openInfoImgScreen($(this))'>" +
+                "</div>")
+                .height(dim);
+
+            $infoPhotoContainer.append($el);
+
+            showNextPhoto(idx);
+
+        },
+        err => {
+            console.error("Error getting the photo", err);
+            showNextPhoto(idx, true);
+        }
+    );
+
+}
+
+function showNextPhoto(idx, err = false) {
+
+    if (err)
+        photoError = true;
+
+    if (idx < infoPhotos.length - 1) {
+        showPhoto(idx + 1);
+    } else {
+        console.log("Showing...", photoError);
+        photoError = false;
+        loadComplete();
+    }
+
+}
+
+function openInfoImgScreen($img) {
+
+    $("#img-screen-delete").hide();
+    $("#img-screen-edit").hide();
+
+    $("#img-screen-container img").attr("src", $img.attr("src"));
+
+    $("#img-screen").show();
 
 }
 

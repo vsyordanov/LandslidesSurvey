@@ -33,6 +33,10 @@
     },
     "cordova-plugin-file": {
       "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
+    },
+    "cordova.plugins.diagnostic": {
+      "ANDROID_SUPPORT_VERSION": "28.+",
+      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
     }
   },
   "dependent_plugins": {}

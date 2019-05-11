@@ -18,9 +18,5 @@
 - Alert vari
 
 
-- Come gestire il fatto che uno può detacchare il gps e poi muoversi => quando sposto la view detacho solo la mappa
-  e non il marker
-
-
-- Foto solo con camera o anche con galleria?
-Solo camera
+- Aggiungere caricamento posizione?
+- Aggiungere messaggi su mappa

@@ -71,13 +71,20 @@ function openInsert(data = null) {
         if (damages !== "") $("#damages-text").html(i18n.t("insert.damages.enum." + damages));
         if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.enum." + notes));
 
-        toggleExpertView(ls.expert);
-    } else
+        if (ls.images.length > 0) {
+            if (photoDir)
+                getPhoto(0);
+            else
+                getNextPhoto(999, true);
+        } else {
+            toggleExpertView(ls.expert);
+            $("#insert-ls").show();
+        }
+    } else {
         toggleExpertView(isExpertMode);
-
-    addPhotoContainer();
-
-    $("#insert-ls").show();
+        addPhotoContainer();
+        $("#insert-ls").show();
+    }
 
 }
 
@@ -124,14 +131,18 @@ function initMainPage() {
         }
 
         photos = [];
-        $("#insert-ls-main .photo-thm-wrapper img").each(function () {
-            photos.push($(this).attr("src"));
-        });
 
-        if (ls)
-            putLandslide();
-        else
-            postLandslide();
+        if ($("#insert-ls-main .photo-thm-wrapper img").length > 0) {
+            if (photoDir)
+                movePhoto(0);
+            else
+                nextPhoto(999, true);
+        } else {
+            if (ls)
+                putLandslide();
+            else
+                postLandslide();
+        }
 
     });
 
@@ -324,7 +335,7 @@ function postLandslide() {
         damages            : damages,
         damagesList        : damagesList,
         notes              : notes,
-        imageUrl           : ""
+        images             : photos
     };
 
     let request       = db.transaction("landslides", "readwrite").objectStore("landslides").add(data);
@@ -717,10 +728,11 @@ function addPhoto($wrapper, isEdit) {
 
     navigator.camera.getPicture(
         fileURI => {
-            $wrapper.children("img").attr("src", fileURI).show();
             if (!isEdit) {
-                $wrapper.children(".add-photo").remove();
+                $wrapper.html("<img src='" + fileURI + "' alt='Your photo' onclick='openImgScreen($(this))'>");
                 addPhotoContainer();
+            } else {
+                $wrapper.children("img").attr("src", fileURI).show();
             }
         },
         err => {
@@ -729,24 +741,30 @@ function addPhoto($wrapper, isEdit) {
         },
         cameraOptions
     );
-
 }
 
-function addPhotoContainer() {
+function addPhotoContainer(src = null) {
 
     if ($("#insert-ls-main .photo-container .photo-thm-wrapper").length < 3) {
 
-        let $el = $("<div class='photo-thm-wrapper'>" +
-            "<div class='add-photo' onclick='addPhoto($(this).parent(), false)'>" +
-            "<i class='material-icons'>add_a_photo</i>" +
-            "</div>" +
-            "<img src='img/img-placeholder-200.png' alt='Your photo' onclick='openImgScreen($(this))'>" +
-            "</div>")
-            .height($photoContainer.width() / 100 * 30);
+        let dim = ($(window).width() - parseInt($photoContainer.css("padding-right")) * 2) / 100 * 30;
 
+        let $el;
+
+        if (!src)
+            $el = $("<div class='photo-thm-wrapper'>" +
+                "<div class='add-photo' onclick='addPhoto($(this).parent(), false)'>" +
+                "<i class='material-icons'>add_a_photo</i>" +
+                "</div>" +
+                "</div>");
+        else
+            $el = $("<div class='photo-thm-wrapper'>" +
+                "<img src='" + src + "' alt='Your photo' onclick='openImgScreen($(this))'>" +
+                "</div>");
+
+        $el.height(dim);
         $photoContainer.append($el);
     }
-
 }
 
 function openImgScreen($img) {
@@ -770,6 +788,76 @@ function openImgScreen($img) {
         });
 
     $("#img-screen").show();
+
+}
+
+function getPhoto(idx) {
+
+    photoDir.getFile(ls.images[idx], { create: false }, file => {
+            addPhotoContainer(file.nativeURL);
+            getNextPhoto(idx);
+        },
+        err => {
+            console.error("Error getting the photo", err);
+            getNextPhoto(idx, true);
+        }
+    );
+}
+
+function getNextPhoto(idx, err = false) {
+
+    if (err)
+        photoError = true;
+
+    if (idx < ls.images.length - 1) {
+        getPhoto(idx + 1);
+    } else {
+        console.log("Insert...", photoError);
+        photoError = false;
+        toggleExpertView(ls.expert);
+        $("#insert-ls").show();
+    }
+}
+
+function movePhoto(idx) {
+
+    let uri = $("#insert-ls-main .photo-thm-wrapper img").eq(idx).attr("src");
+
+    window.resolveLocalFileSystemURL(uri, fileEntry => {
+
+        fileEntry.moveTo(photoDir, fileEntry.name, file => {
+
+            console.log("File moved!", file);
+            photos.push(file.name);
+            nextPhoto(idx);
+
+        }, err => {
+            console.error("Fail to move the file", err);
+            nextPhoto(idx, true);
+        })
+
+    }, err => {
+        console.error("Failed to resolve the file", err);
+        nextPhoto(idx, true);
+    })
+
+}
+
+function nextPhoto(idx, err = false) {
+
+    if (err)
+        photoError = true;
+
+    if (idx < $("#insert-ls-main .photo-thm-wrapper img").length - 1) {
+        movePhoto(idx + 1);
+    } else {
+        console.log("Posting...", photoError);
+        photoError = false;
+        if (ls)
+            putLandslide();
+        else
+            postLandslide();
+    }
 
 }
 
@@ -957,5 +1045,9 @@ function resetFields() {
     $("#monitoring-text").html(i18n.t("insert.monitoring.defaultText"));
     $("#damages-text").html(i18n.t("insert.damages.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));
+    $photoContainer.html("");
+
+    photoDir   = undefined;
+    photoError = false;
 
 }

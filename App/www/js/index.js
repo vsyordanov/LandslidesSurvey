@@ -20,6 +20,8 @@ let mainDir    = null,
 
 let toReattachPositionWatcher = false;
 
+let $alertOverlay = $("#alert-dialog-overlay");
+
 
 function onLoad() {
 
@@ -60,7 +62,7 @@ function onResume() {
     console.log("onResume");
 
     if (toReattachPositionWatcher) {
-        attachPositionWatcher();
+        checkGPSOn(() => attachPositionWatcher());
         toReattachPositionWatcher = false;
     }
 
@@ -278,6 +280,59 @@ function saveDb() {
 function closeImgScreen() {
     $("#img-screen-container img").attr("src", "");
     $("#img-screen").hide();
+}
+
+
+/**
+ * Creates and display a new alert dialog with a message and up to two buttons.
+ * It must be passed the text of the buttons (a null value means that there is no button) and a callback function to be
+ * executed when the buttons are clicked (a null value means no callback).
+ *
+ * @param msg: the message to display.
+ * @param btn1: the text of the first button.
+ * @param clbBtn1: the function to call when the first button is clicked.
+ * @param btn2: the text of the second button.
+ * @param clbBtn2: the function to call when the second button is clicked.
+ */
+function createAlertDialog(msg, btn1, clbBtn1 = null, btn2 = null, clbBtn2 = null) {
+
+    $alertOverlay.find(".dialog-text").html(msg);
+
+    $("#alert-first-button")
+        .html(btn1)
+        .unbind("click")
+        .click(() => {
+            closeAlertDialog();
+            if (clbBtn1)
+                clbBtn1();
+        });
+
+    if (btn2) {
+
+        $("#alert-second-button")
+            .show()
+            .html(btn2)
+            .unbind("click")
+            .click(() => {
+                closeAlertDialog();
+                if (clbBtn2)
+                    clbBtn2();
+            });
+
+    }
+
+    $alertOverlay.show();
+
+}
+
+function closeAlertDialog() {
+
+    $alertOverlay
+        .hide()
+        .children(".dialog-text").html("");
+
+    $("#alert-second-button").hide();
+
 }
 
 

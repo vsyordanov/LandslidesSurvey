@@ -96,7 +96,7 @@ function initMap() {
 
     // ToDo deleted
     if (!isCordova) {
-        attachPositionWatcher();
+        //attachPositionWatcher();
         return;
     }
 
@@ -148,6 +148,7 @@ function checkLocationPermissions() {
 
             console.error("Error checking the permissions", err);
             $gps.removeClass("gps-on").children("i").html("gps_off");
+            createAlertDialog(i18n.t("dialogs.map.permissionsCheckError"), i18n.t("dialogs.btnOk"));
 
         }
     );
@@ -186,6 +187,7 @@ function requestLocationPermission() {
 
             console.error("Error requesting the location authorization", err);
             $gps.removeClass("gps-on").children("i").html("gps_off");
+            createAlertDialog(i18n.t("dialogs.map.permissionsRequestError"), i18n.t("dialogs.btnOk"));
 
         },
         cordova.plugins.diagnostic.locationAuthorizationMode.ALWAYS);
@@ -222,9 +224,9 @@ function registerGPSWatcher() {
         else {
 
             console.log("Location turned off");
-
             $gps.removeClass("gps-on").children("i").html("gps_off");
             detachPositionWatcher();
+            createAlertDialog(i18n.t("dialogs.map.gpsOff"), i18n.t("dialogs.btnOk"));
 
         }
 
@@ -312,6 +314,7 @@ function handleGPSButton() {
 
                 console.log("Cannot request the permission again.");
                 $gps.removeClass("gps-on").children("i").html("gps_off");
+                createAlertDialog(i18n.t("dialogs.map.cannotRequestPermissions"), i18n.t("dialogs.btnOk"));
 
             }
             // Permissions granted
@@ -346,6 +349,7 @@ function handleGPSButton() {
 
             console.error("Error checking the permissions", err);
             $gps.removeClass("gps-on").children("i").html("gps_off");
+            createAlertDialog(i18n.t("dialogs.map.permissionsCheckError"), i18n.t("dialogs.btnOk"));
 
         }
     );
@@ -375,6 +379,7 @@ function checkGPSOn(onCallback) {
 
                 console.log("GPS off");
                 $gps.removeClass("gps-on").children("i").html("gps_off");
+                createAlertDialog(i18n.t("dialogs.map.gpsOff"), i18n.t("dialogs.btnOk"));
 
             }
 
@@ -382,6 +387,7 @@ function checkGPSOn(onCallback) {
 
             console.error("Cannot determine if the location is enabled", err);
             $gps.removeClass("gps-on").children("i").html("gps_off");
+            createAlertDialog(i18n.t("dialogs.map.gpsCheckError"), i18n.t("dialogs.btnOk"));
 
         }
     );
@@ -398,6 +404,7 @@ function attachPositionWatcher() {
     if (isPositionWatcherAttached)
         return;
 
+    // ToDo handle the error?
     positionWatcherId = navigator.geolocation.watchPosition(
         onPositionSuccess,
         err => console.error("Error finding the position", err),

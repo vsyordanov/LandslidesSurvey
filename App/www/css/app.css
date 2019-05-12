@@ -670,6 +670,11 @@ p {
   background: rgba(0, 0, 0, 0.6);
 }
 
+#alert-dialog-overlay {
+  z-index: 1101;
+  background: rgba(0, 0, 0, 0.4);
+}
+
 .full-screen-dialog {
   width: 100%;
   height: 100%;
@@ -767,6 +772,7 @@ p {
   padding: 0 8px;
   cursor: pointer;
   text-align: center;
+  text-transform: uppercase;
   color: #E2491C;
 }
 .dialog-wrapper.dialog-insert .dialog .dialog-container .dialog-text {

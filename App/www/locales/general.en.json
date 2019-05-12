@@ -19,8 +19,15 @@
     "btnCancel" : "Cancel"
   },
   "dialogs" : {
-    "btnCancel" : "CANCEL",
-    "btnOk" : "OK"
+    "map": {
+      "permissionsCheckError": "An error occurred while checking the location permissions.",
+      "permissionsRequestError": "An error occurred while requesting the location permissions.",
+      "cannotRequestPermissions": "The application cannot request the location permissions again. Please, enable them manually from the settings.",
+      "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
+      "gpsCheckError": "An error occurred while checking the GPS status."
+    },
+    "btnCancel" : "cancel",
+    "btnOk" : "ok"
   },
   "map" : {
     "fabText" : "New landslide"
@@ -137,9 +144,9 @@
         "GPS" : "GPS",
         "interferometricRadar" : "Interferometric radar",
         "videoSurveillance" : "Video surveillance",
-        "functioning": "Functioning",
-        "partiallyDamaged": "Partially damaged",
-        "damaged": "Damaged",
+        "functioning" : "Functioning",
+        "partiallyDamaged" : "Partially damaged",
+        "damaged" : "Damaged",
         "cannotDetermine" : "Cannot determine"
       }
     },
@@ -169,7 +176,7 @@
         "movableProperty" : "Movable property",
         "culturalHeritage" : "Cultural heritage",
         "utilityPole" : "Utility pole",
-        "other": "Other"
+        "other" : "Other"
       }
     },
     "notes" : {

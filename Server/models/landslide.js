@@ -52,7 +52,7 @@ const landslideSchema = new Schema({
     damages            : String,
     damagesList        : [Object],
     notes              : String,
-    imageUrl           : String
+    image              : String
 }, { timestamps: true });
 
 module.exports = mongoose.model("Landslide", landslideSchema);

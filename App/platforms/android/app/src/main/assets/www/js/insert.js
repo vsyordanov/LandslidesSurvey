@@ -17,9 +17,9 @@ let lsType            = "",
     damagesList       = [],
     damagesListNew    = [],
     notes             = "",
-    photos            = [];
+    photo             = "";
 
-let $photoContainer = $("#insert-ls-main .photo-container");
+let $photoThm = $("#photo-thm");
 
 
 function initInsert() {
@@ -59,6 +59,7 @@ function openInsert(data = null) {
         damages        = ls.damages;
         damagesList    = ls.damagesList;
         notes          = ls.notes;
+        photo          = ls.photo;
 
         $("#ls-type-text").html(i18n.t("insert.lsType.enum." + lsType));
 
@@ -69,20 +70,90 @@ function openInsert(data = null) {
         if (mitigation !== "") $("#mitigation-text").html(i18n.t("insert.mitigation.enum." + mitigation));
         if (monitoring !== "") $("#monitoring-text").html(i18n.t("insert.monitoring.enum." + monitoring));
         if (damages !== "") $("#damages-text").html(i18n.t("insert.damages.enum." + damages));
-        if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.enum." + notes));
+        if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.editText"));
 
-        if (ls.images.length > 0) {
-            if (photoDir)
-                getPhoto(0);
-            else
-                getNextPhoto(999, true);
-        } else {
+        // ToDo delete
+        if (!isCordova) {
+            $photoThm
+                .find("img")
+                .attr("src", "img/broken-img-placeholder-200.png")
+                .show();
+
+            $photoThm
+                .find("i")
+                .hide();
+
             toggleExpertView(ls.expert);
             $("#insert-ls").show();
+
+            return;
         }
+
+        findDirectories(
+            true,
+            photoDir => {
+
+                photoDir.getFile(photo, { create: false },
+                    file => {
+
+                        $photoThm
+                            .find("img")
+                            .attr("src", file.nativeURL)
+                            .show();
+
+                        $photoThm
+                            .find("i")
+                            .hide();
+
+                        toggleExpertView(ls.expert);
+                        $("#insert-ls").show();
+                        closeInfo();
+
+                    },
+                    err => {
+
+                        photo = "";
+
+                        $photoThm
+                            .find("img")
+                            .show();
+
+                        $photoThm
+                            .find("i")
+                            .hide();
+
+                        toggleExpertView(ls.expert);
+                        $("#insert-ls").show();
+                        closeInfo();
+
+                        console.error("Error getting the photo", err);
+                        createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
+
+                    }
+                );
+
+            },
+            () => {
+
+                photo = "";
+
+                $photoThm
+                    .find("img")
+                    .show();
+
+                $photoThm
+                    .find("i")
+                    .hide();
+
+                toggleExpertView(ls.expert);
+                $("#insert-ls").show();
+                closeInfo();
+                createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
+            }
+        );
+
     } else {
         toggleExpertView(isExpertMode);
-        addPhotoContainer();
         $("#insert-ls").show();
     }
 
@@ -91,38 +162,63 @@ function openInsert(data = null) {
 function toggleExpertView(isExpert) {
 
     if (isExpert) {
+
         $("#hill-position-request-wrapper").show();
         $("#vegetation-request-wrapper").show();
         $("#monitoring-request-wrapper").show();
         $("#damages-request-wrapper").show();
         $("#notes-request-wrapper").show();
+
     } else {
+
         $("#hill-position-request-wrapper").hide();
         $("#vegetation-request-wrapper").hide();
         $("#monitoring-request-wrapper").hide();
         $("#damages-request-wrapper").hide();
         $("#notes-request-wrapper").hide();
+
     }
 
 }
 
 function closeInsert() {
+
     $("#insert-ls").scrollTop(0).hide();
     resetFields();
+
 }
 
 
 // Main page
 function initMainPage() {
 
-    $("#new-ls-close").click(() => closeInsert());
+    $("#new-ls-close").click(() => {
+
+        createAlertDialog(
+            i18n.t("dialogs.insert.confirmClose"),
+            i18n.t("dialogs.insert.btnKeepEditing"),
+            null,
+            i18n.t("dialogs.insert.btnDiscard"),
+            () => {
+                if (ls)
+                    openInfo(ls._id);
+                closeInsert();
+            }
+        );
+
+    });
 
     $("#new-ls-done").click(() => {
 
-        // if (lsType === "") {
-        //     logOrToast("You must provide at least the ls type");
-        //     return;
-        // }
+        if (lsType === "") {
+            logOrToast(i18n.t("messages.mandatoryLsType"), "long");
+            return;
+        }
+
+        if (photo === "") {
+            logOrToast(i18n.t("messages.mandatoryPhoto"), "long");
+            return;
+        }
 
         if (isExpertMode) {
             if (mitigation !== "yes") mitigationList = [];
@@ -130,19 +226,10 @@ function initMainPage() {
             if (damages !== "directDamage") damagesList = [];
         }
 
-        photos = [];
-
-        if ($("#insert-ls-main .photo-thm-wrapper img").length > 0) {
-            if (photoDir)
-                movePhoto(0);
-            else
-                nextPhoto(999, true);
-        } else {
-            if (ls)
-                putLandslide();
-            else
-                postLandslide();
-        }
+        if (ls)
+            putLandslide();
+        else
+            postLandslide()
 
     });
 
@@ -307,9 +394,34 @@ function initMainPage() {
 
     });
 
+    $photoThm.click(() => {
+
+        if (photo === "") {
+            if (!isCordova)
+                $("#tmp-photo-input").click();
+            else
+                getPicture();
+        } else
+            openImgScreen(
+                $photoThm.find("img").attr("src"),
+                true,
+                () => {
+                    if (!isCordova)
+                        $("#tmp-photo-input").click();
+                    else
+                        getPicture()
+                },
+                () => removePicturePreview()
+            )
+
+    });
+
 }
 
+
 function postLandslide() {
+
+    openLoader();
 
     let data = {
         _id                : generateUID(),
@@ -334,29 +446,79 @@ function postLandslide() {
         monitoringList     : monitoringList,
         damages            : damages,
         damagesList        : damagesList,
-        notes              : notes,
-        images             : photos
+        notes              : notes
     };
 
-    let request       = db.transaction("landslides", "readwrite").objectStore("landslides").add(data);
-    request.onerror   = e => console.log("An error occurred during the insert");
-    request.onsuccess = () => {
-        console.log("Insert done");
-        showLandslide(data._id, data.coordinates);
-        closeInsert();
-    };
+    // ToDo delete
+    if (!isCordova) {
+
+        data.photo = photo;
+
+        let request = db.transaction("landslides", "readwrite").objectStore("landslides").add(data);
+
+        request.onerror = err => {
+            console.log("An error occurred during the insert", err);
+            closeLoader();
+            createAlertDialog(i18n.t("dialogs.insert.insertError"), i18n.t("dialogs.btnOk"));
+        };
+
+        request.onsuccess = () => {
+            console.log("Insert done");
+            closeLoader();
+            showLandslide(data._id, data.coordinates);
+            closeInsert();
+        };
+
+        return;
+    }
+
+    appendPhoto(
+        data,
+        data => {
+
+            let request = db.transaction("landslides", "readwrite").objectStore("landslides").add(data);
+
+            request.onerror = err => {
+                console.log("An error occurred during the insert", err);
+                closeLoader();
+                createAlertDialog(i18n.t("dialogs.insert.insertError"), i18n.t("dialogs.btnOk"));
+            };
+
+            request.onsuccess = () => {
+                console.log("Insert done");
+                closeLoader();
+                showLandslide(data._id, data.coordinates);
+                closeInsert();
+            };
+
+        },
+        () => {
+            closeLoader();
+            createAlertDialog(i18n.t("dialogs.insert.movePictureError"), i18n.t("dialogs.btnOk"));
+        }
+    );
 
 }
 
+
 function putLandslide() {
 
-    let os = db.transaction("landslides", "readwrite").objectStore("landslides");
+    openLoader();
 
-    let getRequest       = os.get(ls._id);
-    getRequest.onerror   = e => console.error("Cannot get the landslide", e);
+    let getRequest = db.transaction("landslides", "readwrite").objectStore("landslides").get(ls._id);
+
+    getRequest.onerror = err => {
+        closeLoader();
+        createAlertDialog(i18n.t("dialogs.insert.movePictureError"), i18n.t("dialogs.btnOk"));
+        closeInsert();
+        closeInfo();
+        console.error("Cannot get the landslide", err);
+    };
+
     getRequest.onsuccess = e => {
 
-        let data             = e.target.result;
+        let data = e.target.result;
+
         data.updatedAt       = new Date().toISOString();
         data.lsType          = lsType;
         data.materialType    = materialType;
@@ -371,21 +533,93 @@ function putLandslide() {
         data.damagesList     = damagesList;
         data.notes           = notes;
 
-        let putRequest       = os.put(data);
-        putRequest.onerror   = e => console.error("Cannot edit the landslide", e);
-        putRequest.onsuccess = e => {
-
-            let request       = db.transaction("landslides", "readwrite").objectStore("landslides").get(e.target.result);
-            request.onerror   = e => console.error("Retrieving ls failed", e);
-            request.onsuccess = e => {
-                if (e.target.result.mitigation !== "yes") $("#info-mitigationsList").hide();
-                if (e.target.result.monitoring !== "yes") $("#info-monitoringList").hide();
-                if (e.target.result.damages !== "directDamage") $("#info-damagesList").hide();
-                showInfo(e.target.result);
-                closeInsert();
-            }
+        // ToDo delete
+        if (!isCordova) {
+            put(data);
+            return;
         }
+
+        if (photo === data.photo) {
+            put(data);
+            return;
+        }
+
+        let oldImage = data.photo;
+
+        appendPhoto(
+            data,
+            data => {
+
+                put(data);
+
+                deleteImage(
+                    oldImage,
+                    () => console.log("Old photo deleted") ,
+                    () => createAlertDialog(i18n.t("dialogs.deleteOldPictureError"), i18n.t("dialogs.btnOk"))
+                );
+
+            },
+            () => {
+                closeLoader();
+                createAlertDialog(i18n.t("dialogs.insert.moveNewPictureError"), i18n.t("dialogs.btnOk"));
+            }
+        );
+
+
+    };
+
+    const put = data => {
+
+        let putRequest = db.transaction("landslides", "readwrite").objectStore("landslides").put(data);
+
+        putRequest.onerror = err => {
+            closeLoader();
+            createAlertDialog(i18n.t("dialogs.insert.putLocalError"), i18n.t("dialogs.btnOk"));
+            console.error("Cannot edit the landslide", err);
+        };
+
+        putRequest.onsuccess = e => {
+            closeLoader();
+            closeInsert();
+            openInfo(e.target.result);
+        }
+
     }
+
+}
+
+
+function appendPhoto(data, clbSuccess, clbError) {
+
+    window.resolveLocalFileSystemURL(photo,
+        fileEntry => {
+
+            findDirectories(
+                true,
+                photoDir => {
+
+                    fileEntry.moveTo(photoDir, fileEntry.name,
+                        file => {
+
+                            console.log("File moved!", file);
+                            data.photo = fileEntry.name;
+                            clbSuccess(data);
+
+                        },
+                        err => {
+                            console.error("Fail to move the file", err);
+                            clbError();
+                        }
+                    )
+                }
+            );
+
+        },
+        err => {
+            console.error("Failed to resolve the file", err);
+            clbError();
+        }
+    )
 
 }
 
@@ -537,7 +771,7 @@ function initMitigationInsertDialog() {
         let type = $("#mitigation-type-select").val();
 
         if (type === "none") {
-            logOrToast("You must select an option"); // ToDo
+            logOrToast(i18n.t("messages.mandatoryOption"), "long");
             return;
         }
 
@@ -601,7 +835,7 @@ function initMonitoringInsertDialog() {
             status = $("#monitoring-status-select").val();
 
         if (type === "none" || status === "none") {
-            logOrToast("You must select an option for both type and status"); // ToDo
+            logOrToast(i18n.t("messages.mandatoryMonitoringFields"), "long");
             return;
         }
 
@@ -674,12 +908,12 @@ function initDamagesInsertDialog() {
             $otherInput = $("#damage-other-input");
 
         if (type === "none") {
-            logOrToast("You must select an option"); // ToDo
+            logOrToast(i18n.t("messages.mandatoryOption"), "long");
             return;
         }
 
         if (type === "other" && $otherInput.val() === "") {
-            logOrToast("You must specify a type"); // ToDo
+            logOrToast(i18n.t("messages.mandatoryDamageOther"), "long");
             return;
         }
 
@@ -713,10 +947,35 @@ function initNotesDialog() {
 
 
 // Photo
-function addPhoto($wrapper, isEdit) {
 
-    // ToDo move to global
-    const cameraOptions = {
+// ToDO delete
+$("#tmp-photo-input").change(() => {
+
+    photo = $("#tmp-photo-input")[0].files[0];
+
+    let reader = new FileReader();
+
+    reader.onloadend = e => {
+
+        $photoThm
+            .find("img")
+            .attr("src", e.target.result)
+            .show();
+
+        $photoThm
+            .find("i")
+            .hide();
+
+    };
+
+    reader.readAsDataURL(photo);
+
+});
+
+
+function getPicture() {
+
+    let options = {
         quality           : 50,
         destinationType   : Camera.DestinationType.FILE_URI,
         sourceType        : Camera.PictureSourceType.CAMERA,
@@ -728,136 +987,42 @@ function addPhoto($wrapper, isEdit) {
 
     navigator.camera.getPicture(
         fileURI => {
-            if (!isEdit) {
-                $wrapper.html("<img src='" + fileURI + "' alt='Your photo' onclick='openImgScreen($(this))'>");
-                addPhotoContainer();
-            } else {
-                $wrapper.children("img").attr("src", fileURI).show();
-            }
+
+            photo = fileURI;
+
+            $photoThm
+                .find("img")
+                .attr("src", photo)
+                .show();
+
+            $photoThm
+                .find("i")
+                .hide();
+
         },
         err => {
-            logOrToast("Error taking the picture");
-            console.log(err);
+
+            console.log("Error taking picture", err);
+            createAlertDialog(i18n.t("dialogs.insert.pictureError"), i18n.t("dialogs.btnOk"));
+
         },
-        cameraOptions
+        options
     );
-}
-
-function addPhotoContainer(src = null) {
-
-    if ($("#insert-ls-main .photo-container .photo-thm-wrapper").length < 3) {
-
-        let dim = ($(window).width() - parseInt($photoContainer.css("padding-right")) * 2) / 100 * 30;
-
-        let $el;
-
-        if (!src)
-            $el = $("<div class='photo-thm-wrapper'>" +
-                "<div class='add-photo' onclick='addPhoto($(this).parent(), false)'>" +
-                "<i class='material-icons'>add_a_photo</i>" +
-                "</div>" +
-                "</div>");
-        else
-            $el = $("<div class='photo-thm-wrapper'>" +
-                "<img src='" + src + "' alt='Your photo' onclick='openImgScreen($(this))'>" +
-                "</div>");
-
-        $el.height(dim);
-        $photoContainer.append($el);
-    }
-}
-
-function openImgScreen($img) {
-
-    $("#img-screen-container img").attr("src", $img.attr("src"));
-
-    $("#img-screen-delete")
-        .unbind("click")
-        .click(() => {
-            $img.parent().remove();
-            if ($("#insert-ls-main .add-photo").length === 0)
-                addPhotoContainer();
-            closeImgScreen();
-        });
-
-    $("#img-screen-edit")
-        .unbind("click")
-        .click(() => {
-            closeImgScreen();
-            addPhoto($img.parent(), true);
-        });
-
-    $("#img-screen").show();
 
 }
 
-function getPhoto(idx) {
+function removePicturePreview() {
 
-    photoDir.getFile(ls.images[idx], { create: false }, file => {
-            addPhotoContainer(file.nativeURL);
-            getNextPhoto(idx);
-        },
-        err => {
-            console.error("Error getting the photo", err);
-            getNextPhoto(idx, true);
-        }
-    );
-}
+    photo = "";
 
-function getNextPhoto(idx, err = false) {
+    $photoThm
+        .find("img")
+        .attr("src", "img/img-placeholder-200.png")
+        .hide();
 
-    if (err)
-        photoError = true;
-
-    if (idx < ls.images.length - 1) {
-        getPhoto(idx + 1);
-    } else {
-        console.log("Insert...", photoError);
-        photoError = false;
-        toggleExpertView(ls.expert);
-        $("#insert-ls").show();
-    }
-}
-
-function movePhoto(idx) {
-
-    let uri = $("#insert-ls-main .photo-thm-wrapper img").eq(idx).attr("src");
-
-    window.resolveLocalFileSystemURL(uri, fileEntry => {
-
-        fileEntry.moveTo(photoDir, fileEntry.name, file => {
-
-            console.log("File moved!", file);
-            photos.push(file.name);
-            nextPhoto(idx);
-
-        }, err => {
-            console.error("Fail to move the file", err);
-            nextPhoto(idx, true);
-        })
-
-    }, err => {
-        console.error("Failed to resolve the file", err);
-        nextPhoto(idx, true);
-    })
-
-}
-
-function nextPhoto(idx, err = false) {
-
-    if (err)
-        photoError = true;
-
-    if (idx < $("#insert-ls-main .photo-thm-wrapper img").length - 1) {
-        movePhoto(idx + 1);
-    } else {
-        console.log("Posting...", photoError);
-        photoError = false;
-        if (ls)
-            putLandslide();
-        else
-            postLandslide();
-    }
+    $photoThm
+        .find("i")
+        .show();
 
 }
 
@@ -1019,6 +1184,7 @@ function createDamagesItem(type, specification) {
 
 function resetFields() {
 
+    ls                = null;
     lsType            = "";
     materialType      = "";
     hillPosition      = "";
@@ -1034,7 +1200,7 @@ function resetFields() {
     damagesList       = [];
     damagesListNew    = [];
     notes             = "";
-    photos            = [];
+    photo             = "";
 
     $("#ls-type-text").html(i18n.t("insert.lsType.defaultText"));
     $("#material-type-text").html(i18n.t("insert.materialType.defaultText"));
@@ -1045,9 +1211,14 @@ function resetFields() {
     $("#monitoring-text").html(i18n.t("insert.monitoring.defaultText"));
     $("#damages-text").html(i18n.t("insert.damages.defaultText"));
     $("#notes-text").html(i18n.t("insert.notes.defaultText"));
-    $photoContainer.html("");
 
-    photoDir   = undefined;
-    photoError = false;
+    $photoThm
+        .find("img")
+        .attr("src", "img/img-placeholder-200.png")
+        .hide();
+
+    $photoThm
+        .find("i")
+        .show();
 
 }

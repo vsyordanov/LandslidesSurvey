@@ -2,21 +2,19 @@
 
 const serverUrl = "http://192.168.1.100:8080/";
 
+let backPressedCount = 0;
+
 let db,
     dbName    = "LandslideSurvey",
     dbVersion = 1;
 
 let isCordova;
 
-let isExpertMode = false;
+let isExpertMode = true;
 
 let markers = [];
 
 let networkState;
-
-let mainDir    = null,
-    photoDir   = null,
-    photoError = false;
 
 let toReattachPositionWatcher = false;
 
@@ -34,7 +32,6 @@ function onLoad() {
 
 }
 
-
 function initialize() {
 
     document.addEventListener("pause", onPause, false);
@@ -43,7 +40,6 @@ function initialize() {
     ln.init();
 
 }
-
 
 function onPause() {
 
@@ -56,7 +52,6 @@ function onPause() {
 
 }
 
-
 function onResume() {
 
     console.log("onResume");
@@ -68,13 +63,32 @@ function onResume() {
 
 }
 
-
 function onResize() {
     $("#map").height($(window).height());
 }
 
 
 function init() {
+
+    // ToDo handle properly
+    if (isCordova) {
+
+        document.addEventListener(
+            "backbutton",
+            () => {
+
+                if (backPressedCount === 0) {
+                    logOrToast("Press again to leave", "short");
+                    backPressedCount++;
+                    setInterval(() => backPressedCount = 0, 2000);
+                } else
+                    navigator.app.exitApp();
+
+            },
+            false
+        );
+
+    }
 
     networkState = navigator.connection.type;
 
@@ -84,30 +98,6 @@ function init() {
     initInsert();
     initInfo();
 
-    if (isCordova) {
-
-        // Find or create the main directory and the image directory
-        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, rootDir => {
-
-            rootDir.getDirectory("LandslideSurvey", { create: true }, mDir => {
-
-                mainDir = mDir;
-                console.log("main directory get or created", mainDir);
-
-                mDir.getDirectory("images", { create: true }, pDir => {
-
-                    photoDir = pDir;
-                    console.log("Image directory get or created", photoDir);
-
-                }, err => console.error("Fail to get or create img directory", err))
-
-            }, err => console.error("Fail to get or create main directory", err))
-
-        }, err => console.error("Fail to resolve root directory", err));
-    }
-
-    $("#img-screen-close").click(() => closeImgScreen());
-
 }
 
 
@@ -115,7 +105,10 @@ function initLocalDb() {
 
     let dbOpenRequest = window.indexedDB.open(dbName, dbVersion);
 
-    dbOpenRequest.onerror = e => console.error("Error opening the db", e);
+    dbOpenRequest.onerror = err => {
+        console.error("Error opening the db", err);
+        createAlertDialog(i18n.t("dialogs.openLocalDbError"), i18n.t("dialogs.btnOk"));
+    };
 
     dbOpenRequest.onsuccess = () => {
         console.log("Db opened");
@@ -125,15 +118,18 @@ function initLocalDb() {
 
     dbOpenRequest.onupgradeneeded = () => {
 
-        console.log("Db upgrade needed");
+        console.log("Upgrading or creating db...");
 
         db = dbOpenRequest.result;
 
-        db.onerror = () => console.error("Error upgrading the db with code: " + db.errorCode);
+        db.onerror = err => {
+            console.error("Error upgrading or creating the db", err);
+            createAlertDialog(i18n.t("dialogs.createLocalDbError"), i18n.t("dialogs.btnOk"));
+        };
 
         let objectStore = db.createObjectStore("landslides", { keyPath: "_id" });
 
-        objectStore.transaction.oncomplete = e => {
+        objectStore.transaction.oncomplete = () => {
             console.log("Object store created");
             getLandslides();
         }
@@ -142,16 +138,130 @@ function initLocalDb() {
 
 }
 
+function saveDb() {
 
-function getLandslides() {
+    openLoader();
 
-    let request       = db.transaction("landslides", "readwrite").objectStore("landslides").getAll();
-    request.onerror   = e => console.error("Error getting data", e);
-    request.onsuccess = e => e.target.result.forEach(ls => showLandslide(ls._id, ls.coordinates));
+    findDirectories(
+        false,
+        mainDir => {
+
+            mainDir.getFile("landslideSurvey.txt", { create: true }, fileEntry => {
+
+                    fileEntry.createWriter(fileWriter => {
+
+                            let request = db
+                                .transaction("landslides", "readwrite")
+                                .objectStore("landslides")
+                                .getAll();
+
+                            request.onerror = err => {
+                                console.error("Error getting data", err);
+                                closeLoader();
+                                createAlertDialog(i18n.t("dialogs.saveDbError"), i18n.t("dialogs.btnOk"));
+                            };
+
+                            request.onsuccess = e => {
+
+                                let data = "";
+
+                                e.target.result.forEach(ls => data = data + JSON.stringify(ls) + "\n");
+
+                                fileWriter.write(data);
+
+                                fileWriter.onwriteend = () => {
+                                    closeLoader();
+                                    logOrToast(i18n.t("messages.saveDbComplete"), "short");
+                                };
+
+                                fileWriter.onerror = err => {
+                                    console.error("Error writing the file", err);
+                                    closeLoader();
+                                    createAlertDialog(i18n.t("dialogs.saveDbError"), i18n.t("dialogs.btnOk"));
+                                }
+
+                            };
+                        },
+                        err => {
+                            console.error("Error writing the file", err);
+                            closeLoader();
+                            createAlertDialog(i18n.t("dialogs.saveDbError"), i18n.t("dialogs.btnOk"));
+                        }
+                    );
+                },
+                err => {
+                    console.error("Error creating the file", err);
+                    closeLoader();
+                    createAlertDialog(i18n.t("dialogs.saveDbError"), i18n.t("dialogs.btnOk"));
+                }
+            );
+        },
+        () => {
+            closeLoader();
+            createAlertDialog(i18n.t("dialogs.saveDbError"), i18n.t("dialogs.btnOk"));
+        }
+    );
+
+}
+
+function findDirectories(findImg, successClb, errClb = null) {
+
+    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, rootDir => {
+
+        rootDir.getDirectory("LandslideSurvey", { create: true }, mainDir => {
+
+            if (findImg) {
+
+                mainDir.getDirectory("images", { create: true },
+                    photoDir => successClb(photoDir),
+                    err => {
+                        console.error("Fail to get or create img directory", err);
+
+                        if (errClb)
+                            errClb();
+                        else
+                            createAlertDialog(i18n.t("dialogs.directoryError"), i18n.t("dialogs.btnOk"));
+
+                    })
+
+            } else
+                successClb(mainDir);
+
+        }, err => {
+            console.error("Fail to get or create main directory", err);
+
+            if (errClb)
+                errClb();
+            else
+                createAlertDialog(i18n.t("dialogs.directoryError"), i18n.t("dialogs.btnOk"));
+        })
+
+    }, err => {
+        console.error("Fail to resolve root directory", err);
+
+        if (errClb)
+            errClb();
+        else
+            createAlertDialog(i18n.t("dialogs.directoryError"), i18n.t("dialogs.btnOk"));
+    });
 
 }
 
 
+function getLandslides() {
+
+    let request = db.transaction("landslides", "readwrite").objectStore("landslides").getAll();
+
+    request.onerror = err => {
+        createAlertDialog(i18n.t("dialogs.getLocalLsError"), i18n.t("dialogs.btnOk"));
+        console.error("Error getting data", err);
+    };
+
+    request.onsuccess = e => e.target.result.forEach(ls => showLandslide(ls._id, ls.coordinates));
+
+}
+
+// ToDo marker cluster
 function showLandslide(id, coordinates) {
 
     let marker = L.marker(
@@ -166,57 +276,76 @@ function showLandslide(id, coordinates) {
     marker.on("click", () => openInfo(id));
 
     markers.push(marker);
-    marker.addTo(map);
+    markersLayer.addLayer(marker);
 
 }
 
+function deleteLandslide(id, photo) {
 
-function deleteLandslide(id, photos) {
+    let request = db.transaction("landslides", "readwrite").objectStore("landslides").delete(id);
 
-    const deletePhoto = idx => {
-        photoDir.getFile(photos[idx], { create: false }, file => {
-                file.remove(() => {
-                    console.log("Photo removed");
-                    deleteNextPhoto(idx);
-                }, err => {
-                    console.error("Error removing photo");
-                    deleteNextPhoto(idx, true);
-                })
+    request.onerror = err => {
+        console.error("Deleting failed", err);
+        createAlertDialog(i18n.t("dialogs.deleteLocalLsError"), i18n.t("dialogs.btnOk"));
+    };
+
+    request.onsuccess = () => {
+
+        if (!isCordova) {
+            removeMarker(id);
+            closeInfo();
+            return;
+        }
+
+        deleteImage(
+            photo,
+            () => {
+                removeMarker(id);
+                closeInfo();
             },
-            err => {
-                console.error("Error getting the photo", err);
-                deleteNextPhoto(idx, true);
+            () => {
+                createAlertDialog(i18n.t("dialogs.deleteLocalPhotoError"), i18n.t("dialogs.btnOk"));
+                removeMarker(id);
+                closeInfo();
             }
         );
+
     };
 
-    const deleteNextPhoto = (idx, err = false) => {
-        if (err)
-            photoError = true;
+}
 
-        if (idx < photos.length - 1) {
-            deletePhoto(idx + 1);
-        } else {
-            console.log("Deleting...", photoError);
-            photoError = false;
-            removeMarker(id);
-            closeInfo();
+function deleteImage(photo, clbSuccess, clbError) {
+
+    findDirectories(
+        true,
+        photoDir => {
+
+            photoDir.getFile(photo, { create: false },
+                file => {
+
+                    file.remove(
+                        () => {
+                            console.log("Photo removed");
+                            clbSuccess();
+                        },
+                        err => {
+                            console.error("Error removing photo", err);
+                            clbError();
+                        }
+                    )
+
+                },
+                err => {
+                    console.error("Error getting the photo", err);
+                    clbError();
+                }
+            );
+
+        },
+        () => {
+            clbError();
         }
-    };
-
-    let request       = db.transaction("landslides", "readwrite").objectStore("landslides").delete(id);
-    request.onerror   = e => console.error("Deleting failed", e);
-    request.onsuccess = () => {
-        if (photos.length > 0) {
-            if (photoDir)
-                deletePhoto(0);
-            else
-                deleteNextPhoto(999, true);
-        } else {
-            removeMarker(id);
-            closeInfo();
-        }
-    };
+    );
 
 }
 
@@ -227,7 +356,7 @@ function removeMarker(id) {
     markers.forEach(marker => {
 
         if (marker._id === id)
-            map.removeLayer(marker);
+            markersLayer.removeLayer(marker);
         else
             new_markers.push(marker);
 
@@ -237,49 +366,57 @@ function removeMarker(id) {
 }
 
 
-function saveDb() {
+function openImgScreen(scr, editable = false, clbEdit, clbCancel) {
 
-    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory, directoryEntry => {
+    $("#img-screen-container img").attr("src", scr);
 
-            directoryEntry.getDirectory("LandslideSurvey", { create: true }, directory => {
+    $("#img-screen-close").click(() => closeImgScreen());
 
-                    directory.getFile("landslideSurvey.txt", { create: true }, fileEntry => {
+    if (editable) {
 
-                            fileEntry.createWriter(fileWriter => {
+        $("#img-screen-edit")
+            .unbind("click")
+            .click(() => {
+                closeImgScreen();
+                clbEdit();
+            })
+            .parent().show();
 
-                                    let request = db
-                                        .transaction("landslides", "readwrite")
-                                        .objectStore("landslides").getAll();
+        $("#img-screen-delete")
+            .show()
+            .unbind("click")
+            .click(() => {
 
-                                    request.onerror   = e => console.error("Error getting data", e);
-                                    request.onsuccess = e => {
+                createAlertDialog(
+                    i18n.t("dialogs.photoScreen.deletePictureConfirmation"),
+                    i18n.t("dialogs.btnCancel"),
+                    null,
+                    i18n.t("dialogs.btnOk"),
+                    () => {
+                        clbCancel();
+                        closeImgScreen();
+                    }
+                );
 
-                                        let data = "";
-                                        e.target.result.forEach(ls => data = data + JSON.stringify(ls) + "\n");
+            })
+            .parent().show();
 
-                                        fileWriter.write(data);
-                                        fileWriter.onwriteend = () => logOrToast("Writing done!");
-                                        fileWriter.onerror    = err => console.error("Error writing the file", err);
-                                    };
-                                },
-                                err => console.error("Error writing the file", err)
-                            );
-                        },
-                        err => console.error("Error creating the file", err)
-                    );
-                },
-                err => console.error("Error creating direcotry", err)
-            );
-        },
-        err => console.error("Error getting directory", err)
-    );
+    }
+
+    $("#img-screen").show();
 
 }
 
-
 function closeImgScreen() {
-    $("#img-screen-container img").attr("src", "");
+
     $("#img-screen").hide();
+
+    $("#img-screen-container img").attr("src", "");
+
+    $("#img-screen-edit").parent().hide();
+
+    $("#img-screen-delete").parent().hide();
+
 }
 
 
@@ -321,6 +458,7 @@ function createAlertDialog(msg, btn1, clbBtn1 = null, btn2 = null, clbBtn2 = nul
 
     }
 
+    $alertOverlay.find(".dialog-wrapper").show();
     $alertOverlay.show();
 
 }
@@ -333,32 +471,36 @@ function closeAlertDialog() {
 
     $("#alert-second-button").hide();
 
+    $alertOverlay.find(".dialog-wrapper").hide();
+
 }
 
 
-function showAlert(msg) {
+function openLoader() {
 
-    if (isCordova) {
+    $alertOverlay.find(".spinner-wrapper").show();
 
-        navigator.notification.alert(
-            i18n.t(msg),
-            null,
-            "Landslides",
-            i18n.t("messages.ok")
-        );
+    $alertOverlay.show();
 
-    } else {
-        alert(i18n.t(msg));
+}
+
+function closeLoader() {
+
+    $alertOverlay.hide();
+
+    $alertOverlay.find(".spinner-wrapper").hide();
+
+}
+
+
+function logOrToast(msg, duration) {
+
+    if (!isCordova) {
+        console.log(msg);
+        return;
     }
 
-}
-
-function logOrToast(msg) {
-
-    if (!isCordova)
-        console.log(msg);
-    else
-        window.plugins.toast.showShortBottom(msg);
+    window.plugins.toast.show(msg, duration, "bottom");
 }
 
 
@@ -376,26 +518,3 @@ function generateUID() {
 
     return uid
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

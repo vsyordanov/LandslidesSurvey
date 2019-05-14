@@ -11,11 +11,19 @@
   background : #FFFFFF;
 
   /* MAIN PAGE */
-  .insert-ls-main {
+  #insert-ls-main {
+    width   : 100%;
+    height  : 100%;
     z-index : $z-insert-main;
 
     .requests-container {
       @include flex-display(column);
+
+      .required-fields {
+        margin-top : 20px;
+        @include font(400, $font-body-small);
+        color      : #949494;
+      }
 
       .request {
         @include flex-display;
@@ -50,8 +58,17 @@
 
     }
 
-    .photo-container {
-      margin : 40px 0 60px 0;
+    #photo-request {
+      margin-bottom : 40px;
+
+      .request-content {
+        border : 0;
+      }
+
+      .request-name {
+        margin-bottom : 20px;
+      }
+
     }
 
   }
@@ -62,44 +79,6 @@
 
     .custom-text-input {
       margin-top : 20px;
-    }
-
-  }
-
-
-  /* PHOTO DIALOG */
-  #dialog-photo {
-
-    .custom-container {
-      margin-top : $top-bar-height;
-    }
-
-    .photo-cancel-wrapper {
-      width    : $icon-area;
-      height   : $icon-area;
-      padding  : $icon-padding;
-      z-index  : $z-photo-cancel;
-      position : absolute;
-      cursor   : pointer;
-
-      .photo-cancel {
-        width         : $icon-size;
-        height        : $icon-size;
-        border-radius : 50%;
-        background    : #FFFFFF;
-      }
-    }
-
-    .photo-preview-wrapper {
-      margin : 0 0 40px 0;
-    }
-
-    .photo-or {
-      width      : 100%;
-      text-align : center;
-      color      : $color-text;
-      @include font(500, $font-body);
-      margin     : 16px 0;
     }
 
   }

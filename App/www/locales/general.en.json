@@ -1,24 +1,26 @@
 {
   "messages" : {
-    "ok" : "OK",
-    "yes" : "Yes",
-    "no" : "No",
-    "generalError" : "Error!",
-    "noInternet" : "The contributions cannot be displayed due to no Internet connection.",
-    "positionMarkerPopup" : "If it's not your current location, please drag the marker to the correct one.",
-    "pcGPSError" : "GPS error! Please drag the marker to set your current location.",
-    "mobileGPSError" : "GPS error! Please turn on your geolocation service or drag the marker to set your current location.",
-    "localStorageError" : "This browser does not support local storage.",
-    "contributionSuccess" : "Thank you for your contribution!",
-    "contributionSuccessNoInternet" : "Thank you for your contribution. You are currently in offline mode, please re-open the application once you have an Internet connection to share your contribution.",
-    "bingNoInternet" : "Bing Aerial cannot be displayed due to no Internet connection.",
-    "osmNoInternet" : "OpenStreetMap cannot be displayed due to no Internet connection.",
-    "confirmCancellation" : "Are you sure you want to delete this defibrillator?",
-    "cancelError" : "An error occurred while deleting the defibrillator.",
-    "cancelSuccess" : "Defibrillator successfully deleted!",
-    "btnCancel" : "Cancel"
+    "saveDbComplete": "Local database saving successfully completed!",
+    "mandatoryLsType": "You must specify the landslide type.",
+    "mandatoryPhoto": "You must provide a photo of the landslide.",
+    "mandatoryOption": "You must select an option.",
+    "mandatoryMonitoringFields": "You must select an option for both the type and the status.",
+    "mandatoryDamageOther": "You must specify the damaged object."
   },
   "dialogs" : {
+    "openLocalDbError": "An error occurred while opening the local database.",
+    "createLocalDbError": "An error occurred while creating the local database.",
+    "directoryError": "An error occurred while retrieving or creating the application's directory.",
+    "deleteLocalPhotoError": "An error occurred while deleting the photo from the local database.",
+    "deleteLocalLsError": "An error occurred while deleting the landslide form the local database.",
+    "deleteConfirmation": "Are you sure you want to delete this landslide?",
+    "getLocalLsError": "An error occurred while retrieving the landslides data form the local database.",
+    "confirmDbSave": "You should save the database only if you have finished mapping. Proceed?",
+    "saveDbError": "An error occurred while saving the local database.",
+    "btnYes": "Yes",
+    "btnNo": "No",
+    "btnCancel" : "cancel",
+    "btnOk" : "ok",
     "map": {
       "permissionsCheckError": "An error occurred while checking the location permissions.",
       "permissionsRequestError": "An error occurred while requesting the location permissions.",
@@ -26,19 +28,38 @@
       "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
       "gpsCheckError": "An error occurred while checking the GPS status."
     },
-    "btnCancel" : "cancel",
-    "btnOk" : "ok"
+    "insert": {
+      "confirmClose": "Discard the changes you made?",
+      "movePictureError": "An error occurred while moving the picture to the application's directory.",
+      "moveNewPictureError": "An error occurred while moving the new picture to the application's directory.",
+      "deleteOldPictureError": "An error occurred while deleting the old picture form the application's directory.",
+      "insertError": "An error occurred while saving the data.",
+      "pictureError": "An error occurred while taking the picture.",
+      "putLocalError": "An error occurred while editing the data.",
+      "btnKeepEditing": "Keep editing",
+      "btnDiscard": "Discard"
+    },
+    "info": {
+      "getLocalLsError": "An error occurred while getting the data form the local db.",
+      "getLocalPhotoError": "An error occurred while retrieving the photo from the local memory."
+    },
+    "photoScreen": {
+      "deletePictureConfirmation": "Are you sure you want to delete the photo?"
+    }
   },
   "map" : {
-    "fabText" : "New landslide"
+    "fabText" : "New landslide",
+    "positionFinding": "Finding your position..."
   },
   "insert" : {
     "defaultSelectorLabel" : "Select an option",
     "mainScreen" : {
-      "topBarTitle" : "New landslide"
+      "topBarTitle" : "New landslide",
+      "requiredFields": "* Indicates a required field",
+      "photoName": "Photo*"
     },
     "lsType" : {
-      "name" : "Type of landslide",
+      "name" : "Type of landslide*",
       "defaultText" : "Specify the type of the landslide",
       "topBarTitle" : "Type of landslide",
       "enum" : {
@@ -194,7 +215,7 @@
     "coordinates" : "Coordinates (WGS 84)",
     "coordinatesAccuracy" : "Coordinates accuracy",
     "altitude" : "Altitude",
-    "altitudeAccuracy" : "Accuracy",
+    "altitudeAccuracy" : "Altitude accuracy",
     "lsType" : "Landslide type",
     "materialType" : "Material type",
     "hillPosition" : "Position on the hill",

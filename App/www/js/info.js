@@ -9,15 +9,18 @@ const dateOptions = {
     second: "2-digit"
 };
 
-let $placeholders       = $("#ls-info .placeholder"),
-    $infoPhotoContainer = $("#ls-info .photo-container");
-
-let infoData   = undefined,
-    infoPhotos = undefined;
+let lsData,
+    $placeholders = $("#ls-info .placeholder");
 
 
 function initInfo() {
+
     $("#info-close").click(() => closeInfo());
+
+    $("#info-photo-thm").click(function () {
+        openImgScreen($(this).attr("src"));
+    });
+
 }
 
 
@@ -29,29 +32,37 @@ function openInfo(id) {
 
     let request = db.transaction("landslides", "readwrite").objectStore("landslides").get(id);
 
-    request.onerror = e => {
-        logOrToast("Retrieving ls failed", e);
+    request.onerror = err => {
+        console.error("Retrieving ls failed", err);
         closeInfo();
+        createAlertDialog(i18n.t("dialogs.info.getLocalLsError"), i18n.t("dialogs.btnOk"));
     };
 
     request.onsuccess = e => {
 
-        infoData = e.target.result;
+        lsData = e.target.result;
 
         $("#info-delete")
             .show()
             .unbind("click")
-            .click(() => deleteLandslide(infoData._id, infoPhotos));
+            .click(() => {
+                createAlertDialog(
+                    i18n.t("dialogs.deleteConfirmation"),
+                    i18n.t("dialogs.btnCancel"),
+                    null,
+                    i18n.t("dialogs.btnOk"),
+                    () => deleteLandslide(lsData._id, lsData.photo)
+                );
+            });
 
         $("#info-edit")
             .show()
             .unbind("click")
             .click(() => {
-                $("#ls-info").scrollTop(0);
-                openInsert(infoData);
+                openInsert(lsData);
             });
 
-        if (!infoData.expert) {
+        if (!lsData.expert) {
             $("#info-hillPosition").hide();
             $("#info-vegetation").hide();
             $("#info-mitigationsList").hide();
@@ -61,22 +72,13 @@ function openInfo(id) {
             $("#info-damagesList").hide();
             $("#info-notes").hide();
         } else {
-            if (infoData.mitigation !== "yes") $("#info-mitigationsList").hide();
-            if (infoData.monitoring !== "yes") $("#info-monitoringList").hide();
-            if (infoData.damages !== "directDamage") $("#info-damagesList").hide();
+            if (lsData.mitigation !== "yes") $("#info-mitigationsList").hide();
+            if (lsData.monitoring !== "yes") $("#info-monitoringList").hide();
+            if (lsData.damages !== "directDamage") $("#info-damagesList").hide();
         }
 
-        infoPhotos = infoData.images;
+        showInfo();
 
-        if (infoPhotos.length > 0) {
-            if (photoDir)
-                showPhoto(0);
-            else {
-                console.error("Dir not found", photoDir);
-                showNextPhoto(999, true);
-            }
-        } else
-            loadComplete();
     }
 }
 
@@ -84,13 +86,13 @@ function closeInfo() {
 
     $("#ls-info").scrollTop(0).hide();
 
-    $(".info-block").show();
-
     $("#ls-info .ph-hidden-content").hide();
     $placeholders.removeClass("ph-animate").show();
 
     $("#info-delete").hide();
     $("#info-edit").hide();
+
+    $(".info-block").show();
 
     $("#info-createdAt .info-content").html("");
     $("#info-updatedAt .info-content").html("");
@@ -110,31 +112,22 @@ function closeInfo() {
     $("#info-damages .info-content").html("");
     $("#info-damagesList .info-content").html("");
     $("#info-notes .info-content").html("");
-    $("#info-photo").html(" <div class='info-photo-ph placeholder'></div>");
+    $("#info-photo-preview").attr("src", "img/broken-img-placeholder-200.png");
 
-    infoData   = undefined;
-    infoPhotos = undefined;
-    photoError = false;
+    lsData = undefined;
 
 }
 
 
-function loadComplete() {
-    console.log("Load complete");
-    showInfo(infoData);
-    $placeholders.hide().removeClass("ph-animate");
-    $("#ls-info .ph-hidden-content").show();
-}
+function showInfo() {
 
-function showInfo(info) {
+    for (let key in lsData) {
 
-    for (let key in info) {
-
-        if (info.hasOwnProperty(key))
+        if (lsData.hasOwnProperty(key))
 
             $("#info-" + key + " .info-content").html(() => {
 
-                let val = info[key];
+                let val = lsData[key];
 
                 if (val === "")
                     return "-";
@@ -150,7 +143,7 @@ function showInfo(info) {
 
                     case "coordinatesAccuracy":
                     case "altitudeAccuracy":
-                        if (val === 0)
+                        if (val === 0 || val === null)
                             return i18n.t("info.unknown");
                         return val + " " + i18n.t("info.accuracyUnit");
 
@@ -217,57 +210,49 @@ function showInfo(info) {
             });
     }
 
+    // ToDo delete
+    if (!isCordova) {
+        $placeholders.hide().removeClass("ph-animate");
+        $("#ls-info .ph-hidden-content").show();
+        return;
+    }
+
+    showPhoto();
+
 }
 
 
-function showPhoto(idx) {
+function showPhoto() {
 
-    photoDir.getFile(infoPhotos[idx], { create: false }, file => {
+    findDirectories(
+        true,
+        photoDir => {
 
-            let dim = ($(window).width() - parseInt($infoPhotoContainer.css("padding-right")) * 2) / 100 * 30;
+            photoDir.getFile(lsData.photo, { create: false },
+                file => {
 
-            let $el = $("<div class='photo-thm-wrapper ph-hidden-content'>" +
-                "<img src='" + file.nativeURL + "' alt='Your photo' onclick='openInfoImgScreen($(this))'>" +
-                "</div>")
-                .height(dim);
+                    $("#info-photo-thm").attr("src", file.nativeURL);
+                    $placeholders.hide().removeClass("ph-animate");
+                    $("#ls-info .ph-hidden-content").show();
 
-            $infoPhotoContainer.append($el);
+                },
+                err => {
 
-            showNextPhoto(idx);
+                    $placeholders.hide().removeClass("ph-animate");
+                    $("#ls-info .ph-hidden-content").show();
+
+                    console.error("Error getting the photo", err);
+                    createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
+
+                }
+            );
 
         },
-        err => {
-            console.error("Error getting the photo", err);
-            showNextPhoto(idx, true);
+        () => {
+            createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
+            $placeholders.hide().removeClass("ph-animate");
+            $("#ls-info .ph-hidden-content").show();
         }
     );
 
 }
-
-function showNextPhoto(idx, err = false) {
-
-    if (err)
-        photoError = true;
-
-    if (idx < infoPhotos.length - 1) {
-        showPhoto(idx + 1);
-    } else {
-        console.log("Showing...", photoError);
-        photoError = false;
-        loadComplete();
-    }
-
-}
-
-function openInfoImgScreen($img) {
-
-    $("#img-screen-delete").hide();
-    $("#img-screen-edit").hide();
-
-    $("#img-screen-container img").attr("src", $img.attr("src"));
-
-    $("#img-screen").show();
-
-}
-
-

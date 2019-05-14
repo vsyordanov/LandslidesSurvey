@@ -30,6 +30,7 @@ const defaultLatLong = [45.464161, 9.190336],
       zoomLimit      = 15;
 
 let map,
+    markersLayer,
     positionMarker,
     accuracyCircle            = undefined,
     positionWatcherId         = undefined,
@@ -40,9 +41,11 @@ let map,
     currAltitudeAccuracy      = -999,
     isFirstPositionFound      = true,
     centerMap                 = true,
-    autoZoom                  = true;
+    autoZoom                  = true,
+    clusterClick              = false;
 
-let $gps = $("#map-control-gps");
+let $gps                = $("#map-control-gps"),
+    $findingPositionMsg = $("#finding-position-msg");
 
 
 /**
@@ -66,6 +69,14 @@ function initMap() {
         errorTileUrl: "img/errorTile.png"
     }).addTo(map);
 
+    markersLayer = L.markerClusterGroup();
+
+    markersLayer
+        .on("clusterclick", () => clusterClick = true)
+        .on("animationend", () => clusterClick = false);
+
+    map.addLayer(markersLayer);
+
     initAppMapUI();
 
     // If the map is dragged, free it
@@ -73,7 +84,7 @@ function initMap() {
 
     // When a zoom event starts, if it's not caused by an animation (autoZoom = false), free the map
     map.on("zoomstart", () => {
-        if (!autoZoom)
+        if (!autoZoom || clusterClick)
             freeMap();
     });
 
@@ -83,10 +94,15 @@ function initMap() {
     // This is needed because otherwise the fly animation performed when the GPS button is clicked will be interrupted
     // by onPositionSuccess
     map.on("moveend", () => {
+
+        if (clusterClick)
+            return;
+
         if (!centerMap && autoZoom) {
             centerMap = true;
             autoZoom  = false;
         }
+
     });
 
     // Set the map to be centered at the default position with the default zoom
@@ -96,7 +112,7 @@ function initMap() {
 
     // ToDo deleted
     if (!isCordova) {
-        //attachPositionWatcher();
+        // attachPositionWatcher();
         return;
     }
 
@@ -244,11 +260,22 @@ function initAppMapUI() {
     $(".leaflet-control-container").hide();
 
     $("#map-control-settings").click(() => {
-        isExpertMode = !isExpertMode;
-        logOrToast("Expert mode set to " + isExpertMode);
+        logOrToast("Feature blocked", "short");
+        // isExpertMode = !isExpertMode;
+        // logOrToast("Expert mode set to " + isExpertMode, "short");
     });
 
-    $("#map-control-sync").click(() => saveDb());
+    $("#map-control-sync").click(() => {
+
+        createAlertDialog(
+            i18n.t("dialogs.confirmDbSave"),
+            i18n.t("dialogs.btnNo"),
+            null,
+            i18n.t("dialogs.btnYes"),
+            () => saveDb()
+        );
+
+    });
 
     $gps.click(() => handleGPSButton());
 
@@ -404,7 +431,8 @@ function attachPositionWatcher() {
     if (isPositionWatcherAttached)
         return;
 
-    // ToDo handle the error?
+    $findingPositionMsg.show();
+
     positionWatcherId = navigator.geolocation.watchPosition(
         onPositionSuccess,
         err => console.error("Error finding the position", err),
@@ -455,8 +483,9 @@ function onPositionSuccess(pos) {
     currAltitude         = pos.coords.altitude;
     currAltitudeAccuracy = pos.coords.altitudeAccuracy;
 
-    // console.log("Position found: " + currLatLong[0] + ", " + currLatLong[1] + " " + currLatLongAccuracy);
     console.log("Position found");
+
+    $findingPositionMsg.hide();
 
     if (isFirstPositionFound) {
 
@@ -486,7 +515,11 @@ function onPositionSuccess(pos) {
  */
 function initPositionMarker() {
 
-    positionMarker = L.marker(defaultLatLong, { icon: positionMarkerIcon, draggable: true })
+    positionMarker = L.marker(defaultLatLong, {
+        icon        : positionMarkerIcon,
+        draggable   : true,
+        zIndexOffset: 1000
+    })
         .addTo(map)
         .on("dragstart",
             () => {

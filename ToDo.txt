@@ -3,6 +3,9 @@
     - località -> OSM nominatim x controllo incrociato con coordinate
 
 
+- Back arrow
+
+
 -foto:
 
     - 1 obbligatoria, fino a 3
@@ -12,11 +15,6 @@
     - inclinazione telefono (?)
 
 
-- Forzare GPS on
 
+- Mappa offline (cached tiles)
 
-- Alert vari
-
-
-- Aggiungere caricamento posizione?
-- Aggiungere messaggi su mappa

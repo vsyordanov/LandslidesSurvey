@@ -54,23 +54,20 @@ $top-bar-icon-margin : 8px;
       color : $color-text;
     }
 
+    #info-notes {
+      margin-bottom : 40px;
+    }
+
+    #info-photo {
+      margin-bottom : 40px;
+    }
+
     .info-list {
       margin     : 0;
       list-style : none;
       padding    : 0;
     }
 
-  }
-
-}
-
-#info-photo {
-  margin-bottom : 40px;
-
-  .info-photo-ph {
-    width         : 90%;
-    height        : 70px;
-    border-radius : 50px;
   }
 
 }

@@ -30,6 +30,10 @@
 <!-- Map -->
 <div id="map">
 
+    <div style="display: none" id="finding-position-msg">
+        <p data-i18n="map.positionFinding"></p>
+    </div>
+
     <div id="map-control-settings" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">settings</i>
     </div>
@@ -58,7 +62,7 @@
 
 
     <!-- Main screen -->
-    <div id="insert-ls-main" class="insert-ls-main">
+    <div id="insert-ls-main">
 
         <div class="top-bar">
 
@@ -75,6 +79,8 @@
         </div>
 
         <div class="custom-container requests-container">
+
+            <p class="required-fields" data-i18n="insert.mainScreen.requiredFields"></p>
 
             <!-- Ls type -->
             <div id="ls-type-request-wrapper" class="request">
@@ -220,9 +226,42 @@
 
             </div>
 
-        </div>
+            <!-- Photo -->
+            <div id="photo-request">
 
-        <div class="photo-container"></div>
+                <div class="request">
+
+                    <div class="request-icon-left"><i class="material-icons">photo_camera</i></div>
+
+                    <div class="request-content">
+
+                        <p class="request-name" data-i18n="insert.mainScreen.photoName"></p>
+
+                    </div>
+
+                </div>
+
+                <input style="display: none; position: absolute; top: 0; left: 0;"
+                       id="tmp-photo-input"
+                       type="file"
+                       accept=".png, .jpg, .jpeg">
+
+                <div class="photo-thm-wrapper">
+
+                    <div id="photo-thm" class="photo-thm-box">
+
+                        <i class="material-icons">add_a_photo</i>
+
+                        <img style="display: none" src="img/img-placeholder-200.png" alt="Your photo">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
 
     </div>
 
@@ -1591,12 +1630,25 @@
 
         </div>
 
+        <!-- Photo -->
+        <div id="info-photo">
 
-    </div>
+            <div class="photo-thm-wrapper">
 
-    <div id="info-photo" class="photo-container">
+                <div class="photo-thm-box">
 
-        <div class="info-photo-ph placeholder"></div>
+                    <div class="photo-thm-ph placeholder"></div>
+
+                    <img id="info-photo-thm"
+                         class="ph-hidden-content"
+                         src="img/broken-img-placeholder-200.png"
+                         alt="Your photo">
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -1612,11 +1664,11 @@
             <i id="img-screen-close" class="material-icons">arrow_back</i>
         </div>
 
-        <div class="icons-top-bar-icon icons-top-bar-right-icon-1">
+        <div style="display: none" class="icons-top-bar-icon icons-top-bar-right-icon-1">
             <i id="img-screen-edit" class="material-icons">edit</i>
         </div>
 
-        <div class="icons-top-bar-icon icons-top-bar-right-icon-2">
+        <div style="display: none" class="icons-top-bar-icon icons-top-bar-right-icon-2">
             <i id="img-screen-delete" class="material-icons">delete</i>
         </div>
 
@@ -1634,7 +1686,18 @@
 <!-- Alert dialog -->
 <div style="display: none" id="alert-dialog-overlay" class="opaque-overlay">
 
-    <div class="dialog-wrapper">
+    <div style="display: none" class="spinner-wrapper">
+
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+    </div>
+
+    <div style="display: none" class="dialog-wrapper">
 
         <div class="dialog">
 

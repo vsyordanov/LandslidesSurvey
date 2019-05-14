@@ -12,6 +12,23 @@ $map-control-second-row-margin : 12px;
   position : relative;
   width    : 100%;
 
+  #finding-position-msg {
+    width    : 100%;
+    position : absolute;
+    top      : 30px;
+    @include flex-center;
+    z-index  : $z-map-container;
+
+    p {
+      @include font(400, $font-body);
+      border-radius : 50px;
+      padding       : 8px 12px;
+      background    : rgba(53, 53, 53, 0.61);
+      color         : #FFFFFF;
+    }
+
+  }
+
   .leaflet-control-attribution.leaflet-control {
     display : none;
   }

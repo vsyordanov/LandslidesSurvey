@@ -18,6 +18,13 @@ $dialog-width : 280px;
 #alert-dialog-overlay {
   z-index    : $z-alert-overlay;
   background : rgba(0, 0, 0, .4);
+
+  .spinner-wrapper {
+    width  : 100%;
+    height : 100%;
+    @include flex-center
+  }
+
 }
 
 
@@ -85,6 +92,11 @@ $dialog-width : 280px;
       height     : 52px;
       margin-top : 28px;
       padding    : 8px;
+      color      : $color-main;
+
+      div:first-child {
+        color : #000000;
+      }
 
       .text-button {
         @include font(500, $font-body-small);
@@ -95,7 +107,6 @@ $dialog-width : 280px;
         cursor         : pointer;
         text-align     : center;
         text-transform : uppercase;
-        color          : $color-main;
       }
 
     }

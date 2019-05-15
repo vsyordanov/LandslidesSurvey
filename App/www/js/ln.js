@@ -33,7 +33,7 @@ let ln = {
                 error => console.log(error)
             );
         } else {
-            i18n.setLng("en", () => $("body").i18n());
+            i18n.setLng("it", () => $("body").i18n());
             init();
         }
 

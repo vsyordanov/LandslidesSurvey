@@ -261,7 +261,7 @@ function getLandslides() {
 
 }
 
-// ToDo marker cluster
+
 function showLandslide(id, coordinates) {
 
     let marker = L.marker(
@@ -495,6 +495,7 @@ function closeLoader() {
 
 function logOrToast(msg, duration) {
 
+    // ToDo delete
     if (!isCordova) {
         console.log(msg);
         return;

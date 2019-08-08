@@ -1,0 +1,158 @@
+/* AUTH */
+
+$footer-height : 57px;
+$register-top-text-margin : 35px;
+$register-top-text-height : $font-title + (2 * $register-top-text-margin);
+
+
+.auth-page {
+  @extend %full-page;
+  background : linear-gradient(135deg, #FFFFFF 0%, $color-gradient 100%);
+  z-index    : $z-auth;
+
+  .form-wrapper {
+    width      : 100%;
+    overflow-y : auto;
+  }
+
+  .auth-footer {
+    width      : 100%;
+    height     : $footer-height;
+    position   : fixed;
+    bottom     : 0;
+    border-top : 1px solid #CFCFCF;
+    @include flex-center;
+    color      : #858585;
+    @include font(400, $font-body);
+
+    .link {
+      color          : #000000;
+      text-transform : uppercase;
+      cursor         : pointer;
+      @include font(500, $font-body);
+    }
+
+  }
+
+}
+
+.auth-go-back {
+  margin-top : 20px;
+  text-align : center;
+  color      : #858585;
+  cursor     : pointer;
+}
+
+
+#page--log-in {
+  padding-top : 50px;
+
+  .logo-wrapper {
+    width : 100%;
+    @include flex-display(row, center);
+
+    .logo {
+      width         : 120px;
+      height        : 120px;
+      border        : 1px solid #858585;
+      border-radius : 50%;
+      overflow      : hidden;
+      @include flex-center;
+
+      span {
+        @include font(500, $font-title);
+        text-transform : uppercase;
+        color          : #000000;
+      }
+
+    }
+
+  }
+
+  .form-container {
+    margin-top : 50px;
+
+    .forgot-password {
+      margin-top : 10px;
+      text-align : center;
+      cursor     : pointer;
+    }
+
+    .fab-extended {
+      margin-top : 36px;
+    }
+
+  }
+
+}
+
+
+#page--register-disclaimer {
+  @extend %full-page;
+  z-index : $z-auth;
+
+  .custom-container {
+    padding : 50px 16px 40px 16px;
+  }
+
+  .disclaimer-top-text {
+    width          : 100%;
+    @include flex-center;
+    margin-bottom  : 30px;
+    @include font(700, $font-title);
+    color          : $color-main-dark;
+    text-transform : uppercase;
+  }
+
+  .disclaimer-text {
+    text-align : justify;
+
+    p {
+      margin-bottom : 15px;
+
+      &:last-child { margin-bottom : 0 }
+
+    }
+
+  }
+
+  .fab-extended { margin-top : 40px }
+
+}
+
+#page--register {
+
+  .form-wrapper { height : calc(100% - #{$footer-height} - #{$register-top-text-height}) }
+
+  .register-top-text {
+    @include font(500, $font-title);
+    line-height : $font-title;
+    color       : #000000;
+    text-align  : center;
+    margin      : $register-top-text-margin 0;
+  }
+
+  .form-container {
+    padding-bottom : 20px;
+
+    .required-fields {
+      margin-bottom : 10px;
+      @include font(400, $font-body-small);
+      color         : #949494;
+    }
+
+    .checkbox {
+      margin-top   : 4px;
+      padding-left : 16px;
+    }
+
+    #rescuer-info {
+      margin-left   : 16px;
+      margin-bottom : 0;
+    }
+
+    #btn--register-done { margin-top : 30px }
+
+  }
+
+}

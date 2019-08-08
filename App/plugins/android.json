@@ -7,13 +7,7 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
-    },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
-    },
-    "cordova-plugin-dialogs": {
       "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
     },
     "cordova-plugin-geolocation": {
@@ -36,6 +30,13 @@
     },
     "cordova.plugins.diagnostic": {
       "ANDROID_SUPPORT_VERSION": "28.+",
+      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
+    },
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
+    },
+    "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "polimi.epessina.mhyconosapp"
     }
   },

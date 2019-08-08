@@ -1,0 +1,37 @@
+@import "1-helpers/variables";
+@import "1-helpers/vendor";
+@import "1-helpers/typography";
+@import "1-helpers/mixins";
+@import "2-base/normalize";
+@import "2-base/common";
+
+.container {
+  width   : 100%;
+  padding : 0 24px;
+  @include vendor("display", "flex");
+  @include vendor("flex-direction", "column");
+  @include vendor("align-items", "center");
+
+  svg {
+    width      : 100px;
+    height     : 100px;
+    margin-top : 50px;
+
+    &.error {
+      fill : #BD0000;
+    }
+
+    &.success {
+      fill : #239400;
+    }
+
+  }
+
+  .message {
+    margin-top : 50px;
+    @include font(500, 25px);
+    color      : #000000;
+    text-align : center;
+  }
+
+}

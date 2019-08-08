@@ -1,0 +1,339 @@
+{
+  "messages" : {
+    "confirmEmailResendSuccess" : "A new confirmation email has been sent to your account.",
+    "mandatoryEmail" : "You must provide a valid email address",
+    "weakPassword" : "Password must be at least 8 characters long and must contain at least one number.",
+    "weakNewPassword" : "New password must be at least 8 characters long and must contain at least one number.",
+    "passwordsNotMatch" : "The passwords don't match.",
+    "insertOldPassword" : "Please, insert your old password.",
+    "samePassword" : "New password must be different.",
+    "mandatoryName" : "You must provide a name.",
+    "validCredentials" : "Please provide valid credentials.",
+    "backPressed": "Press again to leave",
+    "saveDbComplete": "Local database saving successfully completed!",
+    "mandatoryLsType": "You must specify the landslide type.",
+    "mandatoryPhoto": "You must provide a photo of the landslide.",
+    "mandatoryOption": "You must select an option.",
+    "mandatoryMonitoringFields": "You must select an option for both the type and the status.",
+    "mandatoryDamageOther": "You must specify the damaged object.",
+    "register409" : "This email is already in use.",
+    "register422" : "Entered data is incorrect.",
+    "login401" : "Wrong email or password."
+  },
+  "dialogs" : {
+    "title401" : "Unauthorized!",
+    "title403" : "Forbidden!",
+    "title404" : "Not Found!",
+    "title500" : "Internal Error!",
+    "openLocalDbError": "An error occurred while opening the local database.",
+    "createLocalDbError": "An error occurred while creating the local database.",
+    "directoryError": "An error occurred while retrieving or creating the application's directory.",
+    "deleteLocalPhotoError": "An error occurred while deleting the photo from the local database.",
+    "deleteLocalLsError": "An error occurred while deleting the landslide form the local database.",
+    "deleteConfirmation": "Are you sure you want to delete this landslide?",
+    "getLocalLsError": "An error occurred while retrieving the landslides data form the local database.",
+    "confirmDbSave": "You should save the database only if you have finished mapping. Proceed?",
+    "saveDbError": "An error occurred while saving the local database.",
+    "register500" : "Something went wrong on the server during the registration. Please, try again later.",
+    "resendConfEmail404" : "This email is not registered.",
+    "titleResendConfEmail409" : "Already verified!.",
+    "resendConfEmail409" : "This user has been already verified.",
+    "resendConfEmail500" : "Something went wrong on the server while sending the email. Please, try again later",
+    "resetPw404" : "This email is not registered.",
+    "resetPw500" : "Something went wrong on the server while resetting your password. Please, try again later",
+    "login500" : "Something went wrong on the server during the login. Please, try again later.",
+    "btnYes": "Yes",
+    "btnNo": "No",
+    "btnCancel" : "cancel",
+    "btnOk" : "ok",
+    "map": {
+      "permissionsCheckError": "An error occurred while checking the location permissions.",
+      "permissionsRequestError": "An error occurred while requesting the location permissions.",
+      "cannotRequestPermissions": "The application cannot request the location permissions again. Please, enable them manually from the settings.",
+      "gpsOff": "Your GPS seems to be turned off. Please, turn it on or drag the marker to your current position.",
+      "gpsCheckError": "An error occurred while checking the GPS status."
+    },
+    "insert": {
+      "positionAlert": "The position that will be used for the landslide is your current one. It will not be updated while you insert the data. TO change the position you have to close this window.",
+      "confirmClose": "Discard the changes you made?",
+      "movePictureError": "An error occurred while moving the picture to the application's directory.",
+      "moveNewPictureError": "An error occurred while moving the new picture to the application's directory.",
+      "deleteOldPictureError": "An error occurred while deleting the old picture form the application's directory.",
+      "insertError": "An error occurred while saving the data.",
+      "pictureError": "An error occurred while taking the picture.",
+      "putLocalError": "An error occurred while editing the data.",
+      "btnKeepEditing": "Keep editing",
+      "btnDiscard": "Discard"
+    },
+    "info": {
+      "getLocalLsError": "An error occurred while getting the data form the local db.",
+      "getLocalPhotoError": "An error occurred while retrieving the photo from the local memory."
+    },
+    "photoScreen": {
+      "deletePictureConfirmation": "Are you sure you want to delete the photo?"
+    }
+  },
+  "auth" : {
+    "login" : {
+      "emailPh" : "Email address",
+      "passwordPh" : "Password",
+      "forgotPassword" : "Forgot your password?",
+      "btnLogin" : "Login",
+      "noAccount" : "Don't have an account?",
+      "signUp" : "sign up",
+      "notVerifiedTitle" : "Email not verified!",
+      "notVerifiedMessage" : "Please, verify your email address.",
+      "resendEmailLink" : "Resend the email",
+      "resendEmailSuccessTitle" : "Email successfully sent!",
+      "resetPassword" : {
+        "topBarTitle" : "Reset your password",
+        "emailPh" : "Email",
+        "successTitle" : "Email sent!",
+        "successMessage" : "An email has been sent to your account. Please, follow the instructions in it to reset your password."
+      }
+    },
+    "register" : {
+      "disclaimerTopText" : "Disclaimer",
+      "btnDisclaimer" : "Accept",
+      "topText" : "- Sign up -",
+      "requiredFields" : "* Indicates a required field",
+      "emailPh" : "Email address *",
+      "passwordPh" : "Password *",
+      "confirmPasswordPh" : "Confirm password *",
+      "namePh" : "Name and surname *",
+      "nameInfo" : "Provide your real name and surname or you will not receive any point.",
+      "ageEnum" : {
+        "none" : "-",
+        "less15" : "Less than 15",
+        "16-20" : "From 16 to 20",
+        "21-25" : "From 21 to 25",
+        "26-30" : "From 26 to 30",
+        "31-35" : "From 31 to 35",
+        "36-40" : "From 36 to 40",
+        "41-45" : "From 41 to 45",
+        "46-50" : "From 46 to 50",
+        "51-55" : "From 51 to 55",
+        "56-60" : "From 56 to 60",
+        "61-65" : "From 61 to 65",
+        "66-70" : "From 66 to 70",
+        "more70" : "More than 70"
+      },
+      "genderEnum" : {
+        "none" : "-",
+        "male" : "Male",
+        "female" : "Female",
+        "other" : "Other"
+      },
+      "occupationEnum" : {
+        "none" : "-",
+        "student" : "Student",
+        "employee" : "Employee",
+        "freelancer" : "Freelancer",
+        "unemployed" : "Unemployed",
+        "retiree" : "Retiree"
+      },
+      "rescuer" : "Are you a rescuer?",
+      "rescuerExplanation" : "Some explanation...",
+      "btnNext" : "Next",
+      "btnRegister" : "Register",
+      "goBack" : "Go back",
+      "haveAccount" : "Already have an account? ",
+      "login" : "Log in",
+      "successTitle" : "Registration success!",
+      "successMessage" : "An email has been send to your address (it may be in the spam folder). Please, click on the link in the message to activate your account."
+    }
+  },
+  "map" : {
+    "fabText" : "New landslide",
+    "positionFinding": "Finding your position..."
+  },
+  "insert" : {
+    "defaultSelectorLabel" : "Select an option",
+    "mainScreen" : {
+      "topBarTitle" : "New landslide",
+      "requiredFields": "* Indicates a required field",
+      "photoName": "Photo*"
+    },
+    "lsType" : {
+      "name" : "Type of landslide*",
+      "defaultText" : "Specify the type of the landslide",
+      "topBarTitle" : "Type of landslide",
+      "enum" : {
+        "rockfall" : "Rockfall",
+        "toppling" : "Toppling",
+        "rotationalSlide" : "Rotational slide",
+        "planarSlide" : "Planar slide",
+        "debrisFlow" : "Debris flow",
+        "earthFlow" : "Earth flow",
+        "complexLandslide" : "Complex landslide",
+        "other" : "Other"
+      }
+    },
+    "materialType" : {
+      "name" : "Type of material",
+      "defaultText" : "Specify the type of the material",
+      "questionMaterial" : "Specify the type of the material",
+      "enum" : {
+        "rock" : "Rock",
+        "debris" : "Debris",
+        "dirt" : "Dirt",
+        "mixed" : "Mixed",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "hillPosition" : {
+      "name" : "Position along the hill",
+      "defaultText" : "Specify the position of the landslide",
+      "questionPosition" : "Specify the position of the landslide",
+      "enum" : {
+        "atTheTop" : "At the top",
+        "uphill" : "Uphill",
+        "midslope" : "Midslope",
+        "downhill" : "Downhill",
+        "inTheValley" : "In the valley"
+      }
+    },
+    "water" : {
+      "name" : "Presence of water",
+      "defaultText" : "Evaluate the presence of water",
+      "questionWater" : "Evaluate the presence of water",
+      "enum" : {
+        "dry" : "Dry",
+        "humid" : "Humid",
+        "wet" : "Wet",
+        "veryWet" : "Very wet",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "vegetation" : {
+      "name" : "Presence of vegetation",
+      "defaultText" : "Evaluate the presence of vegetation",
+      "questionVegetation" : "Evaluate the presence of vegetation",
+      "enum" : {
+        "grass" : "Grass",
+        "lowGrowingPlants" : "Low-growing plants",
+        "trees" : "Trees",
+        "mixed" : "Mixed",
+        "absent" : "Absent"
+      }
+    },
+    "mitigation" : {
+      "name" : "Mitigation measures",
+      "defaultText" : "Evaluate the mitigation measures",
+      "editText" : "Edit the mitigation measures",
+      "topBarTitle" : "Mitigation measures",
+      "questionMitigation" : "Is there any mitigation measure?",
+      "questionSpecify" : "Specify the mitigation measure(s)",
+      "add" : "Add a mitigation measure",
+      "questionType" : "Type of the mitigation work",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "retainingWall" : "Retaining wall",
+        "gabions" : "Gabions",
+        "anchorage" : "Anchorage",
+        "rockfallBarriers" : "Rockfall barriers",
+        "spritzBeton" : "Spritz beton",
+        "frictionNets" : "Friction nets",
+        "drains" : "Drains",
+        "geogrids" : "Geogrids"
+      }
+    },
+    "monitoring" : {
+      "name" : "Monitoring systems",
+      "defaultText" : "Evaluate the monitoring systems",
+      "editText" : "Edit the monitoring systems",
+      "topBarTitle" : "Monitoring systems",
+      "questionMonitoring" : "Is there any monitoring system?",
+      "questionSpecify" : "Specify the monitoring system(s)",
+      "add" : "Add a monitoring system",
+      "questionType" : "Type of the monitoring system",
+      "questionStatus" : "Status of the monitoring system",
+      "type" : "Type",
+      "status" : "Status",
+      "enum" : {
+        "yes" : "Yes",
+        "no" : "No",
+        "spy": "Spy",
+        "grid": "Grid",
+        "inclinometer" : "Inclinometer",
+        "externsometer" : "Externsometer",
+        "distometer" : "Distometer",
+        "topographicInstruments" : "Topographic instruments",
+        "GPS" : "GPS",
+        "interferometricRadar" : "Interferometric radar",
+        "videoSurveillance" : "Video surveillance",
+        "laserScanning": "Laser scanning",
+        "functioning" : "Functioning",
+        "partiallyDamaged" : "Partially damaged",
+        "damaged" : "Damaged",
+        "cannotDetermine" : "Cannot determine"
+      }
+    },
+    "damages" : {
+      "name" : "Damages",
+      "defaultText" : "Evaluate the damages",
+      "editText" : "Edit the damages",
+      "topBarTitle" : "Damages",
+      "questionDamage" : "What kind of damage did the landslide caused?",
+      "questionSpecify" : "Specify the damaged object(s)",
+      "add" : "Add a damaged object",
+      "questionType" : "Type of the damaged object",
+      "specify" : "Specify...",
+      "enum" : {
+        "noDamage" : "No damage",
+        "directDamage" : "Direct damage",
+        "obstructionWaterCourse" : "Obstruction of water course",
+        "collapsedBankDam" : "Collapsed bank or dam",
+        "cannotDetermine" : "Cannot determine",
+        "defenceStructure" : "Defence structure",
+        "road" : "Road",
+        "bridge" : "Bridge",
+        "hikingPath" : "Hiking path",
+        "house" : "House",
+        "building" : "Building",
+        "agriculturalBuilding" : "Agricultural building",
+        "movableProperty" : "Movable property",
+        "culturalHeritage" : "Cultural heritage",
+        "utilityPole" : "Utility pole",
+        "other" : "Other"
+      }
+    },
+    "notes" : {
+      "name" : "Additional notes",
+      "defaultText" : "Add additional notes",
+      "editText" : "Edit your additional notes",
+      "topBarTitle" : "Additional notes",
+      "questionNotes" : "Additional notes",
+      "notesPlaceholder" : "Max 500 characters..."
+    }
+  },
+  "info" : {
+    "creationDate" : "Creation date",
+    "lastModified" : "Last modified",
+    "coordinates" : "Coordinates (WGS 84)",
+    "coordinatesAccuracy" : "Coordinates accuracy",
+    "altitude" : "Altitude",
+    "altitudeAccuracy" : "Altitude accuracy",
+    "lsType" : "Landslide type",
+    "materialType" : "Material type",
+    "hillPosition" : "Position on the hill",
+    "water" : "Water presence",
+    "vegetation" : "Vegetation presence",
+    "mitigation" : "Mitigation measures",
+    "mitigationsList" : "List of mitigation measures",
+    "monitoring" : "Monitoring systems",
+    "monitoringList" : "List of monitoring systems",
+    "damages" : "Damages",
+    "damagesList" : "List of damaged structures",
+    "notes" : "Notes",
+    "unknown" : "Unknown",
+    "accuracyUnit" : "m",
+    "altitudeUnit" : "m a.s.l."
+  },
+  "selectors" : {
+    "register-ageDefLabel" : "Age",
+    "register-genderDefLabel" : "Gender",
+    "register-occupationDefLabel" : "Occupation"
+  }
+}

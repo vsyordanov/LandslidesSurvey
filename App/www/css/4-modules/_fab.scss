@@ -1,6 +1,5 @@
 /* FLOATING ACTION BUTTON */
 
-
 %fab-base {
   width         : $fab-size;
   height        : $fab-size;
@@ -15,11 +14,10 @@
     width  : $icon-size;
     height : $icon-size;
   }
+
 }
 
-.fab {
-  @extend %fab-base;
-}
+.fab { @extend %fab-base }
 
 .fab-extended {
   @extend %fab-base;
@@ -28,7 +26,11 @@
   margin         : 0 auto;
   text-transform : uppercase;
 
-  .fab-extended-text {
-    @include font(700, $font-body);
+  &.fab-extended-flex {
+    width      : 100%;
+    box-shadow : 0 0 0 0;
   }
+
+  .fab-extended-text { @include font(700, $font-body) }
+
 }

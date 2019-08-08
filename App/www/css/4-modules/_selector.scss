@@ -1,23 +1,15 @@
 /* SELECTOR */
 
-
 .custom-selector-box {
   width  : 100%;
+  height : 100%;
   cursor : pointer;
 
-  .select,
-  .label {
-    @include font(400, $font-body);
-    display : block;
-    color   : #414141;
-  }
-
-  .select {
+  select {
     position   : absolute;
     top        : 0;
     width      : 100%;
-    height     : 40px;
-    padding    : 5px 0;
+    height     : 100%;
     opacity    : 0;
     border     : 0 none;
     background : none transparent;
@@ -25,26 +17,77 @@
     &:focus {
       outline : none;
     }
-
   }
 
-  .custom-selector {
-    border        : 1px solid $color-main;
-    border-radius : 5px;
-  }
+  label {
+    width         : 100%;
+    height        : 100%;
+    padding       : 0;
+    border        : 0 none;
+    border-radius : 0;
+    @include vendor("display", "flex");
+    @include vendor("align-items", "center");
 
-  .label {
-    height  : 40px;
-    margin  : 0;
-    padding : 9px 0 10px 10px;
-    cursor  : pointer;
-  }
+    .label-description {
+      padding-left : 16px;
+      @include vendor("flex", "1");
+    }
 
-  .label-icon {
-    position : absolute;
-    top      : 0;
-    right    : 0;
-    margin   : 7px 16px 0 0;
+    i {
+      @include flex-static-size($icon-size);
+      position : relative;
+      padding  : 0 25px 0 10px;
+      margin   : 0;
+    }
+
   }
 
 }
+
+//.custom-selector-box {
+//  width  : 100%;
+//  cursor : pointer;
+//
+//  .select,
+//  .label {
+//    @include font(400, $font-body);
+//    display : block;
+//    color   : #414141;
+//  }
+//
+//  .select {
+//    position   : absolute;
+//    top        : 0;
+//    width      : 100%;
+//    height     : 40px;
+//    padding    : 5px 0;
+//    opacity    : 0;
+//    border     : 0 none;
+//    background : none transparent;
+//
+//    &:focus {
+//      outline : none;
+//    }
+//
+//  }
+//
+//  .custom-selector {
+//    border        : 1px solid $color-main;
+//    border-radius : 5px;
+//  }
+//
+//  .label {
+//    height  : 40px;
+//    margin  : 0;
+//    padding : 9px 0 10px 10px;
+//    cursor  : pointer;
+//  }
+//
+//  .label-icon {
+//    position : absolute;
+//    top      : 0;
+//    right    : 0;
+//    margin   : 7px 16px 0 0;
+//  }
+//
+//}

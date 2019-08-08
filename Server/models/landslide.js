@@ -1,33 +1,5 @@
 "use strict";
 
-/**
- * _id: String,
- * createdAt: String,
- * UpdatedAt: String,
- * user: {Object},
- * markedForDeletion: Boolean,
- * checked: Boolean,
- * expert: Boolean
- * coordinates: [Float, Float],
- * coordinatesAccuracy: Float,
- * altitude: Float,
- * altitudeAccuracy: Float,
- * lsType: String,
- * materialType: String,
- * hillPosition: String,
- * water: String,
- * vegetation: String,
- * mitigation: String,
- * mitigationsList: [{type: String}],
- * monitoring: String,
- * monitoringList: [{type: String, status: String}],
- * damages: String,
- * damagesList: [{type: String, specification: String ?}],
- * notes: String
- * imageUrl: String
- *
- */
-
 const mongoose = require("mongoose"),
       Schema   = mongoose.Schema;
 

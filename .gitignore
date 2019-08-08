@@ -1,3 +1,7 @@
+### Ignore settings/env variables files ###
+nodemon.json
+settings.js
+
 ### Cordova ###
 # gitignore template for the Cordova framework
 # website: https://cordova.apache.org/

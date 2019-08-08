@@ -1,46 +1,74 @@
 "use strict";
 
-const path = require("path");
+// Import the built in modules
+const path = require("path"),
+      fs   = require("fs");
 
+// Import the third-party modules
 const express    = require("express"),
       bodyParser = require("body-parser"),
       mongoose   = require("mongoose"),
       multer     = require("multer"),
-      uuidv4     = require("uuid/v4");
+      uuidv4     = require("uuid/v4"),
+      helmet     = require("helmet"),
+      morgan     = require("morgan");
 
-const settings            = require("./settings"),
+// Import the routes
+const authRoutes      = require("./routes/auth"),
       landslideRoutes = require("./routes/landslide");
 
+// Initialize express
 const app = express();
 
 
-// Multer config
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, "images"),
-    filename   : (req, file, cb) => cb(null, uuidv4())
-});
-
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg")
-        cb(null, true);
-    else
-        cb(null, false);
-};
+// Use helmet to set secure response headers
+app.use(helmet());
 
 
-// Parse for application/json
+// Configure the logs location
+const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
+
+// Use morgan for request logging
+app.use(morgan("combined", { stream: accessLogStream }));
+
+
+// Use BodyParser to parse for application/json
 app.use(bodyParser.json());
 
-// Use multer to upload images
-app.use(
-    multer({
-        storage   : fileStorage,
-        fileFilter: fileFilter
-    }).single("image")
-);
+
+// Define the static file storage
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, "images"), // Save the images in folder "images"
+    filename   : (req, file, cb) => cb(null, uuidv4())  // Save each new image with a random name
+});
+
+// Define a file filter to only save images (.png, .jpg or .jpeg)
+const fileFilter = (req, file, cb) => {
+
+    if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg")
+        cb(null, true);
+
+    else
+        cb(null, false);
+
+};
+
+// Configure multer to save images
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"));
 
 // Serve statically the images form the "images" folder
 app.use("/images", express.static(path.join(__dirname, "images")));
+
+
+// Set ejs as template engine
+app.set("view engine", "ejs");
+
+// Set the location of the views
+app.set("views", "views");
+
+// Serve statically the files form the "public" folder
+app.use(express.static(path.join(__dirname, "public")));
+
 
 // Set headers for CORS
 app.use((req, res, next) => {
@@ -53,11 +81,13 @@ app.use((req, res, next) => {
 
 });
 
-app.use("/", (req, res) => res.send("LandslideSurvey server"));
 
+// Use the routes
+app.use("/auth", authRoutes);
 app.use("/landslide", landslideRoutes);
 
-// Error handling middleware
+
+// Define a middleware to handle errors
 app.use((error, req, res, next) => {
 
     const status  = error.statusCode || 500,
@@ -69,13 +99,8 @@ app.use((error, req, res, next) => {
 });
 
 
-mongoose.connect(settings.mongoURL, { useNewUrlParser: true })
-    .then(result => {
-        let port = process.env.PORT;
-
-        if (port == null || port == "")
-            port = 8081;
-
-        app.listen(port);
-    })
-    .catch(err => console.log(err));
+// Connect to the database and start the server
+mongoose
+    .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true })
+    .then(() => app.listen(process.env.PORT || 8080))
+    .catch(err => console.error(err));

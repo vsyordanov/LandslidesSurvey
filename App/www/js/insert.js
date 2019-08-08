@@ -2,6 +2,8 @@
 
 let ls = null;
 
+let savedCoords, savedCoordsAccuracy, savedAltitude, savedAltitudeAccuracy;
+
 let lsType            = "",
     materialType      = "",
     hillPosition      = "",
@@ -43,119 +45,114 @@ function initInsert() {
 }
 
 function openInsert(data = null) {
+    ls = data;
 
-    if (data) {
+    if (ls)
+        openPut();
+    else
+        openPost();
+}
 
-        ls             = data;
-        lsType         = ls.lsType;
-        materialType   = ls.materialType;
-        hillPosition   = ls.hillPosition;
-        water          = ls.water;
-        vegetation     = ls.vegetation;
-        mitigation     = ls.mitigation;
-        mitigationList = ls.mitigationsList;
-        monitoring     = ls.monitoring;
-        monitoringList = ls.monitoringList;
-        damages        = ls.damages;
-        damagesList    = ls.damagesList;
-        notes          = ls.notes;
-        photo          = ls.photo;
+function openPost() {
 
-        $("#ls-type-text").html(i18n.t("insert.lsType.enum." + lsType));
+    toggleExpertView(isExpertMode);
+    $("#insert-ls").show();
 
-        if (materialType !== "") $("#material-type-text").html(i18n.t("insert.materialType.enum." + materialType));
-        if (hillPosition !== "") $("#hill-position-text").html(i18n.t("insert.hillPosition.enum." + hillPosition));
-        if (water !== "") $("#water-text").html(i18n.t("insert.water.enum." + water));
-        if (vegetation !== "") $("#vegetation-text").html(i18n.t("insert.vegetation.enum." + vegetation));
-        if (mitigation !== "") $("#mitigation-text").html(i18n.t("insert.mitigation.enum." + mitigation));
-        if (monitoring !== "") $("#monitoring-text").html(i18n.t("insert.monitoring.enum." + monitoring));
-        if (damages !== "") $("#damages-text").html(i18n.t("insert.damages.enum." + damages));
-        if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.editText"));
+    createAlertDialog(
+        i18n.t("dialogs.insert.positionAlert"),
+        i18n.t("dialogs.btnOk")
+    );
 
-        // ToDo delete
-        if (!isCordova) {
-            $photoThm
-                .find("img")
-                .attr("src", "img/broken-img-placeholder-200.png")
-                .show();
+    savedCoords           = currLatLong;
+    savedCoordsAccuracy   = currLatLongAccuracy;
+    savedAltitude         = currAltitude;
+    savedAltitudeAccuracy = currAltitudeAccuracy;
+}
 
-            $photoThm
-                .find("i")
-                .hide();
+function openPut() {
+
+    lsType         = ls.lsType;
+    materialType   = ls.materialType;
+    hillPosition   = ls.hillPosition;
+    water          = ls.water;
+    vegetation     = ls.vegetation;
+    mitigation     = ls.mitigation;
+    mitigationList = ls.mitigationsList;
+    monitoring     = ls.monitoring;
+    monitoringList = ls.monitoringList;
+    damages        = ls.damages;
+    damagesList    = ls.damagesList;
+    notes          = ls.notes;
+    photo          = ls.photo;
+
+    $("#ls-type-text").html(i18n.t("insert.lsType.enum." + lsType));
+
+    if (materialType !== "") $("#material-type-text").html(i18n.t("insert.materialType.enum." + materialType));
+    if (hillPosition !== "") $("#hill-position-text").html(i18n.t("insert.hillPosition.enum." + hillPosition));
+    if (water !== "") $("#water-text").html(i18n.t("insert.water.enum." + water));
+    if (vegetation !== "") $("#vegetation-text").html(i18n.t("insert.vegetation.enum." + vegetation));
+    if (mitigation !== "") $("#mitigation-text").html(i18n.t("insert.mitigation.enum." + mitigation));
+    if (monitoring !== "") $("#monitoring-text").html(i18n.t("insert.monitoring.enum." + monitoring));
+    if (damages !== "") $("#damages-text").html(i18n.t("insert.damages.enum." + damages));
+    if (notes !== "") $("#notes-text").html(i18n.t("insert.notes.editText"));
+
+    // ToDo delete
+    if (!isCordova) {
+        $photoThm
+            .find("img")
+            .attr("src", "img/broken-img-placeholder-200.png")
+            .show();
+
+        $photoThm
+            .find("i")
+            .hide();
+
+        toggleExpertView(ls.expert);
+        $("#insert-ls").show();
+
+        return;
+    }
+
+    findDirectories(
+        true,
+        photoDir => {
+
+            photoDir.getFile(photo, { create: false },
+                file => {
+                    $photoThm.find("img").attr("src", file.nativeURL).show();
+                    $photoThm.find("i").hide();
+
+                    toggleExpertView(ls.expert);
+                    $("#insert-ls").show();
+                    closeInfo();
+                },
+                err => {
+                    photo = "";
+
+                    $photoThm.find("img").show();
+                    $photoThm.find("i").hide();
+
+                    toggleExpertView(ls.expert);
+                    $("#insert-ls").show();
+                    closeInfo();
+
+                    console.error("Error getting the photo", err);
+                    createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
+                }
+            );
+        },
+        () => {
+            photo = "";
+
+            $photoThm.find("img").show();
+            $photoThm.find("i").hide();
 
             toggleExpertView(ls.expert);
             $("#insert-ls").show();
-
-            return;
+            closeInfo();
+            createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
         }
-
-        findDirectories(
-            true,
-            photoDir => {
-
-                photoDir.getFile(photo, { create: false },
-                    file => {
-
-                        $photoThm
-                            .find("img")
-                            .attr("src", file.nativeURL)
-                            .show();
-
-                        $photoThm
-                            .find("i")
-                            .hide();
-
-                        toggleExpertView(ls.expert);
-                        $("#insert-ls").show();
-                        closeInfo();
-
-                    },
-                    err => {
-
-                        photo = "";
-
-                        $photoThm
-                            .find("img")
-                            .show();
-
-                        $photoThm
-                            .find("i")
-                            .hide();
-
-                        toggleExpertView(ls.expert);
-                        $("#insert-ls").show();
-                        closeInfo();
-
-                        console.error("Error getting the photo", err);
-                        createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
-
-                    }
-                );
-
-            },
-            () => {
-
-                photo = "";
-
-                $photoThm
-                    .find("img")
-                    .show();
-
-                $photoThm
-                    .find("i")
-                    .hide();
-
-                toggleExpertView(ls.expert);
-                $("#insert-ls").show();
-                closeInfo();
-                createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
-            }
-        );
-
-    } else {
-        toggleExpertView(isExpertMode);
-        $("#insert-ls").show();
-    }
+    );
 
 }
 
@@ -193,7 +190,6 @@ function closeInsert() {
 function initMainPage() {
 
     $("#new-ls-close").click(() => {
-
         createAlertDialog(
             i18n.t("dialogs.insert.confirmClose"),
             i18n.t("dialogs.insert.btnKeepEditing"),
@@ -205,7 +201,6 @@ function initMainPage() {
                 closeInsert();
             }
         );
-
     });
 
     $("#new-ls-done").click(() => {
@@ -554,7 +549,7 @@ function putLandslide() {
 
                 deleteImage(
                     oldImage,
-                    () => console.log("Old photo deleted") ,
+                    () => console.log("Old photo deleted"),
                     () => createAlertDialog(i18n.t("dialogs.deleteOldPictureError"), i18n.t("dialogs.btnOk"))
                 );
 

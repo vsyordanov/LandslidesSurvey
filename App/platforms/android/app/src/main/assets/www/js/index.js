@@ -78,7 +78,7 @@ function init() {
             () => {
 
                 if (backPressedCount === 0) {
-                    logOrToast("Press again to leave", "short");
+                    logOrToast(i18n.t("messages.backPressed"), "short");
                     backPressedCount++;
                     setInterval(() => backPressedCount = 0, 2000);
                 } else
@@ -261,7 +261,7 @@ function getLandslides() {
 
 }
 
-// ToDo marker cluster
+
 function showLandslide(id, coordinates) {
 
     let marker = L.marker(
@@ -495,6 +495,7 @@ function closeLoader() {
 
 function logOrToast(msg, duration) {
 
+    // ToDo delete
     if (!isCordova) {
         console.log(msg);
         return;

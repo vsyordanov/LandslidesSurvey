@@ -78,7 +78,7 @@ function init() {
             () => {
 
                 if (backPressedCount === 0) {
-                    logOrToast("Press again to leave", "short");
+                    logOrToast(i18n.t("messages.backPressed"), "short");
                     backPressedCount++;
                     setInterval(() => backPressedCount = 0, 2000);
                 } else

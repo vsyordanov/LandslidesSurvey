@@ -777,9 +777,6 @@ p {
   padding: 8px;
   color: #E2491C;
 }
-.dialog-wrapper .dialog .dialog-footer div:first-child {
-  color: #000000;
-}
 .dialog-wrapper .dialog .dialog-footer .text-button {
   font: 500 14px system-ui;
   display: -moz-flex;
@@ -1182,33 +1179,6 @@ p {
   z-index: 1;
   margin: auto;
   border-radius: 10px;
-}
-.photo-thm-wrapper .photo-thm-btn {
-  width: 56px;
-  height: 56px;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 100%;
-  background-color: #E2491C;
-  color: #FFFFFF;
-  position: absolute;
-  top: 115px;
-  left: calc(50% + 150px / 2 - 35px);
-}
-.photo-thm-wrapper .photo-thm-btn i {
-  width: 24px;
-  height: 24px;
 }
 
 /* PLACEHOLDERS */

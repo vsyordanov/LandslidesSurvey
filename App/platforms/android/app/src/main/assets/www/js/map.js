@@ -134,18 +134,18 @@ function checkLocationPermissions() {
         status => {
 
             // Permission not requested
-            if (status === cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED) {
+            if (status === cordova.plugins.diagnostic.permissionStatus.NOT_REQUESTED ||
+                (device.platform === "Android" &&
+                    status === cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS)) { //ToDo fix
 
                 console.log("Permission not requested");
                 requestLocationPermission();
 
             }
             // Permission denied
-            else if (status === cordova.plugins.diagnostic.permissionStatus.DENIED ||
-                (device.platform === "Android" &&
-                    status === cordova.plugins.diagnostic.permissionStatus.DENIED_ALWAYS)) {
+            else if (status === cordova.plugins.diagnostic.permissionStatus.DENIED) {
 
-                console.log("Permission denied");
+                console.log("Permission denied", status);
                 $gps.removeClass("gps-on").children("i").html("gps_off");
 
             }
@@ -260,9 +260,9 @@ function initAppMapUI() {
     $(".leaflet-control-container").hide();
 
     $("#map-control-settings").click(() => {
-        logOrToast("Feature blocked", "short");
-        // isExpertMode = !isExpertMode;
-        // logOrToast("Expert mode set to " + isExpertMode, "short");
+        // logOrToast("Feature blocked", "short");
+        isExpertMode = !isExpertMode;
+        logOrToast("Expert mode set to " + isExpertMode, "short");
     });
 
     $("#map-control-sync").click(() => {

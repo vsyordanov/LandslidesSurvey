@@ -27,13 +27,14 @@ let ln = {
             navigator.globalization.getLocaleName(
                 lang => {
                     ln.language = lang.value.substring(0, 2);
-                    i18n.setLng(ln.language, () => $("body").i18n());
+                    // i18n.setLng(ln.language, () => $("body").i18n());
+                    i18n.setLng("en", () => $("body").i18n());
                     init();
                 },
                 error => console.log(error)
             );
         } else {
-            i18n.setLng("en", () => $("body").i18n());
+            i18n.setLng("it", () => $("body").i18n());
             init();
         }
 

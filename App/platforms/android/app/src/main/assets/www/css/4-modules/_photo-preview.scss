@@ -2,7 +2,6 @@
 
 
 $photo-thm-size : 150px;
-$photo-thm-btn-size : 56px;
 $photo-thm-radius : 10px;
 
 
@@ -41,24 +40,6 @@ $photo-thm-radius : 10px;
       z-index       : 1;
       margin        : auto;
       border-radius : $photo-thm-radius;
-    }
-  }
-
-  .photo-thm-btn {
-    width            : $photo-thm-btn-size;
-    height           : $photo-thm-btn-size;
-    @include flex-center;
-    cursor           : pointer;
-    border-radius    : 100%;
-    background-color : $color-main;
-    color            : #FFFFFF;
-    position         : absolute;
-    top              : $photo-thm-size - 35px;
-    left             : calc(50% + #{$photo-thm-size} / 2 - 35px);
-
-    i {
-      width  : 24px;
-      height : 24px;
     }
 
   }

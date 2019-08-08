@@ -1,5 +1,6 @@
 {
   "messages" : {
+    "backPressed": "Press again to leave",
     "saveDbComplete": "Local database saving successfully completed!",
     "mandatoryLsType": "You must specify the landslide type.",
     "mandatoryPhoto": "You must provide a photo of the landslide.",
@@ -29,6 +30,7 @@
       "gpsCheckError": "An error occurred while checking the GPS status."
     },
     "insert": {
+      "positionAlert": "The position that will be used for the landslide is your current one. It will not be updated while you insert the data. TO change the position you have to close this window.",
       "confirmClose": "Discard the changes you made?",
       "movePictureError": "An error occurred while moving the picture to the application's directory.",
       "moveNewPictureError": "An error occurred while moving the new picture to the application's directory.",
@@ -158,6 +160,8 @@
       "enum" : {
         "yes" : "Yes",
         "no" : "No",
+        "spy": "Spy",
+        "grid": "Grid",
         "inclinometer" : "Inclinometer",
         "externsometer" : "Externsometer",
         "distometer" : "Distometer",
@@ -165,6 +169,7 @@
         "GPS" : "GPS",
         "interferometricRadar" : "Interferometric radar",
         "videoSurveillance" : "Video surveillance",
+        "laserScanning": "Laser scanning",
         "functioning" : "Functioning",
         "partiallyDamaged" : "Partially damaged",
         "damaged" : "Damaged",
@@ -219,11 +224,11 @@
     "lsType" : "Landslide type",
     "materialType" : "Material type",
     "hillPosition" : "Position on the hill",
-    "water" : "Water",
-    "vegetation" : "Vegetation",
-    "mitigation" : "Mitigation",
+    "water" : "Water presence",
+    "vegetation" : "Vegetation presence",
+    "mitigation" : "Mitigation measures",
     "mitigationsList" : "List of mitigation measures",
-    "monitoring" : "Monitoring",
+    "monitoring" : "Monitoring systems",
     "monitoringList" : "List of monitoring systems",
     "damages" : "Damages",
     "damagesList" : "List of damaged structures",

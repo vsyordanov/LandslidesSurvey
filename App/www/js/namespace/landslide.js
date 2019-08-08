@@ -1,12 +1,12 @@
 "use strict";
 
 /**
- * Collection of functions for the manipulation of the defibrillators.
+ * Collection of functions for the manipulation of the landslides.
  *
  * @namespace
  * @author Edoardo Pessina
  */
-const defibrillator = {
+const landslide = {
 
     /** The icon of a defibrillator marker. */
     icon: L.icon({
@@ -25,51 +25,46 @@ const defibrillator = {
 
 
     /**
-     * Displays a defibrillator as a marker on the map.
+     * Displays a landslide as a marker on the map.
      *
-     * @param {string} id - The id of the defibrillator.
-     * @param {number[]} coordinates - The coordinates of the defibrillator.
+     * @param {string} id - The id of the landslide.
+     * @param {number[]} coordinates - The coordinates of the landslide.
      */
     show: (id, coordinates) => {
 
         // Create a new marker
         const marker = L.marker(coordinates, {
-            icon     : defibrillator.icon, // The icon of the marker
-            draggable: false               // The marker cannot be moved
+            icon     : landslide.icon, // The icon of the marker
+            draggable: false           // The marker cannot be moved
         });
 
         // Set the id of the marker
         marker._id = id;
 
-        // When the user clicks on the marker, open the defibrillator's info
+        // When the user clicks on the marker, open the landslide's info
         marker.on("click", () => InfoActivity.getInstance().open(id));
 
         // Add the marker to the array
-        defibrillator.markers.push(marker);
+        landslide.markers.push(marker);
 
         // Add the marker to the layer of the map
         MapActivity.getInstance().markersLayer.addLayer(marker);
 
     },
 
-    /** Retrieves and Displays all the defibrillators of the currently logged user on the map */
+    /** Retrieves and displays all the landslides of the currently logged user on the map. */
     showAll: () => {
 
         // Remove all the markers from the map
-        defibrillator.markers.forEach(m => MapActivity.getInstance().markersLayer.removeLayer(m));
+        landslide.markers.forEach(m => MapActivity.getInstance().markersLayer.removeLayer(m));
 
         // Empty the markers array
-        defibrillator.markers = [];
+        landslide.markers = [];
 
         // Fetch from the server all the defibrillators of the logged user
         fetch(
-            `${settings.serverUrl}/defibrillator/get-all`,
-            {
-                headers: {
-                    "App-Key"    : settings.APIKey,
-                    Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                }
-            }
+            `${settings.serverUrl}/landslide/get-all`,
+            { headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` } }
         )
             .then(res => {
 
@@ -87,7 +82,7 @@ const defibrillator = {
             .then(data => {
 
                 // Show each of the retrieved defibrillators
-                data.defibrillators.forEach(d => defibrillator.show(d._id, d.coordinates));
+                data.landslides.forEach(d => landslide.show(d._id, d.coordinates));
 
             })
             .catch(err => {
@@ -99,7 +94,7 @@ const defibrillator = {
 
                     // Unauthorized
                     case 401:
-                        utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getDefibrillators401"), i18next.t("dialogs.btnOk"));
+                        utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getLandslides401"), i18next.t("dialogs.btnOk"));
                         break;
 
                     // Forbidden (api key not recognized)
@@ -109,7 +104,7 @@ const defibrillator = {
 
                     // Generic server error
                     default:
-                        utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.login500"), i18next.t("dialogs.btnOk"));
+                        utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.getLandslides500"), i18next.t("dialogs.btnOk"));
                         break;
 
                 }
@@ -403,7 +398,7 @@ const defibrillator = {
                     let newMarkers = [];
 
                     // For each defibrillator
-                    defibrillator.markers.forEach(m => {
+                    landslide.markers.forEach(m => {
 
                         // If it's the one to delete, remove the correspondent marker from the map
                         if (m._id === id) MapActivity.getInstance().markersLayer.removeLayer(m);
@@ -414,7 +409,7 @@ const defibrillator = {
                     });
 
                     // Save the temporary array as the new marker array
-                    defibrillator.markers = newMarkers;
+                    landslide.markers = newMarkers;
 
                     // Resolve the promise
                     resolve();

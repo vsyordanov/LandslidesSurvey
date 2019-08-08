@@ -4,7 +4,7 @@ const mongoose = require("mongoose"),
       Schema   = mongoose.Schema;
 
 const landslideSchema = new Schema({
-    user               : Object,
+    user               : { type: Schema.Types.ObjectId, ref: "User" },
     markedForDeletion  : { type: Boolean, default: false },
     checked            : { type: Boolean, default: false },
     expert             : Boolean,
@@ -24,7 +24,7 @@ const landslideSchema = new Schema({
     damages            : String,
     damagesList        : [Object],
     notes              : String,
-    image              : String
+    imageUrl           : String
 }, { timestamps: true });
 
 module.exports = mongoose.model("Landslide", landslideSchema);

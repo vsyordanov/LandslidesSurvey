@@ -64,7 +64,7 @@ function onResume() {
 }
 
 function onResize() {
-    $("#map").height($(window).height());
+    $("#page--map").height($(window).height());
 }
 
 

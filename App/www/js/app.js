@@ -20,6 +20,9 @@ class App {
     /** @returns {boolean} True if the system is using cordova. */ // ToDo delete
     static get isCordova() { return window.cordova };
 
+    /** @return {boolean} True if the application is in expert mode. */
+    static get isExpertMode() { return localStorage.getItem("mode") === "true" };
+
 
     /**
      * Creates and initializes the activity as well as the internationalization service.
@@ -28,6 +31,8 @@ class App {
      */
     constructor() {
 
+        // If the mode is not stored in the local storage, set it to false
+        if (!localStorage.getItem("mode")) localStorage.setItem("mode", "false");
 
         // Flag that states if the position watcher has to be reattached after a "pause" event
         this._toReattachPositionWatcher = false;
@@ -36,8 +41,8 @@ class App {
         this._backPressedCount = 0;
 
         // Attach the function to be fired when a "pause" or a "resume" event occurs
-        // document.addEventListener("pause", this.onPause, false);
-        // document.addEventListener("resume", this.onResume, false);
+        document.addEventListener("pause", this.onPause, false);
+        document.addEventListener("resume", this.onResume, false);
 
 
         // ToDo handle properly
@@ -110,7 +115,7 @@ class App {
         if (!LoginActivity.getInstance().getAuthStatus()) LoginActivity.getInstance().open();
 
         // If there is a valid session in storage, open the map
-        // else MapActivity.getInstance().open();
+        else MapActivity.getInstance().open();
 
         // Hide the splash screen
         $("#splash").hide(); // ToDo

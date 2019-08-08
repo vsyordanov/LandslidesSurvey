@@ -3,7 +3,7 @@
 const crypto = require("crypto"); // Module for encrypting the token
 
 const User                 = require("../models/user"),          // Model of the user
-      mail                 = require("../utils/mails"),           // Utility for sending the mail
+      mail                 = require("../utils/mails"),          // Utility for sending the mail
       { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
       bcrypt               = require("bcryptjs"),                // Module for encrypting/decrypting the password
       jwt                  = require("jsonwebtoken");            // Module for creating and compare tokens

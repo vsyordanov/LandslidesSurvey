@@ -29,7 +29,7 @@ app.use(helmet());
 const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
 
 // Use morgan for request logging
-app.use(morgan("combined", { stream: accessLogStream }));
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 
 // Use BodyParser to parse for application/json

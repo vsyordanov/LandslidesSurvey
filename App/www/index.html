@@ -322,18 +322,16 @@
 
 
 <!-- Map -->
-<div style="display: none"  id="map">
+<div style="display: none" id="page--map">
 
-    <div style="display: none" id="finding-position-msg">
-        <p data-i18n="map.positionFinding"></p>
-    </div>
+    <div style="display: none" id="finding-position-msg"><p data-i18n="map.positionFinding"></p></div>
 
     <div id="map-control-settings" class="map-control map-control-left map-control-top-1 fab">
         <i class="material-icons fab-icon">settings</i>
     </div>
 
     <div id="map-control-sync" class="map-control map-control-left map-control-top-2 fab">
-        <i class="material-icons fab-icon">cloud_download</i> <!-- sync -->
+        <i class="material-icons fab-icon">sync</i>
     </div>
 
     <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
@@ -1974,12 +1972,13 @@
 <!-- Main JS -->
 <script type="text/javascript" src="js/namespace/settings.js"></script>
 <script type="text/javascript" src="js/namespace/utils.js"></script>
-<script type="text/javascript" src="js/namespace/defibrillator.js"></script>
+<script type="text/javascript" src="js/namespace/landslide.js"></script>
 <script type="text/javascript" src="js/namespace/user.js"></script>
 
 <script type="text/javascript" src="js/auth/loginActivity.js"></script>
 <script type="text/javascript" src="js/auth/registerActivity.js"></script>
 <script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
+<script type="text/javascript" src="js/mapActivity.js"></script>
 
 <script type="text/javascript" src="js/app.js"></script>
 

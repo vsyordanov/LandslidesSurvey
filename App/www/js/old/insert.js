@@ -56,7 +56,7 @@ function openInsert(data = null) {
 function openPost() {
 
     toggleExpertView(isExpertMode);
-    $("#insert-ls").show();
+    $("#page--insert").show();
 
     createAlertDialog(
         i18n.t("dialogs.insert.positionAlert"),
@@ -108,7 +108,7 @@ function openPut() {
             .hide();
 
         toggleExpertView(ls.expert);
-        $("#insert-ls").show();
+        $("#page--insert").show();
 
         return;
     }
@@ -123,7 +123,7 @@ function openPut() {
                     $photoThm.find("i").hide();
 
                     toggleExpertView(ls.expert);
-                    $("#insert-ls").show();
+                    $("#page--insert").show();
                     closeInfo();
                 },
                 err => {
@@ -133,7 +133,7 @@ function openPut() {
                     $photoThm.find("i").hide();
 
                     toggleExpertView(ls.expert);
-                    $("#insert-ls").show();
+                    $("#page--insert").show();
                     closeInfo();
 
                     console.error("Error getting the photo", err);
@@ -148,7 +148,7 @@ function openPut() {
             $photoThm.find("i").hide();
 
             toggleExpertView(ls.expert);
-            $("#insert-ls").show();
+            $("#page--insert").show();
             closeInfo();
             createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
         }
@@ -180,7 +180,7 @@ function toggleExpertView(isExpert) {
 
 function closeInsert() {
 
-    $("#insert-ls").scrollTop(0).hide();
+    $("#page--insert").scrollTop(0).hide();
     resetFields();
 
 }
@@ -228,6 +228,7 @@ function initMainPage() {
 
     });
 
+
     $("#ls-type-request").click(() => {
 
         let toSelect = lsType;
@@ -241,6 +242,7 @@ function initMainPage() {
         openFullscreenDialog($("#dialog-ls-type"));
 
     });
+
 
     $("#material-type-request").click(() => {
 
@@ -256,6 +258,7 @@ function initMainPage() {
 
     });
 
+
     $("#hill-position-request").click(() => {
 
         let toSelect = hillPosition;
@@ -269,6 +272,7 @@ function initMainPage() {
         openDialog($("#dialog-hill-position"));
 
     });
+
 
     $("#water-request").click(() => {
 
@@ -284,6 +288,7 @@ function initMainPage() {
 
     });
 
+
     $("#vegetation-request").click(() => {
 
         let toSelect = vegetation;
@@ -297,6 +302,7 @@ function initMainPage() {
         openDialog($("#dialog-vegetation"));
 
     });
+
 
     $("#mitigation-request").click(() => {
 
@@ -337,6 +343,7 @@ function initMainPage() {
 
     });
 
+
     $("#monitoring-request").click(() => {
 
         let toSelect = monitoring;
@@ -360,6 +367,7 @@ function initMainPage() {
 
     });
 
+
     $("#damages-request").click(() => {
 
         let toSelect = damages;
@@ -381,6 +389,7 @@ function initMainPage() {
         openFullscreenDialog($("#dialog-damages"));
     });
 
+
     $("#notes-request").click(() => {
 
         $("#notes").val(notes);
@@ -388,6 +397,7 @@ function initMainPage() {
         openFullscreenDialog($("#dialog-notes"));
 
     });
+
 
     $photoThm.click(() => {
 
@@ -636,6 +646,7 @@ function initLsTypeDialog() {
 }
 
 
+
 // Material type
 function initMaterialTypeDialog() {
 
@@ -651,6 +662,7 @@ function initMaterialTypeDialog() {
     });
 
 }
+
 
 
 // Position
@@ -670,6 +682,7 @@ function initHillPositionDialog() {
 }
 
 
+
 // Water
 function initWaterDialog() {
 
@@ -687,6 +700,7 @@ function initWaterDialog() {
 }
 
 
+
 // Vegetation
 function initVegetationDialog() {
 
@@ -702,6 +716,7 @@ function initVegetationDialog() {
     });
 
 }
+
 
 
 // Mitigation base
@@ -780,6 +795,7 @@ function initMitigationInsertDialog() {
 }
 
 
+
 // Monitoring
 function initMonitoringDialog() {
 
@@ -843,6 +859,7 @@ function initMonitoringInsertDialog() {
     });
 
 }
+
 
 
 // Damages
@@ -924,6 +941,7 @@ function initDamagesInsertDialog() {
 }
 
 
+
 // Notes
 function initNotesDialog() {
 
@@ -939,6 +957,8 @@ function initNotesDialog() {
     });
 
 }
+
+
 
 
 // Photo
@@ -1037,14 +1057,14 @@ function closeFullscreenDialog(dialog) {
 
 function openDialog(toOpen) {
     $("#opaque-overlay").show();
-    $("#insert-ls").css("overflow-y", "hidden");
+    $("#page--insert").css("overflow-y", "hidden");
     toOpen.show();
 }
 
 function closeDialog(toClose) {
     toClose.hide();
     $("#opaque-overlay").hide();
-    $("#insert-ls").css("overflow-y", "scroll");
+    $("#page--insert").css("overflow-y", "scroll");
 }
 
 

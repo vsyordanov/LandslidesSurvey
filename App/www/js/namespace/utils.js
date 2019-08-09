@@ -286,8 +286,8 @@ const utils = {
      *
      * @param {string} scr - The url of the image.
      * @param {boolean} [editable=false] - True if the image can be deleted or modified.
-     * @param {function} clbEdit - Function to be called when the user clicks on the "edit" button.
-     * @param {function} clbCancel - Function to be called when the user clicks on the "cancel" button.
+     * @param {function} [clbEdit] - Function to be called when the user clicks on the "edit" button.
+     * @param {function} [clbCancel] - Function to be called when the user clicks on the "cancel" button.
      */
     openImgScreen: (scr, editable = false, clbEdit, clbCancel) => {
 

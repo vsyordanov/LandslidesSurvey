@@ -10,7 +10,7 @@ const dateOptions = {
 };
 
 let lsData,
-    $placeholders = $("#ls-info .placeholder");
+    $placeholders = $("#page--info .placeholder");
 
 
 function initInfo() {
@@ -28,7 +28,7 @@ function openInfo(id) {
 
     $placeholders.addClass("ph-animate");
 
-    $("#ls-info").show();
+    $("#page--info").show();
 
     let request = db.transaction("landslides", "readwrite").objectStore("landslides").get(id);
 
@@ -84,9 +84,9 @@ function openInfo(id) {
 
 function closeInfo() {
 
-    $("#ls-info").scrollTop(0).hide();
+    $("#page--info").scrollTop(0).hide();
 
-    $("#ls-info .ph-hidden-content").hide();
+    $("#page--info .ph-hidden-content").hide();
     $placeholders.removeClass("ph-animate").show();
 
     $("#info-delete").hide();
@@ -205,6 +205,7 @@ function showInfo() {
 
                     default:
                         return i18n.t("insert." + key + ".enum." + val);
+
                 }
 
             });
@@ -213,7 +214,7 @@ function showInfo() {
     // ToDo delete
     if (!isCordova) {
         $placeholders.hide().removeClass("ph-animate");
-        $("#ls-info .ph-hidden-content").show();
+        $("#page--info .ph-hidden-content").show();
         return;
     }
 
@@ -233,13 +234,13 @@ function showPhoto() {
 
                     $("#info-photo-thm").attr("src", file.nativeURL);
                     $placeholders.hide().removeClass("ph-animate");
-                    $("#ls-info .ph-hidden-content").show();
+                    $("#page--info .ph-hidden-content").show();
 
                 },
                 err => {
 
                     $placeholders.hide().removeClass("ph-animate");
-                    $("#ls-info .ph-hidden-content").show();
+                    $("#page--info .ph-hidden-content").show();
 
                     console.error("Error getting the photo", err);
                     createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
@@ -251,7 +252,7 @@ function showPhoto() {
         () => {
             createAlertDialog(i18n.t("dialogs.info.getLocalPhotoError"), i18n.t("dialogs.btnOk"));
             $placeholders.hide().removeClass("ph-animate");
-            $("#ls-info .ph-hidden-content").show();
+            $("#page--info .ph-hidden-content").show();
         }
     );
 

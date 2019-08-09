@@ -165,12 +165,6 @@ class RegisterActivity {
                 // Alert the user of the error
                 switch (err.code) {
 
-                    // Forbidden (api key not recognized)
-                    case 403:
-                        utils.switchActivity(LoginActivity.getInstance(), true, this);
-                        utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                        break;
-
                     // Email already in use
                     case 409:
                         utils.logOrToast(i18next.t("messages.register409"), "long");

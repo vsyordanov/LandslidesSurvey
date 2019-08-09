@@ -136,7 +136,7 @@ class MapActivity {
 
         // ToDo delete
         if (App.isCordova)
-            // Check the location permissions
+        // Check the location permissions
             this.checkLocationPermissions();
 
         // Show all the landslides mapped by the user
@@ -235,6 +235,12 @@ class MapActivity {
         // Initialize the current accuracy to 0
         this.currLatLngAccuracy = 0;
 
+        // Initialize the current altitude to -999
+        this.currAltitude = -999;
+
+        // Initialize the current altitude accuracy to 0
+        this.currAltitudeAccuracy = 0;
+
         // Initialize the circle shown in the map to indicate the accuracy of the postion
         this._accuracyCircle = undefined;
 
@@ -269,6 +275,12 @@ class MapActivity {
 
             // Set the accuracy to 0
             this.currLatLngAccuracy = 0;
+
+            // Set the altitude to -999
+            this.currAltitude = -999;
+
+            // Set the altitude accuracy to 0
+            this.currAltitudeAccuracy = 0;
 
             console.log(`Position marker dragged to ${this.currLatLng}`);
 
@@ -627,6 +639,10 @@ class MapActivity {
         // Save the position and the accuracy
         this.currLatLng         = [pos.coords.latitude, pos.coords.longitude];
         this.currLatLngAccuracy = pos.coords.accuracy;
+
+        // Set the altitude and its accuracy. If the values are null, set them to -999 and 0 instead
+        this.currAltitude         = pos.coords.altitude || -999;
+        this.currAltitudeAccuracy = pos.coords.altitude || 0;
 
         console.log("Position found");
 

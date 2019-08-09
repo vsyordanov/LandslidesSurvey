@@ -107,12 +107,6 @@ class ResetPasswordActivity {
                 // Alert the user of the error
                 switch (err.code) {
 
-                    // Forbidden (api key not recognized)
-                    case 403:
-                        this.close();
-                        utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                        break;
-
                     // User not found
                     case 404:
                         utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.resetPw404"), i18next.t("dialogs.btnOk"));

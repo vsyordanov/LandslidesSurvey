@@ -64,11 +64,6 @@ const user = {
                             utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getUser401"), i18next.t("dialogs.btnOk"));
                             break;
 
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                            break;
-
                         // Not found
                         case 404:
                             utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.getUser404"), i18next.t("dialogs.btnOk"));
@@ -150,11 +145,6 @@ const user = {
                             utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.putProfileImage401"), i18next.t("dialogs.btnOk"));
                             break;
 
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                            break;
-
                         // Not found
                         case 404:
                             utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.putProfileImage404"), i18next.t("dialogs.btnOk"));
@@ -228,11 +218,6 @@ const user = {
                         // Unauthorized
                         case 401:
                             utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.changeEmail401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Email already in use
@@ -321,11 +306,6 @@ const user = {
                             utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.changePw401"), i18next.t("dialogs.btnOk"));
                             break;
 
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                            break;
-
                         // Not found
                         case 404:
                             utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.changePw404"), i18next.t("dialogs.btnOk"));
@@ -410,11 +390,6 @@ const user = {
                         // Unauthorized
                         case 401:
                             utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.editProfile401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Not found

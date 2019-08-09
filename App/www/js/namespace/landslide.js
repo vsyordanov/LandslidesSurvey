@@ -90,24 +90,14 @@ const landslide = {
                 console.error(err);
 
                 // Alert the user of the error
-                switch (err.code) {
 
-                    // Unauthorized
-                    case 401:
-                        utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getLandslides401"), i18next.t("dialogs.btnOk"));
-                        break;
+                // Unauthorized
+                if (err.code === 401)
+                    utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getLandslides401"), i18next.t("dialogs.btnOk"));
 
-                    // Forbidden (api key not recognized)
-                    case 403:
-                        utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                        break;
-
-                    // Generic server error
-                    default:
-                        utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.getLandslides500"), i18next.t("dialogs.btnOk"));
-                        break;
-
-                }
+                // Generic server error
+                else
+                    utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.getLandslides500"), i18next.t("dialogs.btnOk"));
 
             });
 
@@ -115,10 +105,10 @@ const landslide = {
 
 
     /**
-     * Retrieves from the server the information about a defibrillator.
+     * Retrieves from the server the information about a landslide.
      *
      * @param {string} id - The id of the defibrillator.
-     * @returns {Promise<object>} A promise containing the data about the defibrillator.
+     * @returns {Promise<object>} A promise containing the data about the landslide.
      */
     get: id => {
 
@@ -127,13 +117,8 @@ const landslide = {
 
             // Send a request to the server to retrieve the data
             fetch(
-                `${settings.serverUrl}/defibrillator/${id}`,
-                {
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    }
-                }
+                `${settings.serverUrl}/landslide/${id}`,
+                { headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` } }
             )
                 .then(res => {
 
@@ -151,36 +136,32 @@ const landslide = {
                 .then(data => {
 
                     // Resolve the promise
-                    resolve(data.defibrillator);
+                    resolve(data.landslide);
 
                 })
                 .catch(err => {
 
                     console.error(err);
 
-                    // closeInfo();
+                    // Close the loader
+                    utils.closeLoader();
 
                     // Alert the user of the error
                     switch (err.code) {
 
                         // Unauthorized
                         case 401:
-                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getDefibrillator401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.getLandslide401"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Not found
                         case 404:
-                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.getDefibrillator404"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.getLandslide404"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Generic server error
                         default:
-                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.login500"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.getLandslide500"), i18next.t("dialogs.btnOk"));
                             break;
 
                     }
@@ -196,10 +177,10 @@ const landslide = {
 
 
     /**
-     * Sends a request to the server to insert a new defibrillator into the database.
+     * Sends a request to the server to insert a new landslide into the database.
      *
-     * @param {FormData} formData - A FormData object containing the data about the defibrillator.
-     * @returns {Promise<object>} A promise containing the id and the coordinates of the defibrillator.
+     * @param {FormData} formData - A FormData object containing the data about the landslide.
+     * @returns {Promise<object>} A promise containing the id and the coordinates of the landslide.
      */
     post: formData => {
 
@@ -208,13 +189,10 @@ const landslide = {
 
             // Send a request to the server to insert a new defibrillator
             fetch(
-                `${settings.serverUrl}/defibrillator/post?if=def`,
+                `${settings.serverUrl}/landslide/post`,
                 {
                     method : "POST",
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    },
+                    headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` },
                     body   : formData
                 }
             )
@@ -234,34 +212,32 @@ const landslide = {
                 .then(data => {
 
                     // Resolve the promise
-                    resolve({ id: data.defibrillator._id, coords: data.defibrillator.coordinates });
+                    resolve({ id: data.landslide._id, coords: data.landslide.coordinates });
 
                 })
                 .catch(err => {
 
                     console.error(err);
 
+                    // Close the loader
+                    utils.closeLoader();
+
                     // Alert the user of the error
                     switch (err.code) {
 
                         // Unauthorized
                         case 401:
-                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.postDefibrillator401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.postLandslide401"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Wrong data
                         case 422:
-                            utils.logOrToast(i18next.t("messages.postDefibrillator422"), "long");
+                            utils.logOrToast(i18next.t("messages.postLandslide422"), "long");
                             break;
 
                         // Generic server error
                         default:
-                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.login500"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.postLandslide500"), i18next.t("dialogs.btnOk"));
                             break;
 
                     }
@@ -277,26 +253,23 @@ const landslide = {
 
 
     /**
-     * Sends a request to the server to update a defibrillator already present into the database.
+     * Sends a request to the server to update a landslide already present into the database.
      *
-     * @param {string} id - The id of the defibrillator to update
-     * @param {FormData} formData - A FormData object containing the data about the defibrillator.
-     * @returns {Promise<object>} A promise containing the id of the defibrillator.
+     * @param {string} id - The id of the landslide to update
+     * @param {FormData} formData - A FormData object containing the data about the landslide.
+     * @returns {Promise<object>} A promise containing the id of the landslide.
      */
     put: (id, formData) => {
 
         // Return a new promise
         return new Promise((resolve, reject) => {
 
-            // Send a request to the server to insert a new defibrillator
+            // Send a request to the server to insert a new landslide
             fetch(
-                `${settings.serverUrl}defibrillator/${id}?if=def`,
+                `${settings.serverUrl}/landslide/${id}`,
                 {
                     method : "PUT",
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    },
+                    headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` },
                     body   : formData
                 }
             )
@@ -316,39 +289,37 @@ const landslide = {
                 .then(data => {
 
                     // Resolve the promise
-                    resolve({ id: data.defibrillator._id });
+                    resolve({ id: data.landslide._id });
 
                 })
                 .catch(err => {
 
                     console.error(err);
 
+                    // Close the loader
+                    utils.closeLoader();
+
                     // Alert the user of the error
                     switch (err.code) {
 
                         // Unauthorized
                         case 401:
-                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.putDefibrillator401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.putLandslide401"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Not found
                         case 404:
-                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.putDefibrillator404"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.putLandslide404"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Wrong data
                         case 422:
-                            utils.logOrToast(i18next.t("messages.putDefibrillator404"), "long");
+                            utils.logOrToast(i18next.t("messages.putLandslide422"), "long");
                             break;
 
                         // Generic server error
                         default:
-                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.login500"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.putLandslide500"), i18next.t("dialogs.btnOk"));
                             break;
 
                     }
@@ -364,9 +335,9 @@ const landslide = {
 
 
     /**
-     * Deletes a defibrillator from the database and removes it from the map.
+     * Deletes a landslide from the database and removes it from the map.
      *
-     * @param {string} id - The id of the defibrillator.
+     * @param {string} id - The id of the landslide.
      * @returns {Promise<>} An empty promise.
      */
     delete: id => {
@@ -374,15 +345,12 @@ const landslide = {
         // Return a promise
         return new Promise((resolve, reject) => {
 
-            // Send a request to the server to delete the defibrillator
+            // Send a request to the server to delete the landslide
             fetch(
-                `${settings.serverUrl}defibrillator/${id}`,
+                `${settings.serverUrl}/landslide/${id}`,
                 {
                     method : "DELETE",
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    }
+                    headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` }
                 }
             )
                 .then(res => {
@@ -419,27 +387,25 @@ const landslide = {
 
                     console.error(err);
 
+                    // Close the loader
+                    utils.closeLoader();
+
                     // Alert the user of the error
                     switch (err.code) {
 
                         // Unauthorized
                         case 401:
-                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.deleteDefibrillator401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Forbidden (api key not recognized)
-                        case 403:
-                            utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.deleteLandslide401"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Not found
                         case 404:
-                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.deleteDefibrillator404"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.deleteLandslide404"), i18next.t("dialogs.btnOk"));
                             break;
 
                         // Generic server error
                         default:
-                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.login500"), i18next.t("dialogs.btnOk"));
+                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.deleteLandslide500"), i18next.t("dialogs.btnOk"));
                             break;
 
                     }

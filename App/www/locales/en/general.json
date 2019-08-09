@@ -18,11 +18,12 @@
     "mandatoryDamageOther" : "You must specify the damaged object.",
     "register409" : "This email is already in use.",
     "register422" : "Entered data is incorrect.",
-    "login401" : "Wrong email or password."
+    "login401" : "Wrong email or password.",
+    "postLandslide422" : "Entered data is incorrect.",
+    "putLandslide422" : "Entered data is incorrect."
   },
   "dialogs" : {
     "title401" : "Unauthorized!",
-    "title403" : "Forbidden!",
     "title404" : "Not Found!",
     "title500" : "Internal Error!",
     "message403" : "You are not allowed to make request to the server from this app.",
@@ -43,8 +44,19 @@
     "resetPw404" : "This email is not registered.",
     "resetPw500" : "Something went wrong on the server while resetting your password. Please, try again later",
     "login500" : "Something went wrong on the server during the login. Please, try again later.",
-    "getLandslides401" : "You are not authorized to retrieve the defibrillators.",
-    "getLandslides500" : "Something went wrong on the server while retrieving the defibrillators. Please, try again later.",
+    "getLandslides401" : "You are not authorized to retrieve the landslides.",
+    "getLandslides500" : "Something went wrong on the server while retrieving the landslides. Please, try again later.",
+    "getLandslide401" : "You are not authorized to see this landslide.",
+    "getLandslide404" : "The landslide could not be found.",
+    "getLandslide500" : "Something went wrong on the server while retrieving the landslide. Please, try again later.",
+    "postLandslide401" : "You are not authorized to insert a new landslide.",
+    "postLandslide500" : "Something went wrong on the server while inserting the landslide. Please, try again later.",
+    "putLandslide401" : "You are not authorized to edit this landslide.",
+    "putLandslide404" : "The landslide could not be found.",
+    "putLandslide500" : "Something went wrong on the server while updating the landslide. Please, try again later.",
+    "deleteLandslide401" : "You are not authorized to delete this landslide.",
+    "deleteLandslide404" : "The landslide could not be found.",
+    "deleteLandslide500" : "Something went wrong on the server while deleting the landslide. Please, try again later.",
     "btnYes" : "Yes",
     "btnNo" : "No",
     "btnCancel" : "cancel",
@@ -57,7 +69,7 @@
       "gpsCheckError" : "An error occurred while checking the GPS status."
     },
     "insert" : {
-      "positionAlert" : "The position that will be used for the landslide is your current one. It will not be updated while you insert the data. TO change the position you have to close this window.",
+      "positionAlert" : "The position that will be used for the landslide is your current one. It will not be updated while you insert the data. To change the position you have to close this window.",
       "confirmClose" : "Discard the changes you made?",
       "movePictureError" : "An error occurred while moving the picture to the application's directory.",
       "moveNewPictureError" : "An error occurred while moving the new picture to the application's directory.",
@@ -155,10 +167,10 @@
     "mainScreen" : {
       "topBarTitle" : "New landslide",
       "requiredFields" : "* Indicates a required field",
-      "photoName" : "Photo*"
+      "photoName" : "Photo *"
     },
     "lsType" : {
-      "name" : "Type of landslide*",
+      "name" : "Type of landslide *",
       "defaultText" : "Specify the type of the landslide",
       "topBarTitle" : "Type of landslide",
       "enum" : {
@@ -337,6 +349,10 @@
   "selectors" : {
     "register-ageDefLabel" : "Age",
     "register-genderDefLabel" : "Gender",
-    "register-occupationDefLabel" : "Occupation"
+    "register-occupationDefLabel" : "Occupation",
+    "mitigation-type-selectDefLabel" : "Select an option",
+    "monitoring-type-selectDefLabel" : "Select an option",
+    "monitoring-status-selectDefLabel" : "Select an option",
+    "damages-type-selectDefLabel" : "Select an option"
   }
 }

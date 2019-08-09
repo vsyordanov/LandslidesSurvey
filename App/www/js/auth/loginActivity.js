@@ -157,12 +157,7 @@ class LoginActivity {
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
 
-                // if (!hasLoggedOut)
-                //     initMap();
-                // getDefibrillators();
-
-                // Close the page and the loader
-                // closeLoginPage();
+                // Close the loader
                 utils.closeLoader();
 
             })
@@ -182,11 +177,6 @@ class LoginActivity {
                     // Wrong email or password
                     case 401:
                         utils.logOrToast(i18next.t("messages.login401"), "long");
-                        break;
-
-                    // Forbidden (api key not recognized)
-                    case 403:
-                        utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
                         break;
 
                     // Email not confirmed
@@ -292,11 +282,6 @@ class LoginActivity {
 
                 // Alert the user of the error
                 switch (err.code) {
-
-                    // Forbidden (api key not recognized)
-                    case 403:
-                        utils.createAlert(i18next.t("dialogs.title403"), i18next.t("dialogs.message403"), i18next.t("dialogs.btnOk"));
-                        break;
 
                     // User not found
                     case 404:

@@ -348,7 +348,7 @@ p {
 }
 
 /* INSERT DEFIBRILLATOR LAYOUT */
-#insert-ls {
+#page--insert {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -359,12 +359,12 @@ p {
   /* MAIN PAGE */
   /* NEW DAMAGES DIALOG */
 }
-#insert-ls #insert-ls-main {
+#page--insert #insert-ls-main {
   width: 100%;
   height: 100%;
   z-index: 0;
 }
-#insert-ls #insert-ls-main .requests-container {
+#page--insert #insert-ls-main .requests-container {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -378,12 +378,12 @@ p {
   -ms-justify-content: -ms-flex-start;
   justify-content: flex-start;
 }
-#insert-ls #insert-ls-main .requests-container .required-fields {
+#page--insert #insert-ls-main .requests-container .required-fields {
   margin-top: 20px;
   font: 400 14px system-ui;
   color: #949494;
 }
-#insert-ls #insert-ls-main .requests-container .request {
+#page--insert #insert-ls-main .requests-container .request {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
@@ -400,13 +400,13 @@ p {
   margin-top: 27px;
   color: #000000;
 }
-#insert-ls #insert-ls-main .requests-container .request .request-icon-left {
+#page--insert #insert-ls-main .requests-container .request .request-icon-left {
   -moz-flex: 0 0 24px;
   -webkit-flex: 0 0 24px;
   -ms-flex: 0 0 24px;
   flex: 0 0 24px;
 }
-#insert-ls #insert-ls-main .requests-container .request .request-content {
+#page--insert #insert-ls-main .requests-container .request .request-content {
   font: 500 16px system-ui;
   -moz-flex: 1;
   -webkit-flex: 1;
@@ -416,24 +416,24 @@ p {
   cursor: pointer;
   border-bottom: 1px solid #C5C5C5;
 }
-#insert-ls #insert-ls-main .requests-container .request .request-content .request-name {
+#page--insert #insert-ls-main .requests-container .request .request-content .request-name {
   margin-bottom: 12px;
 }
-#insert-ls #insert-ls-main .requests-container .request .request-content .request-text {
+#page--insert #insert-ls-main .requests-container .request .request-content .request-text {
   font-size: 14px;
   margin-bottom: 3px;
   color: #E2491C;
 }
-#insert-ls #insert-ls-main #photo-request {
+#page--insert #insert-ls-main #photo-request {
   margin-bottom: 40px;
 }
-#insert-ls #insert-ls-main #photo-request .request-content {
+#page--insert #insert-ls-main #photo-request .request-content {
   border: 0;
 }
-#insert-ls #insert-ls-main #photo-request .request-name {
+#page--insert #insert-ls-main #photo-request .request-name {
   margin-bottom: 20px;
 }
-#insert-ls #dialog-damages-new .custom-text-input {
+#page--insert #dialog-damages-new .custom-text-input {
   margin-top: 20px;
 }
 
@@ -468,7 +468,7 @@ p {
 }
 
 /* LS INFO LAYOUT */
-#ls-info {
+#page--info {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -477,44 +477,44 @@ p {
   overflow-y: scroll;
   background: #FFFFFF;
 }
-#ls-info .custom-container {
+#page--info .custom-container {
   padding-top: 30px;
   margin-left: 24px;
   margin-right: 24px;
   width: calc(100% - 24px * 2);
   margin-bottom: 40px;
 }
-#ls-info .custom-container .info-block {
+#page--info .custom-container .info-block {
   margin-bottom: 20px;
 }
-#ls-info .custom-container .info-title-ph {
+#page--info .custom-container .info-title-ph {
   width: 25%;
   height: 18px;
   margin-bottom: 6px;
   border-radius: 50px;
 }
-#ls-info .custom-container .info-title {
+#page--info .custom-container .info-title {
   font: 500 13px system-ui;
   text-transform: uppercase;
   color: #E2491C;
   margin-bottom: 6px;
 }
-#ls-info .custom-container .info-content-ph {
+#page--info .custom-container .info-content-ph {
   width: 100%;
   height: 17px;
   border-radius: 50px;
 }
-#ls-info .custom-container .info-content {
+#page--info .custom-container .info-content {
   font: 400 17px system-ui;
   color: #000000;
 }
-#ls-info .custom-container #info-notes {
+#page--info .custom-container #info-notes {
   margin-bottom: 40px;
 }
-#ls-info .custom-container #info-photo {
+#page--info .custom-container #info-photo {
   margin-bottom: 40px;
 }
-#ls-info .custom-container .info-list {
+#page--info .custom-container .info-list {
   margin: 0;
   list-style: none;
   padding: 0;

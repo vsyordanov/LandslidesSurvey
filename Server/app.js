@@ -26,7 +26,7 @@ app.use(helmet());
 
 
 // Configure the logs location
-const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
+// const accessLogStream = fs.createWriteStream(path.join(__dirname, "logs/server.log"), { flags: "a" });
 
 // Use morgan for request logging
 // app.use(morgan("combined", { stream: accessLogStream }));

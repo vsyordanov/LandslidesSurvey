@@ -3,8 +3,10 @@
 // COLORS
 $color-main : #E2491C;
 $color-main-dark : #D84315;
+$color-gradient : #FFFFF9;
 $color-text : #000000;
 $color-placeholder : #E9EAEE;
+$color-text-ph : #757575;
 
 
 // FONT SIZES
@@ -14,8 +16,11 @@ $font-body-small : 14px;
 
 
 // Z-INDEXES
+$z-splash : 100000;
 $z-alert-overlay : 10000;
 $z-img-screen : 10000;
+$z-auth : 1101;
+$z-change-pw : 1101;
 $z-map-container : 1000;
 $z-info-wrapper : 1000;
 $z-insert-wrapper : 1100;

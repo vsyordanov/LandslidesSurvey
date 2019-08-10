@@ -1,6 +1,5 @@
 /* DIALOG */
 
-
 $dialog-width : 280px;
 
 
@@ -37,9 +36,7 @@ $dialog-width : 280px;
   background : #FFFFFF;
   overflow-y : scroll;
 
-  .custom-container {
-    padding-top : 32px;
-  }
+  .custom-container { padding-top : 32px }
 
   p {
     @include font(400, $font-body);
@@ -47,9 +44,7 @@ $dialog-width : 280px;
     margin-bottom : 16px;
     color         : $color-text;
 
-    &.first-p {
-      margin-top : 0;
-    }
+    &.first-p { margin-top : 0 }
 
   }
 
@@ -80,8 +75,21 @@ $dialog-width : 280px;
       text-align : left;
       color      : $color-text;
 
-      .dialog-text {
-        margin : 0 0 26px 0;
+      .dialog-title {
+        @include font(500, $font-title);
+        margin-bottom : 20px;
+      }
+
+      .dialog-text { margin : 0 0 26px 0 }
+
+      .dialog-link {
+        margin-top      : 26px;
+        text-align      : center;
+        text-decoration : underline;
+        text-transform  : uppercase;
+        color           : $color-main-dark;
+        @include font(500, $font-body);
+        cursor          : pointer;
       }
 
     }
@@ -93,10 +101,6 @@ $dialog-width : 280px;
       margin-top : 28px;
       padding    : 8px;
       color      : $color-main;
-
-      div:first-child {
-        //color : #000000;
-      }
 
       .text-button {
         @include font(500, $font-body-small);
@@ -122,9 +126,7 @@ $dialog-width : 280px;
         .dialog-text {
           margin : 20px 0 12px 0;
 
-          &.first-p {
-            margin-top : 0;
-          }
+          &.first-p { margin-top : 0 }
 
         }
 

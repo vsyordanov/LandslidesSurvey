@@ -24,6 +24,9 @@
         <param name="onload" value="true" />
     </feature>
     <allow-navigation href="cdvfile:*" />
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
     <feature name="Diagnostic">
         <param name="android-package" value="cordova.plugins.Diagnostic" />
         <param name="onload" value="true" />
@@ -31,6 +34,9 @@
     <feature name="Diagnostic_Location">
         <param name="android-package" value="cordova.plugins.Diagnostic_Location" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="Keyboard">
+        <param name="android-package" onload="true" value="io.ionic.keyboard.IonicKeyboard" />
     </feature>
     <name>LandslidesSurvey</name>
     <description>
@@ -51,10 +57,4 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="Orientation" value="portrait" />
     <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
-    <feature name="Keyboard">
-        <param name="android-package" onload="true" value="io.ionic.keyboard.IonicKeyboard" />
-    </feature>
 </widget>

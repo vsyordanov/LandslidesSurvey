@@ -346,6 +346,15 @@ p {
 #page--map .leaflet-marker-icon:focus {
   outline: none !important;
 }
+#page--map #sync-notification {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 2px;
+  left: 38px;
+  border-radius: 50%;
+  background-color: #DF0500;
+}
 
 /* INSERT DEFIBRILLATOR LAYOUT */
 #page--insert {

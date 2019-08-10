@@ -37,9 +37,7 @@
     text-align : center;
   }
 
-  & + .custom-container {
-    margin-top : $top-bar-height;
-  }
+  & + .custom-container { margin-top : $top-bar-height }
 
 }
 
@@ -52,26 +50,16 @@
     @include flex-static-size($top-bar-icon-area);
     cursor   : pointer;
 
-    i {
-      padding : $icon-padding;
-    }
+    i { padding : $icon-padding }
 
   }
 
-  .icons-top-bar-left-icon {
-    left : $top-bar-icon-margin;
-  }
+  .icons-top-bar-left-icon { left : $top-bar-icon-margin }
 
-  .icons-top-bar-right-icon-1 {
-    right : $top-bar-icon-area + $top-bar-icon-margin;
-  }
+  .icons-top-bar-right-icon-1 { right : $top-bar-icon-area + $top-bar-icon-margin }
 
-  .icons-top-bar-right-icon-2 {
-    right : $top-bar-icon-margin;
-  }
+  .icons-top-bar-right-icon-2 { right : $top-bar-icon-margin }
 
-  & + .custom-container {
-    margin-top : $top-bar-height;
-  }
+  & + .custom-container { margin-top : $top-bar-height }
 
 }

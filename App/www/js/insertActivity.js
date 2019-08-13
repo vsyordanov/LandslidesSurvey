@@ -37,13 +37,14 @@ class InsertActivity {
         // The name of the original photo of the landslide passed in "put" mode. Used to check if the photo has been modified
         this._oldPhoto = null;
 
+        // The values of the various fields
         this._vals = {
             coordinates        : "",
             coordinatesAccuracy: "",
             altitude           : "",
             altitudeAccuracy   : "",
             presence           : "",
-            lsType             : "",
+            type               : "",
             materialType       : "",
             hillPosition       : "",
             water              : "",
@@ -86,12 +87,14 @@ class InsertActivity {
     open() {
 
         // If the app is in expert mode or the ls that is being modified was mapped in expert, show the relative fields
-        if (App.isExpertMode || this._isExpert) {
+        if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode)) {
+
             $("#hill-position-request-wrapper").show();
             $("#vegetation-request-wrapper").show();
             $("#monitoring-request-wrapper").show();
             $("#damages-request-wrapper").show();
             $("#notes-request-wrapper").show();
+
         }
 
         this._screen.show();
@@ -113,27 +116,28 @@ class InsertActivity {
     }
 
     /**
-     * Opens the activity in "put" mode (modify a defibrillator)
+     * Opens the activity in "put" mode (modify a landslide)
      *
-     * @param {object} ls - The data of the defibrillator to modify.
+     * @param {object} ls - The data of the landslide to modify.
      * @param {boolean} isLocal - True if the landslide is saved in the local database.
      */
     openPut(ls, isLocal) {
 
-        // Save the defibrillator id
+        // Save the landslide id
         this._lsId = ls._id;
 
         // Save if the landslide was mapped in expert mode
-        this._isExpert = ls.expert;
+        this._isExpert = ls.expert === "true";
 
         // Save if the landslide is saved locally
         this._isLocal = isLocal;
 
         // Save the landslide data
-        this._vals.lsType         = ls.type;
+        this._vals.type           = ls.type;
         this._vals.materialType   = ls.materialType;
         this._vals.hillPosition   = ls.hillPosition;
         this._vals.water          = ls.water;
+        this._vals.vegetation     = ls.vegetation;
         this._vals.mitigation     = ls.mitigation;
         this._vals.mitigationList = ls.mitigationList;
         this._vals.monitoring     = ls.monitoring;
@@ -147,8 +151,11 @@ class InsertActivity {
         else
             this._vals.photo = `${settings.serverUrl}/${ls.imageUrl}`;
 
+        // Save the old photo
+        this._oldPhoto = this._vals.photo;
+
         // Set the main screen texts of the mandatory properties
-        $("#ls-type-text").html(i18next.t("insert.lsType.enum." + this._vals.lsType));
+        $("#ls-type-text").html(i18next.t("insert.type.enum." + this._vals.type));
 
         // Set the main screen texts of the optional properties
         if (this._vals.materialType !== "") $("#material-type-text").html(i18next.t("insert.materialType.enum." + this._vals.materialType));
@@ -199,7 +206,7 @@ class InsertActivity {
         $("#notes-request-wrapper").hide();
 
         // Reset all the main screen texts
-        $("#ls-type-text").html(i18next.t("insert.lsType.defaultText"));
+        $("#ls-type-text").html(i18next.t("insert.type.defaultText"));
         $("#material-type-text").html(i18next.t("insert.materialType.defaultText"));
         $("#hill-position-text").html(i18next.t("insert.hillPosition.defaultText"));
         $("#water-text").html(i18next.t("insert.water.defaultText"));
@@ -235,11 +242,11 @@ class InsertActivity {
 
         });
 
-        // When the user clicks on the "done" button, check the fields and add/update the defibrillator
+        // When the user clicks on the "done" button, check the fields and add/update the landslide
         $("#new-ls-done").click(() => {
 
             // If the user hasn't specified the type, return
-            if (this._vals.lsType === "") {
+            if (this._vals.type === "") {
                 utils.logOrToast(i18next.t("messages.mandatoryLsType"), "long");
                 return;
             }
@@ -258,10 +265,27 @@ class InsertActivity {
             }
 
             // If the activity is in "post" mode, post
-            if (!this._lsId) this.post();
+            if (!this._lsId) {
+
+                // If the application is online, post on the server
+                if (navigator.onLine) this.postRemote();
+
+                // Else, ask for user confirmation and post in the local database
+                else utils.createAlert("", i18next.t("dialogs.postOffline"), i18next.t("dialogs.btnNo"), null,
+                    i18next.t("dialogs.btnYes"), () => this.postLocal());
+
+            }
 
             // Else, put
-            else this.put();
+            else {
+
+                // If the application is online, put on the server
+                if (!this._isLocal) this.putRemote();
+
+                // Else, put in the local database
+                else this.putLocal();
+
+            }
 
         });
 
@@ -270,13 +294,13 @@ class InsertActivity {
         $("#ls-type-request").click(() => {
 
             // Initialize the value to select in the selector
-            let toSelect = this._vals.lsType;
+            let toSelect = this._vals.type;
 
             // If the user hasn't already specified the type, select "rockfall"
-            if (this._vals.lsType === "") toSelect = "rockfall";
+            if (this._vals.type === "") toSelect = "rockfall";
 
             // Change the selected option of the selector
-            $("input[name='lsType'][value='" + toSelect + "']").prop("checked", "true");
+            $("input[name='type'][value='" + toSelect + "']").prop("checked", "true");
 
             // Open the dialog
             this.openFullscreenDialog($("#dialog-ls-type"));
@@ -290,10 +314,10 @@ class InsertActivity {
         $("#ls-type-done").click(() => {
 
             // Save the value
-            this._vals.lsType = $("input[name='lsType']:checked").val();
+            this._vals.type = $("input[name='type']:checked").val();
 
             // Set the text of the main page
-            $("#ls-type-text").html(i18next.t("insert.lsType.enum." + this._vals.lsType));
+            $("#ls-type-text").html(i18next.t("insert.type.enum." + this._vals.type));
 
             // Close the dialog
             this.closeFullscreenDialog($("#dialog-ls-type"));
@@ -931,7 +955,10 @@ class InsertActivity {
 
         // Get the picture
         navigator.camera.getPicture(
+            // Fired if the picture is taken successfully
             fileURI => {
+
+                console.log(fileURI);
 
                 // Save the uri of the photo
                 this._vals.photo = fileURI;
@@ -943,6 +970,8 @@ class InsertActivity {
                 this._$photoThm.find("i").hide();
 
             },
+
+            // Fired if there is an error
             err => {
                 console.log(`Error taking picture ${err}`);
 
@@ -950,84 +979,100 @@ class InsertActivity {
                 utils.createAlert("", i18next.t("dialogs.pictureError"), i18next.t("dialogs.btnOk"));
 
             },
-            opt);
+
+            // Camera options
+            opt
+        );
 
     }
 
 
-    /** Insert a new landslide in the database. */
-    post() {
+    /** Insert a new landslide in the local database. */
+    postLocal() {
 
-        // If the device is offline, save the landslide in the local database
-        if (!navigator.onLine) {
+        // Open the loader
+        utils.openLoader();
 
-            // Ask for confirmation
-            utils.createAlert(
-                "",
-                i18next.t("dialogs.postOffline"),
-                i18next.t("dialogs.btnNo"),
-                null,
-                i18next.t("dialogs.btnYes"),
-                () => {
+        // Save all the data
+        const data = {
+            _id                : utils.generateUID(),
+            createdAt          : new Date().toISOString(),
+            updatedAt          : new Date().toISOString(),
+            expert             : App.isExpertMode.toString(),
+            coordinates        : this._vals.coordinates,
+            coordinatesAccuracy: this._vals.coordinatesAccuracy,
+            altitude           : this._vals.altitude,
+            altitudeAccuracy   : this._vals.altitudeAccuracy,
+            type               : this._vals.type,
+            materialType       : this._vals.materialType,
+            hillPosition       : this._vals.hillPosition,
+            water              : this._vals.water,
+            vegetation         : this._vals.vegetation,
+            mitigation         : this._vals.mitigation,
+            mitigationList     : this._vals.mitigationList,
+            monitoring         : this._vals.monitoring,
+            monitoringList     : this._vals.monitoringList,
+            damages            : this._vals.damages,
+            damagesList        : this._vals.damagesList,
+            notes              : this._vals.notes,
+            imageUrl           : this._vals.photo
+        };
 
-                    // Open the loader
-                    utils.openLoader();
+        // ToDo delete
+        if (!App.isCordova) {
 
-                    // Save all the data
-                    const data = {
-                        _id                : utils.generateUID(),
-                        createdAt          : new Date().toISOString(),
-                        updatedAt          : new Date().toISOString(),
-                        expert             : App.isExpertMode.toString(),
-                        coordinates        : this._vals.coordinates,
-                        coordinatesAccuracy: this._vals.coordinatesAccuracy,
-                        altitude           : this._vals.altitude,
-                        altitudeAccuracy   : this._vals.altitudeAccuracy,
-                        type               : this._vals.lsType,
-                        materialType       : this._vals.materialType,
-                        hillPosition       : this._vals.hillPosition,
-                        water              : this._vals.water,
-                        vegetation         : this._vals.vegetation,
-                        mitigation         : this._vals.mitigation,
-                        mitigationList     : this._vals.mitigationList,
-                        monitoring         : this._vals.monitoring,
-                        monitoringList     : this._vals.monitoringList,
-                        damages            : this._vals.damages,
-                        damagesList        : this._vals.damagesList,
-                        notes              : this._vals.notes
-                    };
+            landslide.postLocal(data)
+                .then(data => {
 
-                    // ToDo delete
-                    if (!App.isCordova) {
+                    // Close the loader
+                    utils.closeLoader();
 
-                        data.imageUrl = this._vals.photo;
+                    // Show the new landslide
+                    landslide.show(data.id, data.coords, true);
 
-                        landslide.postLocal(data)
-                            .then(data => {
+                    // Show the sync notification
+                    $("#sync-notification").show();
 
-                                // Close the loader
-                                utils.closeLoader();
+                    // Close the activity
+                    this.close();
 
-                                // Show the new defibrillator
-                                landslide.show(data.id, data.coords, true);
+                });
 
-                                // Show the sync notification
-                                $("#sync-notification").show();
-
-                                // Close the activity
-                                this.close();
-
-                            });
-
-                    }
-
-                }
-            );
-
-            // Return
             return;
 
         }
+
+        // Move the image
+        utils.moveImage(data.imageUrl)
+            .then(url => {
+
+                // Save the new url
+                data.imageUrl = url;
+
+                // Post the landslide
+                return landslide.postLocal(data)
+
+            })
+            .then(data => {
+
+                // Close the loader
+                utils.closeLoader();
+
+                // Show the new landslide
+                landslide.show(data.id, data.coords, true);
+
+                // Show the sync notification
+                $("#sync-notification").show();
+
+                // Close the activity
+                this.close();
+
+            });
+
+    }
+
+    /** Insert a new landslide in the remote database. */
+    postRemote() {
 
         // Open the loader
         utils.openLoader();
@@ -1041,7 +1086,7 @@ class InsertActivity {
         formData.append("coordinatesAccuracy", this._vals.coordinatesAccuracy);
         formData.append("altitude", this._vals.altitude);
         formData.append("altitudeAccuracy", this._vals.altitudeAccuracy);
-        formData.append("type", this._vals.lsType);
+        formData.append("type", this._vals.type);
         formData.append("materialType", this._vals.materialType);
         formData.append("hillPosition", this._vals.hillPosition);
         formData.append("water", this._vals.water);
@@ -1059,14 +1104,14 @@ class InsertActivity {
 
             formData.append("image", this._vals.photo);
 
-            // Post the defibrillator
+            // Post the landslide
             landslide.post(formData)
                 .then((data) => {
 
                     // Close the loader
                     utils.closeLoader();
 
-                    // Show the new defibrillator
+                    // Show the new landslide
                     landslide.show(data.id, data.coords, false);
 
                     // Close the activity
@@ -1081,7 +1126,7 @@ class InsertActivity {
         utils.appendFile(formData, this._vals.photo)
             .then(formData => {
 
-                // Post the defibrillator
+                // Post the landslide
                 return landslide.post(formData);
 
             })
@@ -1090,7 +1135,7 @@ class InsertActivity {
                 // Close the loader
                 utils.closeLoader();
 
-                // Show the new defibrillator
+                // Show the new landslide
                 landslide.show(data.id, data.coords, false);
 
                 // Close the activity
@@ -1101,56 +1146,78 @@ class InsertActivity {
     }
 
 
-    /** Modifies a landslide already in the database. */
-    put() {
+    /** Modifies a landslide already in the local database. */
+    putLocal() {
 
-        // If the landslide is saved locally
-        if (this._isLocal) {
+        // Open the loader
+        utils.openLoader();
 
-            // Open the loader
-            utils.openLoader();
+        // Save all the data
+        const data = {
+            updatedAt     : new Date().toISOString(),
+            type          : this._vals.type,
+            materialType  : this._vals.materialType,
+            hillPosition  : this._vals.hillPosition,
+            water         : this._vals.water,
+            vegetation    : this._vals.vegetation,
+            mitigation    : this._vals.mitigation,
+            mitigationList: this._vals.mitigationList,
+            monitoring    : this._vals.monitoring,
+            monitoringList: this._vals.monitoringList,
+            damages       : this._vals.damages,
+            damagesList   : this._vals.damagesList,
+            notes         : this._vals.notes
+        };
 
-            // Save all the data
-            const data = {
-                updatedAt     : new Date().toISOString(),
-                lsType        : this._vals.lsType,
-                materialType  : this._vals.materialType,
-                hillPosition  : this._vals.hillPosition,
-                water         : this._vals.water,
-                vegetation    : this._vals.vegetation,
-                mitigation    : this._vals.mitigation,
-                mitigationList: this._vals.mitigationList,
-                monitoring    : this._vals.monitoring,
-                monitoringList: this._vals.monitoringList,
-                damages       : this._vals.damages,
-                damagesList   : this._vals.damagesList,
-                notes         : this._vals.notes
-            };
 
-            // ToDo delete
-            if (!App.isCordova) {
+        // Utility function to put the landslide and eventually remove the old photo
+        const put = removeOld => {
 
-                landslide.putLocal(this._lsId, data)
-                    .then(() => {
+            // Put the landslide locally
+            landslide.putLocal(this._lsId, data)
+                .then(() => {
 
-                        // Close the loader
-                        utils.closeLoader();
+                    // If removeOld is true, delete the old image
+                    if (removeOld) utils.deleteImage(this._oldPhoto, false);
 
-                        InfoActivity.getInstance().getLandslide(data.id, true);
+                    // Close the loader
+                    utils.closeLoader();
 
-                        // Close the activity
-                        InsertActivity.getInstance().close();
+                    // Open the info activity with the new landslide
+                    InfoActivity.getInstance().getLandslide(data.id, true);
 
-                    });
+                    // Close the activity
+                    InsertActivity.getInstance().close();
 
-            }
+                });
 
-            // ToDo cordova
 
-            // Return
-            return;
+        };
+
+        // If the photo hasn't been changed, just put the landslide
+        if (this._vals.photo === this._oldPhoto) put(false);
+
+        // Else
+        else {
+
+            // Move the new image
+            utils.moveImage(this._vals.photo)
+                .then(url => {
+
+                    // Save the new url
+                    data.imageUrl = url;
+
+                    // Put the landslide and remove the old image
+                    put(true);
+
+                });
 
         }
+
+    }
+
+    /** Modifies a landslide already in the remote database. */
+    putRemote() {
 
         // Open the loader
         utils.openLoader();
@@ -1159,7 +1226,7 @@ class InsertActivity {
         const formData = new FormData();
 
         // Append to the formData all the data
-        formData.append("type", this._vals.lsType);
+        formData.append("type", this._vals.type);
         formData.append("materialType", this._vals.materialType);
         formData.append("hillPosition", this._vals.hillPosition);
         formData.append("water", this._vals.water);
@@ -1210,13 +1277,13 @@ class InsertActivity {
         utils.appendFile(formData, file)
             .then(formData => {
 
-                // Put the defibrillator
+                // Put the landslide
                 return landslide.put(InsertActivity.getInstance()._lsId, formData);
 
             })
             .then((data) => {
 
-                // Show the info about the defibrillator
+                // Show the info about the landslide
                 InfoActivity.getInstance().getLandslide(data.id);
 
                 // Close the loader

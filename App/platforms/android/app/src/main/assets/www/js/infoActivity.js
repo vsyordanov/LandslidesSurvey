@@ -64,7 +64,7 @@ class InfoActivity {
     /**
      * Opens the activity.
      *
-     * @param {string} id - The id of the defibrillator.
+     * @param {string} id - The id of the landslide.
      * @param {boolean} isLocal - True if the landslide is saved in the local database.
      */
     open(id, isLocal) {
@@ -92,7 +92,7 @@ class InfoActivity {
         // Show the screen
         this._screen.show();
 
-        // Get and display the defibrillator
+        // Get and display the landslide
         this.getLandslide(id, isLocal);
 
     }
@@ -125,7 +125,7 @@ class InfoActivity {
         $("#info-coordinatesAccuracy .info-content").html("");
         $("#info-altitude .info-content").html("");
         $("#info-altitudeAccuracy .info-content").html("");
-        $("#info-lsType .info-content").html("");
+        $("#info-type .info-content").html("");
         $("#info-materialType .info-content").html("");
         $("#info-hillPosition .info-content").html("");
         $("#info-water .info-content").html("");
@@ -159,7 +159,7 @@ class InfoActivity {
                 // Show and initialize the "delete" button
                 $("#info-delete").show().unbind("click").click(() => {
 
-                    // Ask for confirmation and delete the defibrillator
+                    // Ask for confirmation and delete the landslide
                     utils.createAlert(
                         "",
                         i18next.t("dialogs.deleteConfirmation"),
@@ -171,7 +171,7 @@ class InfoActivity {
                             // Open the loader
                             utils.openLoader();
 
-                            // Delete the defibrillator
+                            // Delete the landslide
                             landslide.delete(id, isLocal, data.imageUrl)
                                 .then(() => {
 
@@ -231,7 +231,7 @@ class InfoActivity {
         $(".info-block").show();
 
         // If the landslide has been mapped in simple mode, hide the expert fields
-        if (!data.expert) {
+        if (!data.expert || (isLocal && data.expert !== "true")) {
 
             $("#info-hillPosition").hide();
             $("#info-vegetation").hide();
@@ -362,11 +362,7 @@ class InfoActivity {
         let photoSrc;
 
         // ToDo fix
-        if (isLocal) {
-
-            photoSrc = "";
-
-        }
+        if (isLocal) photoSrc = data.imageUrl;
 
         // Else, set the remote url
         else photoSrc = `${settings.serverUrl}/${data.imageUrl}`;

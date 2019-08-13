@@ -84,12 +84,14 @@ const landslide = {
     showAll: () => {
 
         // Remove all the markers from the map
-        // landslide.remoteMarkers.forEach(m => MapActivity.getInstance().markersLayer.removeLayer(m));
         MapActivity.getInstance().markersLayer.clearLayers();
 
         // Empty the markers arrays
         landslide.remoteMarkers = [];
         landslide.localMarkers  = [];
+
+        // Hide the sync notification
+        $("#sync-notification").hide();
 
 
         // Retrieve the landslides in the local database
@@ -120,7 +122,7 @@ const landslide = {
         if (!navigator.onLine) return;
 
 
-        // Fetch from the server all the defibrillators of the logged user
+        // Fetch from the server all the landslides of the logged user
         fetch(
             `${settings.serverUrl}/landslide/get-all`,
             { headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` } }
@@ -140,7 +142,7 @@ const landslide = {
             })
             .then(data => {
 
-                // Show each of the retrieved defibrillators
+                // Show each of the retrieved landslides
                 data.landslides.forEach(d => landslide.show(d._id, d.coordinates, false));
 
             })
@@ -166,11 +168,12 @@ const landslide = {
     /**
      * Retrieves from the server the information about a landslide.
      *
-     * @param {string} id - The id of the defibrillator.
-     * @param {boolean} isLocal - True if the landslide is saved in the local database
+     * @param {string} id - The id of the landslide.
+     * @param {boolean} isLocal - True if the landslide is saved in the local database.
+     * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
      * @returns {Promise<object>} A promise containing the data about the landslide.
      */
-    get: (id, isLocal) => {
+    get: (id, isLocal, showError = true) => {
 
         // Return a promise
         return new Promise((resolve, reject) => {
@@ -188,6 +191,9 @@ const landslide = {
                 request.onerror = err => {
 
                     console.error("Retrieving ls failed", err);
+
+                    // If the error does not have to be shown, return
+                    if (!showError) reject();
 
                     // Close the loader
                     utils.closeLoader();
@@ -241,6 +247,9 @@ const landslide = {
 
                         console.error(err);
 
+                        // If the error does not have to be shown, return
+                        if (!showError) reject();
+
                         // Close the loader
                         utils.closeLoader();
 
@@ -280,14 +289,15 @@ const landslide = {
      * Sends a request to the server to insert a new landslide into the database.
      *
      * @param {FormData} formData - A FormData object containing the data about the landslide.
+     * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
      * @returns {Promise<object>} A promise containing the id and the coordinates of the landslide.
      */
-    post: formData => {
+    post: (formData, showError = true) => {
 
         // Return a new promise
         return new Promise((resolve, reject) => {
 
-            // Send a request to the server to insert a new defibrillator
+            // Send a request to the server to insert a new landslide
             fetch(
                 `${settings.serverUrl}/landslide/post`,
                 {
@@ -318,6 +328,9 @@ const landslide = {
                 .catch(err => {
 
                     console.error(err);
+
+                    // If the error does not have to be shown, return
+                    if (!showError) reject();
 
                     // Close the loader
                     utils.closeLoader();
@@ -351,43 +364,153 @@ const landslide = {
 
     },
 
+    /**
+     * Save a new landslide into the local database using the IndexedDB API.
+     *
+     * @param {object} data - The data of the landslide.
+     * @return {Promise<object>} A promise containing the id and the coordinates of the landslide.
+     */
     postLocal: data => {
 
+        // Return a promise
         return new Promise((resolve, reject) => {
 
-            // ToDo delete
-            if (!App.isCordova) {
+            // Send a request to the local db to save the landslide
+            const request = app.db
+                .transaction("landslides", "readwrite")
+                .objectStore("landslides")
+                .add(data);
 
-                const request = app.db
-                    .transaction("landslides", "readwrite")
-                    .objectStore("landslides")
-                    .add(data);
+            // Fired if an error occurs
+            request.onerror = err => {
 
-                request.onerror = err => {
+                console.log("An error occurred during the insert", err);
 
-                    console.log("An error occurred during the insert", err);
+                // Close the loader
+                utils.closeLoader();
 
-                    utils.closeLoader();
+                // Alert the user
+                utils.createAlert("", i18next.t("dialogs.insert.insertError"), i18next.t("dialogs.btnOk"));
 
-                    utils.createAlert("", i18next.t("dialogs.insert.insertError"), i18next.t("dialogs.btnOk"));
+                // Reject the promise
+                reject();
 
-                    reject();
+            };
 
-                };
+            // Fired if the request is successful
+            request.onsuccess = () => {
 
-                request.onsuccess = () => {
+                console.log("Insert done");
 
-                    console.log("Insert done");
+                // Resolve the promise
+                resolve({ id: data._id, coords: data.coordinates });
 
-                    resolve({ id: data._id, coords: data.coordinates });
-
-                };
-
-                return;
-
-            }
+            };
 
         });
+
+    },
+
+
+    /**
+     * Posts all the landslides in the local database to the server.
+     *
+     * @return {Promise<object>} A promise containing the results of the operation.
+     */
+    sync: async () => {
+
+        // Save the number of local landslides
+        const total = landslide.localMarkers.length;
+
+        // Initialize the number of successes, insert errors and delete errors
+        let success      = 0,
+            insertErrors = 0,
+            deleteErrors = 0;
+
+        // For each of the local landslides
+        for (let i = 0; i < total; i++) {
+
+            console.log(`Start ${i}`);
+
+            // Get the landslide
+            await landslide.get(landslide.localMarkers[i]._id, true, false)
+                .then(async ls => {
+
+                    console.log(`Found ${i}`);
+
+                    // Create the formData object
+                    const formData = new FormData();
+
+                    // Append to the formData all the data
+                    formData.append("expert", ls.expert.toString());
+                    formData.append("coordinates", JSON.stringify(ls.coordinates));
+                    formData.append("coordinatesAccuracy", ls.coordinatesAccuracy);
+                    formData.append("altitude", ls.altitude);
+                    formData.append("altitudeAccuracy", ls.altitudeAccuracy);
+                    formData.append("type", ls.type);
+                    formData.append("materialType", ls.materialType);
+                    formData.append("hillPosition", ls.hillPosition);
+                    formData.append("water", ls.water);
+                    formData.append("vegetation", ls.vegetation);
+                    formData.append("mitigation", ls.mitigation);
+                    formData.append("mitigationList", JSON.stringify(ls.mitigationList));
+                    formData.append("monitoring", ls.monitoring);
+                    formData.append("monitoringList", JSON.stringify(ls.monitoringList));
+                    formData.append("damages", ls.damages);
+                    formData.append("damagesList", JSON.stringify(ls.damagesList));
+                    formData.append("notes", ls.notes);
+
+                    // ToDo delete
+                    if (!App.isCordova) {
+
+                        formData.append("image", ls.imageUrl);
+
+                        // Post the landslide
+                        await landslide.post(formData, false)
+                            .then(async () => {
+
+                                console.log(`Posted ${i}`);
+
+                                await landslide.delete(ls._id, true, ls.imageUrl, false)
+                                    .then(() => success++)
+                                    .catch(() => deleteErrors++);
+
+                            })
+                            .catch(() => insertErrors++);
+
+                        return;
+
+                    }
+
+                    // Append the image
+                    await utils.appendFile(formData, ls.imageUrl, false)
+                        .then(async formData => {
+
+                            // Post the landslide
+                            return await landslide.post(formData, false);
+
+                        })
+                        .then(async () => {
+
+                            console.log(`Posted ${i}`);
+
+                            // Delete the local landslide
+                            await landslide.delete(ls._id, true, ls.imageUrl, false)
+                                .then(() => success++)        // If success, increment the successes counter
+                                .catch(() => deleteErrors++); // If error, increment the delete errors counter
+
+                        })
+                        .catch(() => insertErrors++); // If error, increment the insert errors counter
+
+                })
+                .catch(() => insertErrors++); // If error, increment the insert errors counter
+
+        }
+
+        console.log("Done ls");
+
+        // Return the results
+        return { total: total, successes: success, insertErrors: insertErrors, deleteErrors: deleteErrors };
 
     },
 
@@ -473,6 +596,13 @@ const landslide = {
 
     },
 
+    /***
+     * Updates a landslide already saved in the local database.
+     *
+     * @param {string} id - The id of the landslide.
+     * @param {object} data - The new data to save.
+     * @return {Promise<string>} - A promise containing the id of the landslide.
+     */
     putLocal: (id, data) => {
 
         // Return a new promise
@@ -548,9 +678,10 @@ const landslide = {
      * @param {string} id - The id of the landslide.
      * @param {boolean} isLocal - True if the landslide is saved in the local database.
      * @param {(string|null)} [localPhotoURL] - The local RL of the photo (has a value only if the landslide is local).
+     * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
      * @returns {Promise<>} An empty promise.
      */
-    delete: (id, isLocal, localPhotoURL = null) => {
+    delete: (id, isLocal, localPhotoURL = null, showError = true) => {
 
         // Return a promise
         return new Promise((resolve, reject) => {
@@ -569,6 +700,9 @@ const landslide = {
 
                     console.error("Deleting failed", err);
 
+                    // If the error does not have to be shown, return
+                    if (!showError) reject();
+
                     // Close the loader
                     utils.closeLoader();
 
@@ -583,12 +717,21 @@ const landslide = {
                 // Fired when the request is successful
                 request.onsuccess = () => {
 
-                    // ToDo photo
-
                     // Remove the marker
                     landslide.removeMarker(id, true);
 
-                    // Resolve the promise
+                    // If there are no landslides left in the local database, hide the sync notification
+                    if (landslide.localMarkers.length === 0) $("#sync-notification").hide();
+
+                    // Delete the local image
+                    utils.deleteImage(localPhotoURL, showError)
+                        .then(() => {
+
+                            // Resolve the promise
+                            resolve();
+
+                        });
+
                     resolve();
 
                 };
@@ -625,6 +768,9 @@ const landslide = {
                     .catch(err => {
 
                         console.error(err);
+
+                        // If the error does not have to be shown, return
+                        if (!showError) reject();
 
                         // Close the loader
                         utils.closeLoader();
@@ -674,7 +820,7 @@ const landslide = {
             // Create a temporary array
             let newMarkers = [];
 
-            // For each defibrillator
+            // For each landslide
             array.forEach(m => {
 
                 // If it's the one to delete, remove the correspondent marker from the map

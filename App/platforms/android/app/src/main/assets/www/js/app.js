@@ -75,7 +75,6 @@ class App {
 
         }
 
-
         // Initialize the local database
         this.initLocalDb()
             .then(() => {
@@ -261,7 +260,7 @@ class App {
             if (MapActivity.getInstance().isPositionWatcherAttached) {
 
                 // Set the flag to true
-                this._toReattachPositionWatcher = true;
+                app._toReattachPositionWatcher = true;
 
                 // Detach the position watcher
                 MapActivity.getInstance().detachPositionWatcher();
@@ -278,13 +277,13 @@ class App {
         console.log("onResume");
 
         // If the position watcher has to be re-attached
-        if (this._toReattachPositionWatcher) {
+        if (app._toReattachPositionWatcher) {
 
             // Check if the gps is on and eventually attach the position watcher
             MapActivity.getInstance().checkGPSOn(() => MapActivity.getInstance().attachPositionWatcher());
 
             // Set the flag to false
-            this._toReattachPositionWatcher = false;
+            app._toReattachPositionWatcher = false;
 
         }
 

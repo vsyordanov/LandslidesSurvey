@@ -12,7 +12,7 @@ const postValidation = [
     body("coordinates")
         .not().isEmpty().withMessage("You must specify the coordinates of the landslide"),
     body("type")
-        .not().isEmpty().withMessage("You must specify if the defibrillator is present."),
+        .not().isEmpty().withMessage("You must specify if the type of the landslide."),
     body("notes")
         .trim()
         .escape()
@@ -21,7 +21,7 @@ const postValidation = [
 // Validation for the data sent with a put request
 const putValidation = [
     body("type")
-        .not().isEmpty().withMessage("You must specify if the defibrillator is present."),
+        .not().isEmpty().withMessage("You must specify if the type of the landslide."),
     body("notes")
         .trim()
         .escape()

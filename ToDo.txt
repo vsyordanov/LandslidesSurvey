@@ -12,8 +12,32 @@
 
     - orientazione telefono
 
-    - inclinazione telefono (?)
 
+- Cancellare foto dalla cache quando chiudo insert
+
+
+- Date quando sync
+
+
+- Impostazioni
+
+
+- Tutorial
+
+
+- Sistemare foto da telefono che non si vedono
+
+
+- Login quando off line
+
+
+- Spiegazioni frane
+
+
+- Bug mappa
+
+
+- Logo
 
 
 - Mappa offline (cached tiles)

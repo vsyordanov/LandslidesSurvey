@@ -50,7 +50,7 @@ exports.getLandslide = (req, res, next) => {
 
             // If no landslide is found, throw a 404 error
             if (!landslide) {
-                const error      = new Error("Could not find defibrillator.");
+                const error      = new Error("Could not find landslide.");
                 error.statusCode = 404;
                 throw error;
             }
@@ -192,7 +192,7 @@ exports.updateLandslide = (req, res, next) => {
 
             // If no landslide is found, throw a 404 error
             if (!landslide) {
-                const error      = new Error("Could not find defibrillator.");
+                const error      = new Error("Could not find landslide.");
                 error.statusCode = 404;
                 throw error;
             }

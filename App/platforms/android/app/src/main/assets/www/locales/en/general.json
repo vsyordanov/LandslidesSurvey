@@ -20,7 +20,8 @@
     "register422" : "Entered data is incorrect.",
     "login401" : "Wrong email or password.",
     "postLandslide422" : "Entered data is incorrect.",
-    "putLandslide422" : "Entered data is incorrect."
+    "putLandslide422" : "Entered data is incorrect.",
+    "localDbEmpty": "No landslides to synchronize."
   },
   "dialogs" : {
     "title401" : "Unauthorized!",
@@ -30,7 +31,7 @@
     "openLocalDbError" : "An error occurred while opening the local database.",
     "createLocalDbError" : "An error occurred while creating the local database.",
     "directoryError" : "An error occurred while retrieving or creating the application's directory.",
-    "deleteLocalPhotoError" : "An error occurred while deleting the photo from the local database.",
+    "deleteLocalPhotoError" : "An error occurred while deleting the photo from the local database. However, the landslide has been successfully removed.",
     "deleteLocalLsError" : "An error occurred while deleting the landslide form the local database.",
     "deleteConfirmation" : "Are you sure you want to delete this landslide?",
     "getLocalLsError" : "An error occurred while retrieving the landslides data form the local database.",
@@ -60,6 +61,12 @@
     "postOffline" : "It seems that you are offline. Do you want to save the landslide locally? You will be able to synchronize it with the server at any time.",
     "infoRemoteOffline": "It seems that you are offline. Right now you can view only the landslides saved locally.",
     "openLocalInfo": "This landslide is save locally. Every modification will be save locally until you synchronize the database with the server.",
+    "syncOffline": "It seems that you are offline. Please, try to sync your landslide when you have an internet connection.",
+    "syncConfirmation": "Your local database contains {{number}} landslide(s). Do you want to sync them with the server?",
+    "syncResults": "{{s}}/{{t}} landslides successfully synced.\n{{ie}}/{{t}} landslides cannot be synced.\n{{de}}/{{t}} landslides synced but cannot be deleted form local database.",
+    "syncSuccesses": "landslides successfully synced.",
+    "syncInsertErr": "landslides not synced.",
+    "syncDeleteErr": "landslides synced but not deleted form local database.",
     "btnYes" : "Yes",
     "btnNo" : "No",
     "btnCancel" : "cancel",
@@ -172,7 +179,7 @@
       "requiredFields" : "* Indicates a required field",
       "photoName" : "Photo *"
     },
-    "lsType" : {
+    "type" : {
       "name" : "Type of landslide *",
       "defaultText" : "Specify the type of the landslide",
       "topBarTitle" : "Type of landslide",
@@ -333,7 +340,7 @@
     "coordinatesAccuracy" : "Coordinates accuracy",
     "altitude" : "Altitude",
     "altitudeAccuracy" : "Altitude accuracy",
-    "lsType" : "Landslide type",
+    "type" : "Landslide type",
     "materialType" : "Material type",
     "hillPosition" : "Position on the hill",
     "water" : "Water presence",

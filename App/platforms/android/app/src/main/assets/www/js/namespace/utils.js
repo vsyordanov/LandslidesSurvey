@@ -34,7 +34,7 @@ const utils = {
      *
      * @return {string} The unique identifier.
      */
-    generateUID() {
+    generateUID: () => {
 
         // Create utility variables
         let array = new Uint32Array(6),
@@ -53,13 +53,234 @@ const utils = {
 
 
     /**
+     * Retrieves or creates the "image" folder from the persistent and private data storage within the application's
+     * sandbox.
+     *
+     * @return {Promise<object>} A promise containing the directory object.
+     */
+    getLocalDirectory: () => {
+
+        // Return a new promise
+        return new Promise((resolve, reject) => {
+
+            // Find the root directory in the system
+            window.resolveLocalFileSystemURL(
+                // Persistent and private data storage within the application's sandbox
+                cordova.file.dataDirectory,
+
+                // Fired if the directory is found
+                rootDir => {
+
+                    // Get the application folder
+                    rootDir.getDirectory(
+                        // Name of the folder
+                        "images",
+
+                        // If the folder doesn't exist, create it
+                        { create: true },
+
+                        // If the directory is found/created, resolve the promise
+                        dir => resolve(dir),
+
+                        // If there is an error
+                        err => {
+
+                            console.error("Fail to get or create main directory", err);
+
+                            // Reject the promise
+                            reject();
+
+                        })
+
+                },
+
+                // Fired if an error occurs
+                err => {
+
+                    console.error("Fail to resolve root directory", err);
+
+                    // Reject the promise
+                    reject();
+
+                }
+            );
+
+        });
+
+    },
+
+
+    /**
+     * Moves an image into the "image" folder in the private data storage within the application's sandbox.
+     *
+     * @param {string} imageUrl - The url of the image to move.
+     * @return {Promise<string>} A promise containing the new url of the image.
+     */
+    moveImage: imageUrl => {
+
+        // Return a promise
+        return new Promise((resolve, reject) => {
+
+            // Utility function to fire on error
+            const onError = () => {
+
+                // Close the loader
+                utils.closeLoader();
+
+                // Alert the user
+                utils.createAlert("", i18next.t("dialogs.insert.movePictureError"), i18next.t("dialogs.btnOk"));
+
+                // Reject the promise
+                reject();
+
+            };
+
+            // Find the image in the system
+            window.resolveLocalFileSystemURL(
+                // The url of the image
+                imageUrl,
+
+                // If the image is found
+                fileEntry => {
+
+                    // Get the "image" directory in the application private data storage
+                    utils.getLocalDirectory()
+                        .then(dir => {
+
+                            // Move the image in the directory
+                            fileEntry.moveTo(
+                                // The directory
+                                dir,
+
+                                // The original path of the image
+                                fileEntry.name,
+
+                                // If the imaged is moved successfully
+                                file => {
+
+                                    console.log("File moved!", file);
+
+                                    // Resolve the promise
+                                    resolve(file.nativeURL);
+
+                                },
+
+                                // If there is an error
+                                err => {
+
+                                    console.error("Fail to move the file", err);
+
+                                    // Call the utility function
+                                    onError();
+
+                                }
+                            )
+
+                        })
+                        .catch(() => {
+
+                            // Call the utility function
+                            onError();
+
+                        });
+
+                },
+
+                // If there is an error
+                err => {
+
+                    console.error("Failed to resolve the file", err);
+
+                    // Call the utility function
+                    onError();
+
+                }
+            );
+
+        });
+
+    },
+
+
+    /**
+     * Deletes an image from the local memory.
+     *
+     * @param {string} imageUrl - The url of the image.
+     * @param {boolean} showError - True if an eventual error has to be shown.
+     * @return {Promise<>} An empty promise (always resolved).
+     */
+    deleteImage: (imageUrl, showError) => {
+
+        // Return a new promise
+        return new Promise(resolve => {
+
+            // Utility function to fire on error
+            const onError = () => {
+
+                // If the error has to be shown, alert the user
+                if (showError) utils.createAlert("", i18next.t("dialogs.deleteLocalPhotoError"), i18next.t("dialogs.btnOk"));
+
+                // Resolve the promise
+                resolve();
+
+            };
+
+            // Find the image in the system
+            window.resolveLocalFileSystemURL(
+                // The url of the image
+                imageUrl,
+
+                // If the image is found
+                file => {
+
+                    file.remove(
+                        // If the image is deleted successfully
+                        () => {
+
+                            console.log("Photo removed successfully");
+
+                            resolve();
+
+                        },
+
+                        // If there is an error
+                        err => {
+
+                            console.error("Error removing photo", err);
+
+                            // Call the utility function
+                            onError();
+
+                        }
+                    )
+
+                },
+
+                // If there is an error
+                err => {
+
+                    console.error("Error getting the photo", err);
+
+                    // Call the utility function
+                    onError();
+
+                }
+            );
+
+        });
+
+    },
+
+
+    /**
      * Appends a file as a blob to the given formData.
      *
      * @param {FormData} formData - The form data to which the file has to be appended
      * @param {(string|null)} [fileUri] - The uri of the file to append.
+     * * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
      * @returns {Promise<FormData>} - A promise containing the formData with the file append to it.
      */
-    appendFile(formData, fileUri) {
+    appendFile(formData, fileUri, showError) {
 
         // Return a promise
         return new Promise((resolve, reject) => {
@@ -68,7 +289,12 @@ const utils = {
             if (!fileUri) resolve(formData);
 
             // Find the file in the file system
-            window.resolveLocalFileSystemURL(fileUri, fileEntry => {
+            window.resolveLocalFileSystemURL(
+                // Url of the file
+                fileUri,
+
+                // If the file is found
+                fileEntry => {
 
                     // Get the file
                     fileEntry.file(file => {
@@ -110,6 +336,9 @@ const utils = {
 
                         console.error(`Error getting the fileEntry file ${err}`);
 
+                        // If the error does not have to be shown, return
+                        if (!showError) reject();
+
                         // Alert the user
                         utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
 
@@ -118,9 +347,15 @@ const utils = {
 
                     })
 
-                }, err => {
+                },
+
+                // If an error occurs
+                err => {
 
                     console.error(`Error getting the file ${err}`);
+
+                    // If the error does not have to be shown, return
+                    if (!showError) reject();
 
                     // Alert the user
                     utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
@@ -388,5 +623,9 @@ const utils = {
         $("#img-screen-delete").parent().hide();
 
     },
+
+
+    // ToDo delete
+    r: url => window.resolveLocalFileSystemURL(url, fileEntry => console.log(fileEntry), err => console.error(err)),
 
 };

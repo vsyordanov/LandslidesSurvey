@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- *  Activity to show on a map the position of the user as well as the position of all the defibrillators he has already
+ *  Activity to show on a map the position of the user as well as the position of all the landslides he has already
  *  mapped.
  *
  * @author Edoardo Pessina
@@ -71,7 +71,7 @@ class MapActivity {
         this.initUI();
 
 
-        // Create the layer that will contain the defibrillator markers
+        // Create the layer that will contain the landslide markers
         this.markersLayer = L.markerClusterGroup();
 
         // When the user click on a cluster, set clusterClick to true
@@ -122,7 +122,7 @@ class MapActivity {
     }
 
 
-    /** Opens the activity and shows the user's defibrillators. */
+    /** Opens the activity and shows the user's landslides. */
     open() {
 
         // Show the screen
@@ -171,7 +171,65 @@ class MapActivity {
 
         });
 
-        $("#map-control-sync").click(() => utils.logOrToast("Sync", "short"));
+        // Set the button for the synchronization
+        $("#map-control-sync").click(() => {
+
+            // If there are no landslides in the local database
+            if (landslide.localMarkers.length === 0) {
+
+                // Alert the user
+                utils.logOrToast(i18next("messages.localDbEmpty"), "long");
+
+                // Return
+                return;
+
+            }
+
+            // If there is no internet connection
+            if (!navigator.onLine) {
+
+                // Alert the user
+               utils.createAlert("", i18next.t("dialogs.syncOffline"), i18next.t("dialogs.btnOk"));
+
+                // Return
+                return;
+
+            }
+
+            // Ask for confirmation and sync the databases
+            utils.createAlert(
+                "",
+                i18next.t("dialogs.syncConfirmation", { number: landslide.localMarkers.length }),
+                i18next.t("dialogs.btnNo"),
+                null,
+                i18next.t("dialogs.btnYes"),
+                async () => {
+
+                    // Open the loader
+                    utils.openLoader();
+
+                    // Sync the data
+                    let res = await landslide.sync();
+
+                    // Show all the landslides
+                    landslide.showAll();
+
+                    // Close the loader
+                    utils.closeLoader();
+
+                    // Alert the user about the results of the syncing
+                    utils.createAlert(
+                        "",
+                        `<p style="margin-bottom: 8px">${res.successes}/${res.total} ${i18next.t("dialogs.syncSuccesses")}</p>
+                         <p style="margin-bottom: 8px">${res.insertErrors}/${res.total} ${i18next.t("dialogs.syncInsertErr")}</p>
+                         <p>${res.deleteErrors}/${res.total} ${i18next.t("dialogs.syncDeleteErr")}</p>`,
+                        i18next.t("dialogs.btnOk")
+                    );
+
+                }
+            );
+
+        });
 
         // Cache the gps button
         this._$gps = $("#map-control-gps");

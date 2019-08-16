@@ -16,10 +16,10 @@
 
     <!-- Material icons -->
     <link href="css/material-icons.css" rel="stylesheet">
-<!--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
+    <!--    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
 
     <!-- Modernizer -->
-    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>
+<!--    <script type="text/javascript" src="js/lib/modernizr-2.6.2.min.js"></script>-->
 
     <title>Landslide Survey</title>
 
@@ -29,11 +29,11 @@
 
 
 <!-- Splash screen -->
-<div id="splash">
+<div style="display: none" id="splash">
 
     <div class="logo-wrapper">
 
-        <div class="logo"><span>Logo</span></div>
+        <img src="img/icon/512x512.png" alt="Logo">
 
     </div>
 
@@ -44,7 +44,12 @@
 <div style="display: none" id="page--log-in" class="auth-page">
 
     <div class="logo-wrapper">
-        <div class="logo"><span>Logo</span></div>
+
+        <div class="logo-wrapper">
+
+            <img src="img/icon/512x512.png" alt="Logo">
+
+        </div>
     </div>
 
     <div class="form-container">
@@ -317,6 +322,383 @@
             <span data-i18n="auth.register.haveAccount"></span>
             <span id="link--login" class="link" data-i18n="auth.register.login"></span>
         </p>
+    </div>
+
+</div>
+
+
+<!-- Settings -->
+<div style="display: none" id="page--settings">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="settings-close" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="settings.topBarTitle"></div>
+
+        <div style="visibility: hidden" class="top-bar-right-icon"></div>
+
+    </div>
+
+    <div class="settings-container">
+
+        <!-- Account -->
+        <div id="settings-account-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">person</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.account.name"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+        <!-- Expert -->
+        <div id="settings-expert-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">check</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.expert"></p>
+
+            </div>
+
+            <div class="settings-cbx-wrapper">
+
+                <div class="flex-wrapper">
+
+                    <input id="expert-cbx" type="checkbox"/>
+                    <label for="expert-cbx" class="switch"></label>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Language -->
+        <div id="settings-language-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">language</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.language"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+        <!-- Help -->
+        <div id="settings-help-wrapper" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">help</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.help"></p>
+
+            </div>
+
+            <div class="setting-icon-right"><i class="material-icons">keyboard_arrow_right</i></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Account -->
+<div style="display: none" id="page--account-settings">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="account-close" class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="settings.account.topBarTitle"></div>
+
+        <div style="visibility: hidden" class="top-bar-right-icon"></div>
+
+    </div>
+
+    <div class="settings-container">
+
+        <!-- Edit profile -->
+        <div id="account-edit-profile" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">edit</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.account.editProfile.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Change mail -->
+        <div id="account-change-mail" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">mail</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.account.changeEmail.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Change password -->
+        <div id="account-change-pw" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">lock</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.account.changePw.name"></p>
+
+            </div>
+
+        </div>
+
+        <!-- Logout -->
+        <div id="account-logout" class="setting">
+
+            <div class="setting-icon-left"><i class="material-icons">exit_to_app</i></div>
+
+            <div class="setting-content">
+
+                <p class="setting-name" data-i18n="settings.account.logout"></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Change email -->
+<div style="display: none" id="change-email" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="change-email-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="settings.account.changeEmail.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="change-email-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <div class="form-field">
+
+            <i class="material-icons">email</i>
+
+            <label for="new-email"></label>
+            <input id="new-email"
+                   type="email"
+                   data-i18n="[placeholder]settings.account.changeEmail.emailPh">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- Change password -->
+<div style="display: none" id="change-pw" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="change-pw-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="settings.account.changePw.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="change-pw-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <!-- Old password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-old-password"></label>
+            <input id="change-pw-old-password"
+                   type="password"
+                   data-i18n="[placeholder]settings.account.changePw.oldPasswordPh">
+
+        </div>
+
+        <!-- New password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-new-password"></label>
+            <input id="change-pw-new-password"
+                   type="password"
+                   data-i18n="[placeholder]settings.account.changePw.newPasswordPh">
+
+        </div>
+
+        <!-- Confirm password -->
+        <div class="form-field">
+
+            <i class="material-icons">lock</i>
+
+            <label for="change-pw-confirm-password"></label>
+            <input id="change-pw-confirm-password"
+                   type="password"
+                   data-i18n="[placeholder]settings.account.changePw.confirmPasswordPh">
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Edit profile -->
+<div style="display: none" id="page--edit-profile" class="form-page">
+
+    <div class="top-bar">
+
+        <div class="top-bar-left-icon">
+            <i id="edit-profile-close" class="material-icons">close</i>
+        </div>
+
+        <div class="top-bar-title" data-i18n="settings.account.editProfile.topBarTitle"></div>
+
+        <div class="top-bar-right-icon">
+            <i id="edit-profile-done" class="material-icons">done</i>
+        </div>
+
+    </div>
+
+    <div class="form-container">
+
+        <!-- Age -->
+        <div class="form-field">
+
+            <i class="material-icons">cake</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-age">
+
+                    <span class="label-description" data-i18n="selectors.register-ageDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-age">
+
+                    <option value="none">--</option>
+                    <option value="less15" data-i18n="auth.register.ageEnum.less15"></option>
+                    <option value="16-20" data-i18n="auth.register.ageEnum.16-20"></option>
+                    <option value="21-25" data-i18n="auth.register.ageEnum.21-25"></option>
+                    <option value="26-30" data-i18n="auth.register.ageEnum.26-30"></option>
+                    <option value="31-35" data-i18n="auth.register.ageEnum.31-35"></option>
+                    <option value="36-40" data-i18n="auth.register.ageEnum.36-40"></option>
+                    <option value="41-45" data-i18n="auth.register.ageEnum.41-45"></option>
+                    <option value="46-50" data-i18n="auth.register.ageEnum.46-50"></option>
+                    <option value="51-55" data-i18n="auth.register.ageEnum.51-55"></option>
+                    <option value="56-60" data-i18n="auth.register.ageEnum.56-60"></option>
+                    <option value="61-65" data-i18n="auth.register.ageEnum.61-65"></option>
+                    <option value="66-70" data-i18n="auth.register.ageEnum.66-70"></option>
+                    <option value="more70" data-i18n="auth.register.ageEnum.more70"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Gender -->
+        <div class="form-field">
+
+            <i class="material-icons">perm_identity</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-gender">
+
+                    <span class="label-description" data-i18n="selectors.register-genderDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-gender">
+
+                    <option value="none">--</option>
+                    <option value="male" data-i18n="auth.register.genderEnum.male"></option>
+                    <option value="female" data-i18n="auth.register.genderEnum.female"></option>
+                    <option value="other" data-i18n="auth.register.genderEnum.other"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <!-- Occupation -->
+        <div class="form-field">
+
+            <i class="material-icons">domain</i>
+
+            <div class="custom-selector-box">
+
+                <label for="edit-profile-occupation">
+
+                    <span class="label-description" data-i18n="selectors.register-occupationDefLabel"></span>
+
+                    <i class="material-icons">keyboard_arrow_down</i>
+
+                </label>
+
+                <select id="edit-profile-occupation">
+
+                    <option value="none">--</option>
+                    <option value="student" data-i18n="auth.register.occupationEnum.student"></option>
+                    <option value="employee" data-i18n="auth.register.occupationEnum.employee"></option>
+                    <option value="freelancer" data-i18n="auth.register.occupationEnum.freelancer"></option>
+                    <option value="unemployed" data-i18n="auth.register.occupationEnum.unemployed"></option>
+                    <option value="retiree" data-i18n="auth.register.occupationEnum.retiree"></option>
+
+                </select>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
@@ -1957,7 +2339,12 @@
 
 <!-- Cordova -->
 <!--suppress HtmlUnknownTarget -->
-<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script> <!-- v. 9.0.0 -->
+
+
+<!-- Babel polyfill -->
+<script type="text/javascript" src="js/lib/polyfill.min.js"></script> <!-- v. 7.4.4 -->
+
 
 <!-- jQuery -->
 <script type="text/javascript" src="js/lib/jquery.min.js"></script> <!-- v. 2.2.4 -->
@@ -1972,18 +2359,21 @@
 <script type="text/javascript" src="js/lib/i18next.min.js"></script> <!-- v. 17.0.6 -->
 
 <!-- Main JS -->
-<script type="text/javascript" src="js/namespace/settings.js"></script>
-<script type="text/javascript" src="js/namespace/utils.js"></script>
-<script type="text/javascript" src="js/namespace/landslide.js"></script>
-<script type="text/javascript" src="js/namespace/user.js"></script>
+<!--<script type="text/javascript" src="js/namespace/settings.js"></script>-->
+<!--<script type="text/javascript" src="js/namespace/utils.js"></script>-->
+<!--<script type="text/javascript" src="js/namespace/landslide.js"></script>-->
+<!--<script type="text/javascript" src="js/namespace/user.js"></script>-->
 
-<script type="text/javascript" src="js/auth/loginActivity.js"></script>
-<script type="text/javascript" src="js/auth/registerActivity.js"></script>
-<script type="text/javascript" src="js/auth/resetPwActivity.js"></script>
-<script type="text/javascript" src="js/mapActivity.js"></script>
-<script type="text/javascript" src="js/insertActivity.js"></script>
-<script type="text/javascript" src="js/infoActivity.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
+<!--<script type="text/javascript" src="js/auth/loginActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/auth/registerActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/auth/resetPwActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/mapActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/insertActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/infoActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/settingsActivity.js"></script>-->
+<!--<script type="text/javascript" src="js/app.js"></script>-->
+
+<script type="text/javascript" src="js/babel/app.js"></script>
 
 </body>
 

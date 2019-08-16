@@ -6,7 +6,7 @@
 - Back arrow
 
 
--foto:
+- foto:
 
     - 1 obbligatoria, fino a 3
 
@@ -19,16 +19,15 @@
 - Date quando sync
 
 
-- Impostazioni
-
-
 - Tutorial
 
 
 - Sistemare foto da telefono che non si vedono
 
+- Babel
 
-- Login quando off line
+
+- Gestire auto-logout
 
 
 - Spiegazioni frane
@@ -37,7 +36,13 @@
 - Bug mappa
 
 
-- Logo
+- Icone
+
+
+- GDPR
+
+
+- Lingua client e server
 
 
 - Mappa offline (cached tiles)

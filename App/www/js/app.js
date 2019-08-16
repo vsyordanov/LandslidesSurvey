@@ -29,7 +29,7 @@ class App {
     static get localDbName() { return "LandslideSurvey" };
 
     /** @return {number} The current version of the local database. */
-    static get localDbVersion() { return 1 };
+    static get localDbVersion() { return 1 }
 
 
     /**
@@ -47,6 +47,9 @@ class App {
 
         // The number of time the back button has been sequentially pressed
         this._backPressedCount = 0;
+
+        // Flag that states if the user is using the application as a guest (i.e. no internet connection so no login)
+        this.isGuest = false;
 
         // Attach the function to be fired when a "pause" or a "resume" event occurs
         document.addEventListener("pause", this.onPause, false);
@@ -151,6 +154,9 @@ class App {
 
                 // Open the first  activity
                 this.open();
+
+                // LoginActivity.getInstance().getAuthStatus();
+                // SettingsActivity.getInstance().open();
 
             });
 

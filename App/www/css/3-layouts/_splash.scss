@@ -2,30 +2,6 @@
 
 #splash {
   @extend %full-page;
-  background : linear-gradient(135deg, #FFFFFF 0%, $color-gradient 100%);
-  z-index    : $z-splash;
+  z-index : $z-splash;
   @include flex-center;
-
-  .logo-wrapper {
-    width : 100%;
-    @include flex-display(row, center);
-
-    .logo {
-      width         : 120px;
-      height        : 120px;
-      border        : 1px solid #858585;
-      border-radius : 50%;
-      overflow      : hidden;
-      @include flex-center;
-
-      span {
-        @include font(500, $font-title);
-        text-transform : uppercase;
-        color          : #000000;
-      }
-
-    }
-
-  }
-
 }

@@ -1,0 +1,11 @@
+/* LOGO */
+
+.logo-wrapper {
+  @include flex-center;
+
+  img {
+    width  : 100px;
+    height : 100px;
+  }
+
+}

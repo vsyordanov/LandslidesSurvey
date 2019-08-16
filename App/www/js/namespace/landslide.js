@@ -118,8 +118,8 @@ const landslide = {
 
         };
 
-        // If the app is offline, return
-        if (!navigator.onLine) return;
+        // If the app is offline or the user is a guest, return
+        if (!navigator.onLine || app.isGuest) return;
 
 
         // Fetch from the server all the landslides of the logged user

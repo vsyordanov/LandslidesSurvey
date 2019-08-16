@@ -12,7 +12,6 @@ const userSchema = new Schema({
     occupation                 : String,
     isConfirmed                : { type: Boolean, default: false },
     landslides                 : [{ type: Schema.Types.ObjectId, ref: "Landslide" }],
-    imageUrl                   : String,
     confirmEmailToken          : String,
     confirmEmailTokenExpiration: Date,
     resetPwToken               : String,

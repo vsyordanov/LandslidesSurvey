@@ -160,25 +160,17 @@ class MapActivity {
         // Hide the default controls of leaflet
         $(".leaflet-control-container").hide();
 
-        // Set the button for the settings //ToDo
-        $("#map-control-settings").click(() => {
-
-            // Change the mode
-            localStorage.setItem("mode", (!App.isExpertMode).toString());
-
-            // Alert the user
-            utils.logOrToast(`Expert mode set to ${App.isExpertMode}`, "short");
-
-        });
+        // Set the button for the settings
+        $("#map-control-settings").click(() => SettingsActivity.getInstance().open());
 
         // Set the button for the synchronization
         $("#map-control-sync").click(() => {
 
-            // If there are no landslides in the local database
-            if (landslide.localMarkers.length === 0) {
+            // If the user is a guest
+            if (app.isGuest) {
 
                 // Alert the user
-                utils.logOrToast(i18next("messages.localDbEmpty"), "long");
+                utils.createAlert("", i18next.t("dialogs.syncGuest"), i18next.t("dialogs.btnOk"));
 
                 // Return
                 return;
@@ -189,7 +181,18 @@ class MapActivity {
             if (!navigator.onLine) {
 
                 // Alert the user
-               utils.createAlert("", i18next.t("dialogs.syncOffline"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.syncOffline"), i18next.t("dialogs.btnOk"));
+
+                // Return
+                return;
+
+            }
+
+            // If there are no landslides in the local database
+            if (landslide.localMarkers.length === 0) {
+
+                // Alert the user
+                utils.logOrToast(i18next.t("messages.localDbEmpty"), "long");
 
                 // Return
                 return;

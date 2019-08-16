@@ -1,15 +1,16 @@
 "use strict";
 
-const crypto = require("crypto"); // Module for encrypting the token
+// Module for encrypting the token
+const crypto = require("crypto");
 
 const User                 = require("../models/user"),          // Model of the user
-      mail                 = require("../utils/mails"),          // Utility for sending the mail
+      mails                 = require("../utils/mails"),          // Utility for sending the mail
       { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
       bcrypt               = require("bcryptjs"),                // Module for encrypting/decrypting the password
       jwt                  = require("jsonwebtoken");            // Module for creating and compare tokens
 
-// Save the amil transporter
-const transporter = mail.transporter();
+// Save the mail transporter
+const transporter = mails.transporter();
 
 
 /* Registers a user into the database. */
@@ -58,7 +59,6 @@ exports.signup = (req, res, next) => {
                 age                        : age,
                 gender                     : gender,
                 occupation                 : occupation,
-                imageUrl                   : "",
                 confirmEmailToken          : token,
                 confirmEmailTokenExpiration: Date.now() + 86400000      // 1 day
             });
@@ -75,10 +75,10 @@ exports.signup = (req, res, next) => {
             // Send a confirmation mail
             return transporter.sendMail({
                 to     : email,
-                from   : mail.senderAddress,
+                from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`,
-                html   : mail.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`)
+                html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`)
             });
 
         })
@@ -246,10 +246,10 @@ exports.resendConfirmationEmail = (req, res, next) => {
             // Send the email
             return transporter.sendMail({
                 to     : email,
-                from   : mail.senderAddress,
+                from   : mails.senderAddress,
                 subject: "Welcome to DefibrillatorHunter! Confirm your email.",
                 text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${token}`,
-                html   : mail.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${token}`)
+                html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${token}`)
             });
 
         })
@@ -399,10 +399,10 @@ exports.resetPw = (req, res, next) => {
             // Send a mail to the user
             return transporter.sendMail({
                 to     : email,
-                from   : mail.senderAddress,
+                from   : mails.senderAddress,
                 subject: "Password reset",
                 text   : `Click here to reset your password:\nhttp://${req.headers.host}/auth/new-password/${token}`,
-                html   : mail.generateResetPwContent(`http://${req.headers.host}/auth/new-password/${token}`)
+                html   : mails.generateResetPwContent(`http://${req.headers.host}/auth/new-password/${token}`)
             });
 
         })

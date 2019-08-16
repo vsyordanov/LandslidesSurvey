@@ -19,9 +19,15 @@
     "register409" : "This email is already in use.",
     "register422" : "Entered data is incorrect.",
     "login401" : "Wrong email or password.",
+    "changePw422" : "Entered data are incorrect.",
+    "changePwWrongPw" : "Wrong password!",
+    "changePwSuccess" : "Password changed successfully.",
+    "changeEmail409" : "This email is already in use.",
+    "editProfile422" : "Entered data are incorrect.",
+    "editProfileSuccess" : "Profile edited successfully.",
     "postLandslide422" : "Entered data is incorrect.",
     "putLandslide422" : "Entered data is incorrect.",
-    "localDbEmpty": "No landslides to synchronize."
+    "localDbEmpty" : "No landslides to synchronize."
   },
   "dialogs" : {
     "title401" : "Unauthorized!",
@@ -46,6 +52,18 @@
     "resetPw500" : "Something went wrong on the server while resetting your password. Please, try again later",
     "login500" : "Something went wrong on the server during the login. Please, try again later.",
     "getLandslides401" : "You are not authorized to retrieve the landslides.",
+    "getUser401" : "You are not authorized to see this user's information.",
+    "getUser404" : "The user could not be found.",
+    "getUser500" : "Something went wrong on the server while retrieving your information. Please, try again later.",
+    "changeEmail401" : "You are not authorized to change this user's email.",
+    "changeEmail404" : "The user could not be found.",
+    "changeEmail500" : "Something went wrong on the server while changing your email. Please, try again later.",
+    "changePw401" : "You provided a wrong password or you may not be authorized to change this user's password.",
+    "changePw404" : "The user could not be found.",
+    "changePw500" : "Something went wrong on the server while changing your password. Please, try again later.",
+    "editProfile401" : "You are not be authorized to edit the profile of this user.",
+    "editProfile404" : "The user could not be found.",
+    "editProfile500" : "Something went wrong on the server while updating your profile. Please, try again later.",
     "getLandslides500" : "Something went wrong on the server while retrieving the landslides. Please, try again later.",
     "getLandslide401" : "You are not authorized to see this landslide.",
     "getLandslide404" : "The landslide could not be found.",
@@ -59,14 +77,18 @@
     "deleteLandslide404" : "The landslide could not be found.",
     "deleteLandslide500" : "Something went wrong on the server while deleting the landslide. Please, try again later.",
     "postOffline" : "It seems that you are offline. Do you want to save the landslide locally? You will be able to synchronize it with the server at any time.",
-    "infoRemoteOffline": "It seems that you are offline. Right now you can view only the landslides saved locally.",
-    "openLocalInfo": "This landslide is save locally. Every modification will be save locally until you synchronize the database with the server.",
-    "syncOffline": "It seems that you are offline. Please, try to sync your landslide when you have an internet connection.",
-    "syncConfirmation": "Your local database contains {{number}} landslide(s). Do you want to sync them with the server?",
-    "syncResults": "{{s}}/{{t}} landslides successfully synced.\n{{ie}}/{{t}} landslides cannot be synced.\n{{de}}/{{t}} landslides synced but cannot be deleted form local database.",
-    "syncSuccesses": "landslides successfully synced.",
-    "syncInsertErr": "landslides not synced.",
-    "syncDeleteErr": "landslides synced but not deleted form local database.",
+    "postGuest" : "It seems that you are using the application as a guest. You can only save the landslide locally. You will be able to synchronize it with the server at any time after you have logged in. Do you want to proceed?",
+    "infoRemoteOffline" : "It seems that you are offline. Right now you can view only the landslides saved locally.",
+    "openLocalInfo" : "This landslide is saved locally. Every modification will be save locally until you synchronize the database with the server.",
+    "syncOffline" : "It seems that you are offline. Please, try to sync your landslide when you have an internet connection.",
+    "syncGuest" : "It seems that you are using the application as a guest. Please, log in before trying to sync your landslide.",
+    "syncConfirmation" : "Your local database contains {{number}} landslide(s). Do you want to sync them with the server?",
+    "syncResults" : "{{s}}/{{t}} landslides successfully synced.\n{{ie}}/{{t}} landslides cannot be synced.\n{{de}}/{{t}} landslides synced but cannot be deleted form local database.",
+    "syncSuccesses" : "landslides successfully synced.",
+    "syncInsertErr" : "landslides not synced.",
+    "syncDeleteErr" : "landslides synced but not deleted form local database.",
+    "profileGuest" : "You are using the application as a guest. Do you want to go beck to the login screen?",
+    "profileOffline" : "It seems that you are offline. You cannot view your profile right now.",
     "btnYes" : "Yes",
     "btnNo" : "No",
     "btnCancel" : "cancel",
@@ -100,6 +122,7 @@
   },
   "auth" : {
     "login" : {
+      "loginGuest" : "It seems that you are offline. Do you want to use the application in guest mode? You will only be able to work locally.",
       "emailPh" : "Email address",
       "passwordPh" : "Password",
       "forgotPassword" : "Forgot your password?",
@@ -171,6 +194,37 @@
   "map" : {
     "fabText" : "New landslide",
     "positionFinding" : "Finding your position..."
+  },
+  "settings" : {
+    "topBarTitle" : "Settings",
+    "expert" : "Expert",
+    "language" : "Language",
+    "help" : "Help",
+    "notImplemented" : "Currently not available.",
+    "account" : {
+      "name" : "Account",
+      "topBarTitle" : "Account",
+      "logout" : "Logout",
+      "logoutConfirmation" : "Are you sure you want to logout?",
+      "changeEmail" : {
+        "name" : "Change email",
+        "topBarTitle" : "Change email",
+        "emailPh" : "New email",
+        "successTitle" : "Success!",
+        "successMessage" : "Your email has been successfully updated. An email has been send to your address. Please, click on the link in the message to confirm the new address."
+      },
+      "changePw" : {
+        "name" : "Change password",
+        "topBarTitle" : "Change password",
+        "oldPasswordPh" : "Old password",
+        "newPasswordPh" : "New password",
+        "confirmPasswordPh" : "Confirm new password"
+      },
+      "editProfile" : {
+        "name" : "Edit profile",
+        "topBarTitle" : "Edit Profile"
+      }
+    }
   },
   "insert" : {
     "defaultSelectorLabel" : "Select an option",
@@ -363,6 +417,9 @@
     "mitigation-type-selectDefLabel" : "Select an option",
     "monitoring-type-selectDefLabel" : "Select an option",
     "monitoring-status-selectDefLabel" : "Select an option",
-    "damages-type-selectDefLabel" : "Select an option"
+    "damages-type-selectDefLabel" : "Select an option",
+    "edit-profile-ageDefLabel" : "Age",
+    "edit-profile-genderDefLabel" : "Gender",
+    "edit-profile-occupationDefLabel" : "Occupation"
   }
 }

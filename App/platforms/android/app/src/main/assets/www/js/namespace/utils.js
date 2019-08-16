@@ -306,7 +306,7 @@ const utils = {
                         reader.onloadend = () => {
 
                             // Create a blob to store the file
-                            let blob = new Blob([new Uint8Array(this.result)], { type: "image/jpeg" });
+                            let blob = new Blob([this.result], { type: "image/png" });
 
                             // Append the blob to the form data
                             formData.append("image", blob);

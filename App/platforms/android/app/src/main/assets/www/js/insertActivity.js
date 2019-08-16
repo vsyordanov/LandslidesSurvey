@@ -267,12 +267,44 @@ class InsertActivity {
             // If the activity is in "post" mode, post
             if (!this._lsId) {
 
-                // If the application is online, post on the server
-                if (navigator.onLine) this.postRemote();
+                // IF the user is a guest
+                if (app.isGuest) {
 
-                // Else, ask for user confirmation and post in the local database
-                else utils.createAlert("", i18next.t("dialogs.postOffline"), i18next.t("dialogs.btnNo"), null,
-                    i18next.t("dialogs.btnYes"), () => this.postLocal());
+                    // Ask the user for confirmation and post locally
+                    utils.createAlert(
+                        "",
+                        i18next.t("dialogs.postGuest"),
+                        i18next.t("dialogs.btnNo"),
+                        null,
+                        i18next.t("dialogs.btnYes"),
+                        () => this.postLocal()
+                    );
+
+                    // Return
+                    return;
+
+                }
+
+                // If there is no connection
+                if (!navigator.onLine) {
+
+                    // Ask the user for confirmation and post locally
+                    utils.createAlert(
+                        "",
+                        i18next.t("dialogs.postOffline"),
+                        i18next.t("dialogs.btnNo"),
+                        null,
+                        i18next.t("dialogs.btnYes"),
+                        () => this.postLocal()
+                    );
+
+                    // Return
+                    return;
+
+                }
+
+                // Post on the server
+                this.postRemote();
 
             }
 
@@ -976,7 +1008,7 @@ class InsertActivity {
                 console.log(`Error taking picture ${err}`);
 
                 // Alert the user
-                utils.createAlert("", i18next.t("dialogs.pictureError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.insert.pictureError"), i18next.t("dialogs.btnOk"));
 
             },
 

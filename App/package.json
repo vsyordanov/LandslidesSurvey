@@ -5,11 +5,13 @@
   "description": "A sample Apache Cordova application that responds to the deviceready event.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel": ".\\node_modules\\.bin\\babel .\\www\\js --out-file .\\www\\js\\babel\\app.js --ignore \".\\www\\js\\lib\\*.js\",\".\\www\\js\\old\\*.js\" --no-comments"
   },
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "cordova-android": "^8.0.0",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-device": "^2.0.2",
@@ -42,5 +44,11 @@
     "platforms": [
       "android"
     ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.5.5"
   }
 }

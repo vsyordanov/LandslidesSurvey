@@ -30,13 +30,61 @@ class LoginActivity {
         window.addEventListener("keyboardWillHide", () => $authFooter.show());
 
         // Link to open the reset password activity
-        $("#link--reset-password").click(() => utils.switchActivity(ResetPasswordActivity.getInstance()));
+        $("#link--reset-password").click(() => {
+
+            // If there is no connection
+            if (!navigator.onLine) {
+
+                // Open the dialog to ask the offline login dialog
+                this.openOfflineDialog();
+
+                // Return
+                return;
+
+            }
+
+            // Open the reset password activity
+            utils.switchActivity(ResetPasswordActivity.getInstance());
+
+        });
 
         // Button to perform the login
-        $("#btn--login").click(() => this.login());
+        $("#btn--login").click(() => {
+
+            // If there is no connection
+            if (!navigator.onLine) {
+
+                // Open the dialog to ask the offline login dialog
+                this.openOfflineDialog();
+
+                // Return
+                return;
+
+            }
+
+            // Perform the login
+            this.login();
+
+        });
 
         // Link to open the register activity
-        $("#link--register").click(() => utils.switchActivity(RegisterActivity.getInstance(), true, this));
+        $("#link--register").click(() => {
+
+            // If there is no connection
+            if (!navigator.onLine) {
+
+                // Open the dialog to ask the offline login dialog
+                this.openOfflineDialog();
+
+                // Return
+                return;
+
+            }
+
+            // Open the register activity
+            utils.switchActivity(RegisterActivity.getInstance(), true, this);
+
+        });
 
     }
 
@@ -56,7 +104,15 @@ class LoginActivity {
 
 
     /** Opens the activity. */
-    open() { this.screen.show() }
+    open() {
+
+        // Show the screen
+        this.screen.show();
+
+        // If there is no connection, open the dialog to ask the offline login dialog
+        if (!navigator.onLine) this.openOfflineDialog();
+
+    }
 
     /** Closes the activity and resets its fields. */
     close() {
@@ -338,6 +394,29 @@ class LoginActivity {
             this.logout();
 
         }, milliseconds);
+
+    }
+
+
+    /** Opens a dialog that asks the user if he wants to continue into the application as a guest. */
+    openOfflineDialog() {
+
+        utils.createAlert(
+            "",
+            i18next.t("auth.login.loginGuest"),
+            i18next.t("dialogs.btnNo"),
+            null,
+            i18next.t("dialogs.btnYes"),
+            () => {
+
+                // Set the mode to "guest"
+                app.isGuest = true;
+
+                // Open the map activity
+                utils.switchActivity(MapActivity.getInstance(), true, this);
+
+            }
+        )
 
     }
 

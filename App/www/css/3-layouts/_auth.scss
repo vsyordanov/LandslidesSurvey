@@ -45,32 +45,10 @@ $register-top-text-height : $font-title + (2 * $register-top-text-margin);
 
 
 #page--log-in {
-  padding-top : 50px;
-
-  .logo-wrapper {
-    width : 100%;
-    @include flex-display(row, center);
-
-    .logo {
-      width         : 120px;
-      height        : 120px;
-      border        : 1px solid #858585;
-      border-radius : 50%;
-      overflow      : hidden;
-      @include flex-center;
-
-      span {
-        @include font(500, $font-title);
-        text-transform : uppercase;
-        color          : #000000;
-      }
-
-    }
-
-  }
+  padding-top : 60px;
 
   .form-container {
-    margin-top : 50px;
+    margin-top : 60px;
 
     .forgot-password {
       margin-top : 10px;
@@ -78,9 +56,7 @@ $register-top-text-height : $font-title + (2 * $register-top-text-margin);
       cursor     : pointer;
     }
 
-    .fab-extended {
-      margin-top : 36px;
-    }
+    .fab-extended { margin-top : 36px }
 
   }
 
@@ -91,9 +67,7 @@ $register-top-text-height : $font-title + (2 * $register-top-text-margin);
   @extend %full-page;
   z-index : $z-auth;
 
-  .custom-container {
-    padding : 50px 16px 40px 16px;
-  }
+  .custom-container { padding : 50px 16px 40px 16px }
 
   .disclaimer-top-text {
     width          : 100%;

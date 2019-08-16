@@ -15,7 +15,8 @@ const express    = require("express"),
 
 // Import the routes
 const authRoutes      = require("./routes/auth"),
-      landslideRoutes = require("./routes/landslide");
+      landslideRoutes = require("./routes/landslide"),
+      profileRoutes   = require("./routes/profile");
 
 // Initialize express
 const app = express();
@@ -44,6 +45,8 @@ const fileStorage = multer.diskStorage({
 
 // Define a file filter to only save images (.png, .jpg or .jpeg)
 const fileFilter = (req, file, cb) => {
+
+    console.log(file);
 
     if (file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg")
         cb(null, true);
@@ -85,6 +88,7 @@ app.use((req, res, next) => {
 // Use the routes
 app.use("/auth", authRoutes);
 app.use("/landslide", landslideRoutes);
+app.use("/profile", profileRoutes);
 
 
 // Define a middleware to handle errors

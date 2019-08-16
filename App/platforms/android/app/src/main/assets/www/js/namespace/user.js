@@ -23,12 +23,7 @@ const user = {
             // Send a request to the server to retrieve the data
             fetch(
                 `${settings.serverUrl}/profile/${id}`,
-                {
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    }
-                }
+                { headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` } }
             )
                 .then(res => {
 
@@ -87,87 +82,6 @@ const user = {
 
 
     /**
-     * Uploads a new profile picture for a target user. If the form data contains no file, it will instead delete the
-     * current picture.
-     *
-     * @param {string} id - The id of the user.
-     * @param {FormData} formData - The form data containing the new picture.
-     * @returns {Promise<object>} A promise containing the name of the new picture.
-     */
-    putProfilePicture(id, formData) {
-
-        // Return a promise
-        return new Promise((resolve, reject) => {
-
-            // Send a request to the server to upload the new image
-            fetch(
-                `${settings.serverUrl}/profile/${id}/update-picture?if=prof`,
-                {
-                    method : "PUT",
-                    headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`
-                    },
-                    body   : formData
-                }
-            )
-                .then(res => {
-
-                    // If the server responds with something over than 200 (success), throw an error
-                    if (res.status !== 200) {
-                        const err = new Error();
-                        err.code  = res.status;
-                        throw err;
-                    }
-
-                    // Parse the json response
-                    return res.json();
-
-                })
-                .then(data => {
-
-                    // Resolve the promise
-                    resolve(data.imageUrl);
-
-                })
-                .catch(err => {
-
-                    console.error(err);
-
-                    // Close the loader
-                    utils.closeLoader();
-
-                    // Alert the user of the error
-                    switch (err.code) {
-
-                        // Unauthorized
-                        case 401:
-                            utils.createAlert(i18next.t("dialogs.title401"), i18next.t("dialogs.putProfileImage401"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Not found
-                        case 404:
-                            utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.putProfileImage404"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                        // Generic server error
-                        default:
-                            utils.createAlert(i18next.t("dialogs.title500"), i18next.t("dialogs.putProfileImage500"), i18next.t("dialogs.btnOk"));
-                            break;
-
-                    }
-
-                    // Reject the promise
-                    reject();
-
-                });
-
-        });
-
-    },
-
-
-    /**
      * Changes the email of a user.
      *
      * @param {string} id - The id of the user.
@@ -185,8 +99,7 @@ const user = {
                 {
                     method : "PUT",
                     headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`,
+                        Authorization : `Bearer ${LoginActivity.getInstance().token}`,
                         "Content-Type": "application/json"
                     },
                     body   : JSON.stringify({ email: newEmail })
@@ -267,8 +180,7 @@ const user = {
                 {
                     method : "PUT",
                     headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`,
+                        Authorization : `Bearer ${LoginActivity.getInstance().token}`,
                         "Content-Type": "application/json"
                     },
                     body   : JSON.stringify({
@@ -351,8 +263,7 @@ const user = {
                 {
                     method : "PUT",
                     headers: {
-                        "App-Key"    : settings.APIKey,
-                        Authorization: `Bearer ${LoginActivity.getInstance().token}`,
+                        Authorization : `Bearer ${LoginActivity.getInstance().token}`,
                         "Content-Type": "application/json"
                     },
                     body   : json

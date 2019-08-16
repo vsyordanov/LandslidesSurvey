@@ -261,7 +261,7 @@ p {
   margin: 0;
 }
 
-.form-page, #page--register-disclaimer, .auth-page, #splash {
+.form-page, #page--account-settings, #page--settings, #page--register-disclaimer, .auth-page, #splash {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -573,7 +573,6 @@ p {
 
 /* SPLASH SCREEN */
 #splash {
-  background: linear-gradient(135deg, #FFFFFF 0%, #FFFFF9 100%);
   z-index: 100000;
   display: -moz-flex;
   display: -webkit-flex;
@@ -587,45 +586,6 @@ p {
   -webkit-justify-content: center;
   -ms-justify-content: center;
   justify-content: center;
-}
-#splash .logo-wrapper {
-  width: 100%;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-flex-direction: row;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-}
-#splash .logo-wrapper .logo {
-  width: 120px;
-  height: 120px;
-  border: 1px solid #858585;
-  border-radius: 50%;
-  overflow: hidden;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-}
-#splash .logo-wrapper .logo span {
-  font: 500 20px system-ui;
-  text-transform: uppercase;
-  color: #000000;
 }
 
 /* AUTH */
@@ -673,49 +633,10 @@ p {
 }
 
 #page--log-in {
-  padding-top: 50px;
-}
-#page--log-in .logo-wrapper {
-  width: 100%;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-flex-direction: row;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-}
-#page--log-in .logo-wrapper .logo {
-  width: 120px;
-  height: 120px;
-  border: 1px solid #858585;
-  border-radius: 50%;
-  overflow: hidden;
-  display: -moz-flex;
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-}
-#page--log-in .logo-wrapper .logo span {
-  font: 500 20px system-ui;
-  text-transform: uppercase;
-  color: #000000;
+  padding-top: 60px;
 }
 #page--log-in .form-container {
-  margin-top: 50px;
+  margin-top: 60px;
 }
 #page--log-in .form-container .forgot-password {
   margin-top: 10px;
@@ -792,6 +713,124 @@ p {
 }
 #page--register .form-container #btn--register-done {
   margin-top: 30px;
+}
+
+/* SETTINGS */
+#page--settings {
+  z-index: 1100;
+}
+
+#page--account-settings {
+  z-index: 1101;
+}
+
+.settings-container {
+  width: 100%;
+  margin-top: 66px;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -moz-justify-content: -moz-flex-start;
+  -webkit-justify-content: -webkit-flex-start;
+  -ms-justify-content: -ms-flex-start;
+  justify-content: flex-start;
+}
+.settings-container div:last-child {
+  border: none;
+}
+.settings-container .setting {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -moz-justify-content: -moz-flex-start;
+  -webkit-justify-content: -webkit-flex-start;
+  -ms-justify-content: -ms-flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  color: #000000;
+  padding: 20px 25px;
+  border-bottom: 1px solid #E9E9E9;
+  cursor: pointer;
+}
+.settings-container .setting .setting-icon-left,
+.settings-container .setting .setting-icon-right {
+  -moz-flex: 0 0 52px;
+  -webkit-flex: 0 0 52px;
+  -ms-flex: 0 0 52px;
+  flex: 0 0 52px;
+}
+.settings-container .setting .setting-icon-left {
+  color: #E2491C;
+}
+.settings-container .setting .setting-content {
+  font: 500 18px system-ui;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding-left: 10px;
+}
+.settings-container .setting .settings-cbx-wrapper {
+  -moz-flex: 0 0 40px;
+  -webkit-flex: 0 0 40px;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px;
+  padding-right: 22px;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper {
+  width: 100%;
+  height: 100%;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper .switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper .switch::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  top: 1px;
+  left: 1px;
+  transition: all 0.3s;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper input[type=checkbox] {
+  display: none;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper input[type=checkbox]:checked + .switch {
+  background-color: #E2491C;
+}
+.settings-container .setting .settings-cbx-wrapper .flex-wrapper input[type=checkbox]:checked + .switch::after {
+  left: 20px;
 }
 
 /* FLOATING ACTION BUTTON */
@@ -1604,6 +1643,26 @@ p {
   margin: 5px 4px 16px 4px;
   font: 400 14px system-ui;
   color: #B9B9B9;
+}
+
+/* LOGO */
+.logo-wrapper {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+.logo-wrapper img {
+  width: 100px;
+  height: 100px;
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -27,7 +27,8 @@
     "editProfileSuccess" : "Profile edited successfully.",
     "postLandslide422" : "Entered data is incorrect.",
     "putLandslide422" : "Entered data is incorrect.",
-    "localDbEmpty" : "No landslides to synchronize."
+    "localDbEmpty" : "No landslides to synchronize.",
+    "backButton": "Press again to leave."
   },
   "dialogs" : {
     "title401" : "Unauthorized!",

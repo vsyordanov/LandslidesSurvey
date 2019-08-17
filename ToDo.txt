@@ -1,49 +1,42 @@
-- Lato server:
+To do:
 
-    - località -> OSM nominatim x controllo incrociato con coordinate
+    - Add on-screen tutorial
 
+    - Handle auto logout
 
-- Back arrow
-
-
-- foto:
-
-    - 1 obbligatoria, fino a 3
-
-    - orientazione telefono
+    - Fix map bug
 
 
-- Cancellare foto dalla cache quando chiudo insert
+    - Test on multiple devices
 
 
-- Date quando sync
+    - Improve readMe
+
+    - Create presentation
 
 
-- Tutorial
 
+Future plans:
 
-- Sistemare foto da telefono che non si vedono
+    - Use OSM nominatim to extract the location from the coordinates [SERVER]
 
-- Babel
+    - Review photo:
+        - up to 3
+        - save phone orientation
+        - delete cached photos
 
+    - Change ls dates when sync
 
-- Gestire auto-logout
+    - Add ls explanations
 
+    - Improve internationalization:
+        - sort translation file
+        - add change language feature
+        - add more language on client
+        - add i18next on server
 
-- Spiegazioni frane
+    - Handle map when offline (cached tiles)
 
+    - Write GDPR
 
-- Bug mappa
-
-
-- Icone
-
-
-- GDPR
-
-
-- Lingua client e server
-
-
-- Mappa offline (cached tiles)
-
+    - Implement proper "back arrow" behaviour

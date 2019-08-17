@@ -56,22 +56,27 @@ class App {
         document.addEventListener("resume", this.onResume, false);
 
 
-        // ToDo handle properly
+        // Handle the "back button" click
         if (App.isCordova) {
 
+            // Add a listener for the click of the black button
             document.addEventListener("backbutton", () => {
 
-                console.log(this);
-
+                // If it's the first time the user clicks on the button
                 if (this._backPressedCount === 0) {
 
-                    utils.logOrToast("Press again to leave", "short");
+                    // Alert the user
+                    utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+                    // Increment the count
                     this._backPressedCount++;
+
+                    // Set an interval after which the count is reset to 0
                     setInterval(() => this._backPressedCount = 0, 2000);
 
                 }
 
-                //
+                // Else, close the app
                 else navigator.app.exitApp();
 
             }, false);
@@ -112,7 +117,7 @@ class App {
         else MapActivity.getInstance().open();
 
         // Hide the splash screen
-        $("#splash").hide(); // ToDo
+        $("#splash").hide();
 
     }
 
@@ -154,9 +159,6 @@ class App {
 
                 // Open the first  activity
                 this.open();
-
-                // LoginActivity.getInstance().getAuthStatus();
-                // SettingsActivity.getInstance().open();
 
             });
 

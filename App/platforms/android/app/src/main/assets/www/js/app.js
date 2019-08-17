@@ -155,9 +155,6 @@ class App {
                 // Open the first  activity
                 this.open();
 
-                // LoginActivity.getInstance().getAuthStatus();
-                // SettingsActivity.getInstance().open();
-
             });
 
     }

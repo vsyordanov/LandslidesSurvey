@@ -54,6 +54,12 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
+    <icon density="ldpi" src="www/img/icon/36x36.png" />
+    <icon density="mdpi" src="www/img/icon/48x48.png" />
+    <icon density="hdpi" src="www/img/icon/72x72.png" />
+    <icon density="xhdpi" src="www/img/icon/96x96.png" />
+    <icon density="xxhdpi" src="www/img/icon/144x144.png" />
+    <icon density="xxxhdpi" src="www/img/icon/192x192.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="Orientation" value="portrait" />
     <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />

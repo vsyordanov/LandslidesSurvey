@@ -1,6 +1,7 @@
 ### Ignore settings/env variables files ###
 nodemon.json
 settings.js
+ToDo.txt
 
 ### Cordova ###
 # gitignore template for the Cordova framework

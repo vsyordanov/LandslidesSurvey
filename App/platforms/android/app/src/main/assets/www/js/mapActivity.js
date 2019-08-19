@@ -29,6 +29,7 @@ class MapActivity {
      */
     constructor() {
 
+        // Define the content of the div that houses the map
         $("#map-wrapper").html(`
         
             <div style="display: none" id="page--map">

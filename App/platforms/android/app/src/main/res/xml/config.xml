@@ -63,4 +63,6 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="Orientation" value="portrait" />
     <preference name="cordova.plugins.diagnostic.modules" value="LOCATION" />
+    <preference name="android-minSdkVersion" value="24" />
+    <preference name="android-targetSdkVersion" value="26" />
 </widget>

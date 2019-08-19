@@ -1,5 +1,5 @@
 <h4 align="center">
-<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/www/img/icon/144x144.png" alt="LandslidesSurvey" width="144">
+<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/logo.png" width="144" alt="Logo">
 </h4>
 
 # LandslidesSurvey
@@ -65,6 +65,43 @@ Coming soon...
 
 
 ## Demo
+
+#### Login screen
+
+<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/01-login.png" width="250" alt="Login screen">
+
+The login screen allows to:
+- login into the system;
+- navigate to the registration page
+- reset the password.
+
+---
+
+#### Map screen
+
+<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/04-map.png" width="250" alt="Map screen">
+
+1. **Map**. Centered on the user's position, it can be moved and zoomed freely.
+2. **User marker**. Shows the current position of the user. It can be moved if the location is not accurate.
+3. **Remote landslide marker**. Shows a mapped landslide that is saved remotely on the main database. A click
+on one of those markers opens a screen that shows the information about the correspondent landslide and allows to delete
+or modify it.
+4. **Local landslide marker**. Works like the remote one but shows a landslide that is saved in the local database.
+5. **Settings button**. Opens the application settings.
+6. **Sync button**. Transfers on the main database all the landslides saved in the local one. 
+7. **GPS button**. Centers the map and the user marker on the current location of the user.
+8. **New landslide button**. Opens the screen that allows to insert a new landslide.
+
+---
+
+#### Insert screen
+
+<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/06-insert-simple.png" width="250" alt="Insert screen">
+
+Simple version of the insert screen. From here the user can insert all the details about a new landslide and save it in
+the database.
+
+The only required fields are the landslide type and a photo of the area.
 
 
 ## License

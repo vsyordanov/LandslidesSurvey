@@ -1,3 +1,7 @@
+<h4 align="center">
+<img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/www/img/icon/144x144.png" alt="LandslidesSurvey" width="144">
+</h4>
+
 # LandslidesSurvey
 
 LandslidesSurvey is a *cross-platform mobile application* that allows users with any level of competence to **map
@@ -60,7 +64,7 @@ The minimum version required is **Android 7.0 (API level 24)**.
 Coming soon...
 
 
-### Demo
+## Demo
 
 
 ## License

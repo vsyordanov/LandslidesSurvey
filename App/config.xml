@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="polimi.epessina.mhyconosapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="polimi.epessina.landslidessurvey" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>LandslidesSurvey</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A cross-platform mobile application that allows users with any level of competence to map landslides on the field in an easy way.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="edoardo2.pessina@mail.polimi.it" href="https://github.com/epessina/LandslidesSurvey">
+        Edoardo Pessina
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
@@ -26,10 +26,6 @@
         <icon src="www/img/icon/96x96.png" density="xhdpi" />
         <icon src="www/img/icon/144x144.png" density="xxhdpi" />
         <icon src="www/img/icon/192x192.png" density="xxxhdpi" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
     </platform>
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />

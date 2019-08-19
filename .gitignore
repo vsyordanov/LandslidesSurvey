@@ -9,7 +9,7 @@ settings.js
 # Recommended template: Node.gitignore
 
 # App platform binaries and built files
-/platforms
+App/platforms
 
 # Optional to ignore plugin Git clones
 #/plugins

@@ -1,7 +1,0 @@
-/* SPLASH SCREEN */
-
-#splash {
-  @extend %full-page;
-  z-index : $z-splash;
-  @include flex-center;
-}

@@ -1,18 +1,17 @@
 {
-  "name": "polimi.epessina.mhyconosapp",
+  "name": "polimi.epessina.landslidessurvey",
   "displayName": "LandslidesSurvey",
   "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "description": "A cross-platform mobile application that allows users with any level of competence to map landslides on the field in an easy way.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel": ".\\node_modules\\.bin\\babel .\\www\\js --out-file .\\www\\js\\dist\\app.js --ignore \".\\www\\js\\lib\\*.js\",\".\\www\\js\\settings.js\" --no-comments"
   },
-  "author": "Apache Cordova Team",
-  "license": "Apache-2.0",
+  "author": "Edoardo Pessina",
+  "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "cordova-android": "^8.0.0",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^6.0.1",
@@ -41,9 +40,7 @@
       },
       "cordova-plugin-ionic-keyboard": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",

@@ -17,7 +17,7 @@
     "url": "git+https://github.com/epessina/LandslideMonitor.git"
   },
   "author": "Edoardo Pessina",
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/epessina/MHYCONOS-Application/issues"
   },

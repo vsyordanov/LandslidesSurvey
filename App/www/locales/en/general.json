@@ -31,6 +31,7 @@
     "backButton": "Press again to leave."
   },
   "dialogs" : {
+    "tokenExpired": "Your session is expired. Please, login again.",
     "title401" : "Unauthorized!",
     "title404" : "Not Found!",
     "title500" : "Internal Error!",

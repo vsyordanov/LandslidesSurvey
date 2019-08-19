@@ -106,6 +106,8 @@ class LoginActivity {
     /** Opens the activity. */
     open() {
 
+        utils.pushStackActivity(this);
+
         // Show the screen
         this.screen.show();
 
@@ -116,10 +118,16 @@ class LoginActivity {
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        utils.popStackActivity();
+
+        // Hide the screen
         this.screen.scrollTop(0).hide();
 
+        // Reset the fields
         $("#field--login-email").val("");
         $("#field--login-password").val("");
+
     }
 
 
@@ -147,9 +155,7 @@ class LoginActivity {
         this.token  = token;
         this.userId = localStorage.getItem("userId");
 
-        // Set the auto logout
-        this.setAutoLogout(new Date(expireDate).getTime() - new Date().getTime());
-
+        // Return true
         return true;
 
     }
@@ -208,7 +214,6 @@ class LoginActivity {
 
                 // Save the expiration date and set the auto-logout
                 localStorage.setItem("expireDate", expireDate.toISOString());
-                this.setAutoLogout(remainingMilliseconds);
 
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
@@ -377,23 +382,6 @@ class LoginActivity {
         localStorage.removeItem("token");
         localStorage.removeItem("expireDate");
         localStorage.removeItem("userId");
-
-    }
-
-    /**
-     * Sets a timer to automatically logout the user.
-     *
-     * @param {number} milliseconds - The time after which the function is called.
-     */
-    setAutoLogout(milliseconds) {
-
-        setTimeout(() => {
-
-            // ToDO handle
-
-            this.logout();
-
-        }, milliseconds);
 
     }
 

@@ -9,11 +9,50 @@ const Landslide            = require("../models/landslide"),     // Model of the
       { validationResult } = require("express-validator/check"); // Module for retrieving the validation results
 
 
-/* Retrieves all the landslides mapped by the calling user. */
+/* Retrieves all the landslides. */
 exports.getLandslides = (req, res, next) => {
 
+    // Find all the landslides
+    Landslide.find({})
+        .then(landslides => {
+
+            // Send a success response
+            res.status(200).json({ message: "Fetched data successfully", landslides: landslides })
+
+        })
+        .catch(err => {
+
+            console.error(err);
+
+            // If the error does not have a status code, assign 500 to it
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+
+            // Call the next middleware
+            next(err);
+
+        });
+
+};
+
+
+/* Retrieves all the landslides mapped by a user. */
+exports.getUserLandslides = (req, res, next) => {
+
+    // Extract the id form the request
+    const id = req.params.userId;
+
+    // If the id of the user is not the one of the calling user, throw a 401 error
+    if (id !== req.userId) {
+        const error      = new Error("Not authorized.");
+        error.statusCode = 401;
+        throw error;
+    }
+
     // Find all the landslides of the user that are not marked for deletion
-    Landslide.find({ user: req.userId, markedForDeletion: false })
+    Landslide.find({ user: id, markedForDeletion: false })
         .then(landslides => {
 
             // Send a success response

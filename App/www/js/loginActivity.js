@@ -24,10 +24,12 @@ class LoginActivity {
         this.token  = null;
         this.userId = null;
 
+
         // Hide the footer in this and in the register activity when the phone keyboard is shown
         let $authFooter = $(".auth-footer");
         window.addEventListener("keyboardWillShow", () => $authFooter.hide());
         window.addEventListener("keyboardWillHide", () => $authFooter.show());
+
 
         // Link to open the reset password activity
         $("#link--reset-password").click(() => {
@@ -106,6 +108,9 @@ class LoginActivity {
     /** Opens the activity. */
     open() {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // Show the screen
         this.screen.show();
 
@@ -116,10 +121,39 @@ class LoginActivity {
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
         this.screen.scrollTop(0).hide();
 
+        // Reset the fields
         $("#field--login-email").val("");
         $("#field--login-password").val("");
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If it's the first time the user clicks on the button
+        if (app._backPressedCount === 0) {
+
+            // Alert the user
+            utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+            // Increment the count
+            app._backPressedCount++;
+
+            // Set an interval after which the count is reset to 0
+            setInterval(() => app._backPressedCount = 0, 2000);
+
+        }
+
+        // Else, close the app
+        else navigator.app.exitApp();
+
     }
 
 
@@ -147,9 +181,7 @@ class LoginActivity {
         this.token  = token;
         this.userId = localStorage.getItem("userId");
 
-        // Set the auto logout
-        this.setAutoLogout(new Date(expireDate).getTime() - new Date().getTime());
-
+        // Return true
         return true;
 
     }
@@ -208,7 +240,6 @@ class LoginActivity {
 
                 // Save the expiration date and set the auto-logout
                 localStorage.setItem("expireDate", expireDate.toISOString());
-                this.setAutoLogout(remainingMilliseconds);
 
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
@@ -377,23 +408,6 @@ class LoginActivity {
         localStorage.removeItem("token");
         localStorage.removeItem("expireDate");
         localStorage.removeItem("userId");
-
-    }
-
-    /**
-     * Sets a timer to automatically logout the user.
-     *
-     * @param {number} milliseconds - The time after which the function is called.
-     */
-    setAutoLogout(milliseconds) {
-
-        setTimeout(() => {
-
-            // ToDO handle
-
-            this.logout();
-
-        }, milliseconds);
 
     }
 

@@ -33,7 +33,10 @@ const router = express.Router();
 
 
 // GET /landslide/get-all
-router.get("/get-all", isAuth, landslideController.getLandslides);
+router.get("/get-all", landslideController.getLandslides);
+
+// GET /landslide/user/:userId
+router.get("/user/:userId", isAuth, landslideController.getUserLandslides);
 
 // GET /landslide/:landslideId
 router.get("/:landslideId", isAuth, landslideController.getLandslide);

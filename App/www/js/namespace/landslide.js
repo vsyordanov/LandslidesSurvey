@@ -8,7 +8,7 @@
  */
 const landslide = {
 
-    /** The icon of a landslide saved on the server. */
+    /** Icon of a landslide saved on the server. */
     _iconRemote: L.icon({
         iconUrl        : "img/ls-marker-remote.png",            // The url of the icon
         iconRetinaUrl  : "img/ls-marker-remote-2x.png",         // The url of the icon for retina displays
@@ -20,7 +20,7 @@ const landslide = {
         shadowAnchor   : [18, 18]                        // The position of the shadow anchor
     }),
 
-    /** The icon of a landslide saved on the local database. */
+    /** Icon of a landslide saved on the local database. */
     _iconLocal: L.icon({
         iconUrl        : "img/ls-marker-local.png",            // The url of the icon
         iconRetinaUrl  : "img/ls-marker-local-2x.png",         // The url of the icon for retina displays
@@ -33,10 +33,10 @@ const landslide = {
     }),
 
 
-    /** The array containing all the markers currently on the map corresponding to the remote landslides. */
+    /** Array containing all the markers currently on the map corresponding to the remote landslides. */
     remoteMarkers: [],
 
-    /** The array containing all the markers currently on the map corresponding to the local landslides. */
+    /** Array containing all the markers currently on the map corresponding to the local landslides. */
     localMarkers: [],
 
 
@@ -122,9 +122,15 @@ const landslide = {
         if (!navigator.onLine || app.isGuest) return;
 
 
+        // If the session is expired, return
+        if (utils.isTokenExpired()) return;
+
+        // Get the id of the currently logged user
+        const id = LoginActivity.getInstance().userId;
+
         // Fetch from the server all the landslides of the logged user
         fetch(
-            `${settings.serverUrl}/landslide/get-all`,
+            `${settings.serverUrl}/landslide/user/${id}`,
             { headers: { Authorization: `Bearer ${LoginActivity.getInstance().token}` } }
         )
             .then(res => {
@@ -219,6 +225,17 @@ const landslide = {
             // Else
             else {
 
+                // If the session is expired
+                if (utils.isTokenExpired()) {
+
+                    // Reject the promise
+                    reject();
+
+                    // Return
+                    return;
+
+                }
+
                 // Send a request to the server to retrieve the data
                 fetch(
                     `${settings.serverUrl}/landslide/${id}`,
@@ -290,12 +307,23 @@ const landslide = {
      *
      * @param {FormData} formData - A FormData object containing the data about the landslide.
      * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
-     * @returns {Promise<object>} A promise containing the id and the coordinates of the landslide.
+     * @returns {(Promise<object>|undefined)} A promise containing the id and the coordinates of the landslide.
      */
     post: (formData, showError = true) => {
 
         // Return a new promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to insert a new landslide
             fetch(
@@ -527,6 +555,17 @@ const landslide = {
         // Return a new promise
         return new Promise((resolve, reject) => {
 
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
+
             // Send a request to the server to insert a new landslide
             fetch(
                 `${settings.serverUrl}/landslide/${id}`,
@@ -740,6 +779,17 @@ const landslide = {
 
             //Else
             else {
+
+                // If the session is expired
+                if (utils.isTokenExpired()) {
+
+                    // Reject the promise
+                    reject();
+
+                    // Return
+                    return;
+
+                }
 
                 // Send a request to the server to delete the landslide
                 fetch(

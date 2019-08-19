@@ -22,6 +22,9 @@ class SettingsActivity {
         // Cache the screen
         this._screen = $("#page--settings");
 
+        // Name of the currently opened setting
+        this._openedSetting = null;
+
         // Initialize the settings user interface
         this.initSettingsUi();
 
@@ -48,6 +51,9 @@ class SettingsActivity {
     /** Opens the activity. */
     open() {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // Set the expert checkbox based on the current mode
         $("#expert-cbx").prop("checked", App.isExpertMode);
 
@@ -57,7 +63,34 @@ class SettingsActivity {
     }
 
     /** Closes the activity. */
-    close() { this._screen.scrollTop(0).hide() }
+    close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
+        this._screen.scrollTop(0).hide();
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If a setting is open
+        if (this._openedSetting) {
+
+            // Close the setting
+            this.closeSetting(this._openedSetting);
+
+            // Return
+            return;
+
+        }
+
+        // Close the activity
+        this.close();
+
+    }
 
 
     /** Initializes the user interface of the main screen of the activity. */
@@ -107,7 +140,11 @@ class SettingsActivity {
 
             }
 
+            // Show the page
             $("#page--account-settings").show();
+
+            // Set the opened setting name
+            this._openedSetting = "account";
 
         });
 
@@ -142,12 +179,8 @@ class SettingsActivity {
     /** Initializes the user interface of the screen of the account setting. */
     initAccountUi() {
 
-        // Save the screen
-        let screen = $("#page--account-settings");
-
-        // When the user clicks on the "close" button, close the screen
-        $("#account-close").click(() => screen.scrollTop(0).hide());
-
+        // When the user clicks on the "close" button, close the setting
+        $("#account-close").click(() => this.closeSetting("account"));
 
         // When the user clicks on the edit profile setting
         $("#account-edit-profile").click(() => {
@@ -177,13 +210,32 @@ class SettingsActivity {
 
                 });
 
+            // Set the opened setting name
+            this._openedSetting = "editProfile";
+
         });
 
         // When the user clicks on the change mail setting, show the page
-        $("#account-change-mail").click(() => $("#change-email").show());
+        $("#account-change-mail").click(() => {
+
+            // Show the screen
+            $("#change-email").show();
+
+            // Set the opened setting name
+            this._openedSetting = "changeEmail";
+
+        });
 
         // When the user clicks on the change password setting, show the page
-        $("#account-change-pw").click(() => {$("#change-pw").show()});
+        $("#account-change-pw").click(() => {
+
+            // Show the screen
+            $("#change-pw").show();
+
+            // Set the opened setting name
+            this._openedSetting = "changePassword";
+
+        });
 
         // Fired when the user clicks on the logout setting
         $("#account-logout").click(() => {
@@ -198,7 +250,7 @@ class SettingsActivity {
                 () => {
 
                     // Close the screen
-                    screen.scrollTop(0).hide();
+                    $("#page--account-settings").scrollTop(0).hide();
 
                     // Logout
                     this.logout();
@@ -224,19 +276,8 @@ class SettingsActivity {
     /** Initializes the change email page. */
     initChangeEmail() {
 
-        // Utility function to close the menu
-        const close = () => {
-
-            // Hide the screen
-            $("#change-email").scrollTop(0).hide();
-
-            // Reset the field
-            $("#new-email").val("");
-
-        };
-
         // When the user click on the "close" button, close the page
-        $("#change-email-close").click(() => close());
+        $("#change-email-close").click(() => this.closeSetting("changeEmail"));
 
         // When the user clicks on the "done" button, change the mail
         $("#change-email-done").click(() => {
@@ -269,7 +310,7 @@ class SettingsActivity {
                     utils.closeLoader();
 
                     // Close the menu
-                    close();
+                    this.closeSetting("changeEmail");
 
                     // Close the account settings page
                     $("#page--account-settings").scrollTop(0).hide();
@@ -291,21 +332,8 @@ class SettingsActivity {
     /** Initializes the change password page. */
     initChangePw() {
 
-        // Utility function to close the page
-        const close = () => {
-
-            // Hide the screen
-            $("#change-pw").scrollTop(0).hide();
-
-            // Reset the fields
-            $("#change-pw-old-password").val("");
-            $("#change-pw-new-password").val("");
-            $("#change-pw-confirm-password").val("");
-
-        };
-
         // When the user click on the "close" button, close the page
-        $("#change-pw-close").click(() => close());
+        $("#change-pw-close").click(() => this.closeSetting("changePassword"));
 
         // When the user clicks on the "done" button, change the password
         $("#change-pw-done").click(() => {
@@ -354,7 +382,7 @@ class SettingsActivity {
                     utils.closeLoader();
 
                     // Close the page
-                    close();
+                    this.closeSetting("changePassword");
 
                     // Alert the user
                     utils.logOrToast(i18next.t("messages.changePwSuccess"), "long");
@@ -369,26 +397,8 @@ class SettingsActivity {
     /** Initializes the edit profile page. */
     initEditProfile() {
 
-        // Utility function to close the page
-        const close = () => {
-
-            // Hide the screen
-            $("#page--edit-profile").scrollTop(0).hide();
-
-            // Reset the fields
-            $("#edit-profile-age").val("");
-            utils.changeSelectorLabel("edit-profile-age", true);
-
-            $("#edit-profile-gender").val("");
-            utils.changeSelectorLabel("edit-profile-gender", true);
-
-            $("#edit-profile-occupation").val("");
-            utils.changeSelectorLabel("edit-profile-occupation", true);
-
-        };
-
         // When the user clicks on th "close" button, switch to the profile activity
-        $("#edit-profile-close").click(() => close());
+        $("#edit-profile-close").click(() => this.closeSetting("editProfile"));
 
         // When the user clicks on the "done" button, edit the profile
         $("#edit-profile-done").click(() => {
@@ -422,7 +432,7 @@ class SettingsActivity {
                     utils.closeLoader();
 
                     // Close the page
-                    close();
+                    this.closeSetting("editProfile");
 
                     // Alert the user
                     utils.logOrToast(i18next.t("messages.editProfileSuccess"), "long");
@@ -435,6 +445,80 @@ class SettingsActivity {
         $("#edit-profile-age").change(() => utils.changeSelectorLabel("edit-profile-age", true));
         $("#edit-profile-gender").change(() => utils.changeSelectorLabel("edit-profile-gender", true));
         $("#edit-profile-occupation").change(() => utils.changeSelectorLabel("edit-profile-occupation", true));
+
+    }
+
+
+    /**
+     * Closes a setting.
+     *
+     * @param {string} name - The name of the setting to close.
+     */
+    closeSetting(name) {
+
+        // Switch on the name
+        switch (name) {
+
+            case "account":
+
+                // Hide the screen
+                $("#page--account-settings").scrollTop(0).hide();
+
+                // Set the opened setting to null
+                this._openedSetting = null;
+
+                break;
+
+            case "editProfile":
+
+                // Hide the screen
+                $("#page--edit-profile").scrollTop(0).hide();
+
+                // Reset the fields
+                $("#edit-profile-age").val("");
+                utils.changeSelectorLabel("edit-profile-age", true);
+
+                $("#edit-profile-gender").val("");
+                utils.changeSelectorLabel("edit-profile-gender", true);
+
+                $("#edit-profile-occupation").val("");
+                utils.changeSelectorLabel("edit-profile-occupation", true);
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+            case "changeEmail":
+
+                // Hide the screen
+                $("#change-email").scrollTop(0).hide();
+
+                // Reset the field
+                $("#new-email").val("");
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+            case "changePassword":
+
+                // Hide the screen
+                $("#change-pw").scrollTop(0).hide();
+
+                // Reset the fields
+                $("#change-pw-old-password").val("");
+                $("#change-pw-new-password").val("");
+                $("#change-pw-confirm-password").val("");
+
+                // Set the opened setting to "account"
+                this._openedSetting = "account";
+
+                break;
+
+        }
+
 
     }
 

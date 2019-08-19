@@ -25,6 +25,11 @@ class InsertActivity {
         // Cache the photo thumbnail
         this._$photoThm = $("#photo-thm");
 
+        // Save the the currently opened dialog and full dialog
+        this._currOpenedDialog     = null;
+        this._currOpenedFullDialog = null;
+
+
         // The id of the landslide to modify. It has a value only if the activity is open in "put" mode
         this._lsId = null;
 
@@ -36,6 +41,7 @@ class InsertActivity {
 
         // The name of the original photo of the landslide passed in "put" mode. Used to check if the photo has been modified
         this._oldPhoto = null;
+
 
         // The values of the various fields
         this._vals = {
@@ -85,6 +91,9 @@ class InsertActivity {
 
     /** Opens the activity. */
     open() {
+
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
 
         // If the app is in expert mode or the ls that is being modified was mapped in expert, show the relative fields
         if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode)) {
@@ -181,6 +190,9 @@ class InsertActivity {
     /** Closes the activity and resets the fields. */
     close() {
 
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
         // Set the id, the expert flag and and the old photo to null
         this._lsId     = null;
         this._isExpert = null;
@@ -224,11 +236,49 @@ class InsertActivity {
 
     }
 
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If a dialog is currently opened
+        if (this._currOpenedDialog) {
+
+            // Close the dialog
+            this.closeDialog(this._currOpenedDialog);
+
+            // Return
+            return;
+
+        }
+
+        // If a full dialog is currently opened
+        if (this._currOpenedFullDialog) {
+
+            // Close the full dialog
+            this.closeFullscreenDialog(this._currOpenedFullDialog);
+
+            // Return
+            return;
+
+        }
+
+
+        // Ask for confirmation and then close the activity
+        utils.createAlert(
+            "",
+            i18next.t("dialogs.insert.confirmClose"),
+            i18next.t("dialogs.insert.btnKeepEditing"),
+            null,
+            i18next.t("dialogs.insert.btnDiscard"),
+            () => { this.close() }
+        );
+
+    }
+
 
     /** Initialize the user interface. */
     initUI() {
 
-        // If the user clicks the "close" button, ask for confirmation and then close tha activity
+        // If the user clicks the "close" button, ask for confirmation and then close the activity
         $("#new-ls-close").click(() => {
 
             utils.createAlert(
@@ -507,7 +557,7 @@ class InsertActivity {
             if (this._vals.mitigation === "") toSelect = "yes";
 
             // If the app is on expert mode or the ls that is being modified was mapped in expert
-            if (App.isExpertMode || this._isExpert) {
+            if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode))  {
 
                 // Select the value
                 $("input[name='mitigationExpert'][value='" + toSelect + "']").prop("checked", "true");
@@ -990,8 +1040,6 @@ class InsertActivity {
             // Fired if the picture is taken successfully
             fileURI => {
 
-                console.log(fileURI);
-
                 // Save the uri of the photo
                 this._vals.photo = fileURI;
 
@@ -1338,14 +1386,30 @@ class InsertActivity {
      *
      * @param {object} dialog - The dialog to open
      */
-    openFullscreenDialog(dialog) { dialog.show() }
+    openFullscreenDialog(dialog) {
+
+        // Show the dialog
+        dialog.show();
+
+        // Set the currently opened full dialog to the dialog
+        this._currOpenedFullDialog = dialog;
+
+    }
 
     /**
      * Closes a full-screen dialog.
      *
      * @param {object} dialog - the dialog to close.
      */
-    closeFullscreenDialog(dialog) { dialog.scrollTop(0).hide() }
+    closeFullscreenDialog(dialog) {
+
+        // Hide the dialog
+        dialog.scrollTop(0).hide();
+
+        // Set the currently opened full dialog to null
+        this._currOpenedFullDialog = null;
+
+    }
 
 
     /**
@@ -1364,6 +1428,9 @@ class InsertActivity {
         // Show the dialog
         toOpen.show();
 
+        // Set the currently opened dialog to the dialog
+        this._currOpenedDialog = toOpen;
+
     }
 
     /**
@@ -1381,6 +1448,9 @@ class InsertActivity {
 
         // Set the y-overflow of the main page to "scroll"
         $("#page--insert").css("overflow-y", "scroll");
+
+        // Set the currently opened dialog to null
+        this._currOpenedDialog = null;
 
     }
 
@@ -1505,7 +1575,7 @@ class InsertActivity {
     createDamagesItem(type, specification) {
 
         // Set the id of the button
-        let btnId = "mitigation-" + this._newDamagesList.length;
+        let btnId = "damage-" + this._newDamagesList.length;
 
         // Get the text to display
         let info = i18next.t("insert.damages.enum." + type);
@@ -1522,9 +1592,7 @@ class InsertActivity {
                     <p class='list-item-text-p'>${info}</p>
                 </div>
                 
-                <div id='${btnId}' class='details-list-item-delete'>
-                    <i class='material-icons'>cancel</i>
-                </div>
+                <div id='${btnId}' class='details-list-item-delete'><i class='material-icons'>cancel</i></div>
                 
             </section>
             

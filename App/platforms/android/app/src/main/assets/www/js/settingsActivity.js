@@ -48,6 +48,8 @@ class SettingsActivity {
     /** Opens the activity. */
     open() {
 
+        utils.pushStackActivity(this);
+
         // Set the expert checkbox based on the current mode
         $("#expert-cbx").prop("checked", App.isExpertMode);
 
@@ -57,7 +59,13 @@ class SettingsActivity {
     }
 
     /** Closes the activity. */
-    close() { this._screen.scrollTop(0).hide() }
+    close() {
+
+        utils.popStackActivity();
+
+        this._screen.scrollTop(0).hide();
+
+    }
 
 
     /** Initializes the user interface of the main screen of the activity. */

@@ -51,6 +51,11 @@ class App {
         // Flag that states if the user is using the application as a guest (i.e. no internet connection so no login)
         this.isGuest = false;
 
+
+        // Array with the stack of activities currently open
+        this.activityStack = [];
+
+
         // Attach the function to be fired when a "pause" or a "resume" event occurs
         document.addEventListener("pause", this.onPause, false);
         document.addEventListener("resume", this.onResume, false);
@@ -60,26 +65,7 @@ class App {
         if (App.isCordova) {
 
             // Add a listener for the click of the black button
-            document.addEventListener("backbutton", () => {
-
-                // If it's the first time the user clicks on the button
-                if (this._backPressedCount === 0) {
-
-                    // Alert the user
-                    utils.logOrToast(i18next.t("messages.backButton"), "short");
-
-                    // Increment the count
-                    this._backPressedCount++;
-
-                    // Set an interval after which the count is reset to 0
-                    setInterval(() => this._backPressedCount = 0, 2000);
-
-                }
-
-                // Else, close the app
-                else navigator.app.exitApp();
-
-            }, false);
+            document.addEventListener("backbutton", () => this.onBackPressed(), false);
 
         }
 
@@ -103,6 +89,29 @@ class App {
                 this.initInternationalization();
 
             });
+
+    }
+
+
+    /** Defines the behaviour of the back button for the whole application. */
+    onBackPressed() {
+
+        // If any loader or alert dialog is open, return
+        if (utils.isLoaderOpen || utils.isAlertOpen) return;
+
+        // If the image screen is open
+        if (utils.isImgScreenOpen) {
+
+            // Close the image screen
+            utils.closeImgScreen();
+
+            // Return
+            return;
+
+        }
+
+        // Perform the "onBackPressed" method of the last activity in the stack
+        app.activityStack[app.activityStack.length - 1].onBackPressed();
 
     }
 

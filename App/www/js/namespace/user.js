@@ -20,6 +20,17 @@ const user = {
         // Return a promise
         return new Promise((resolve, reject) => {
 
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
+
             // Send a request to the server to retrieve the data
             fetch(
                 `${settings.serverUrl}/profile/${id}`,
@@ -92,6 +103,17 @@ const user = {
 
         // Return a promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to change the mail
             fetch(
@@ -173,6 +195,17 @@ const user = {
 
         // Return a promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to change the password
             fetch(
@@ -256,6 +289,17 @@ const user = {
 
         // Return a promise
         return new Promise((resolve, reject) => {
+
+            // If the session is expired
+            if (utils.isTokenExpired()) {
+
+                // Reject the promise
+                reject();
+
+                // Return
+                return;
+
+            }
 
             // Send a request to the server to change the password
             fetch(

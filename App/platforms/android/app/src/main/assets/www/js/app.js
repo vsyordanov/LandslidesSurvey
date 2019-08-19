@@ -51,28 +51,24 @@ class App {
         // Flag that states if the user is using the application as a guest (i.e. no internet connection so no login)
         this.isGuest = false;
 
+
+        // Array with the stack of activities currently open
+        this.activityStack = [];
+
+
         // Attach the function to be fired when a "pause" or a "resume" event occurs
         document.addEventListener("pause", this.onPause, false);
         document.addEventListener("resume", this.onResume, false);
 
 
-        // ToDo handle properly
+        // Handle the "back button" click
         if (App.isCordova) {
 
+            // Add a listener for the click of the black button
             document.addEventListener("backbutton", () => {
 
-                console.log(this);
-
-                if (this._backPressedCount === 0) {
-
-                    utils.logOrToast("Press again to leave", "short");
-                    this._backPressedCount++;
-                    setInterval(() => this._backPressedCount = 0, 2000);
-
-                }
-
-                //
-                else navigator.app.exitApp();
+                // Execute the "onBackPressed" method of the last activity in the stack
+                app.activityStack[app.activityStack.length - 1].onBackPressed();
 
             }, false);
 
@@ -112,7 +108,7 @@ class App {
         else MapActivity.getInstance().open();
 
         // Hide the splash screen
-        $("#splash").hide(); // ToDo
+        $("#splash").hide();
 
     }
 

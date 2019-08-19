@@ -1,10 +1,10 @@
 To do:
 
-    - Add on-screen tutorial
-
-    - Handle auto logout
+    - Build singed apk
 
     - Fix map bug
+
+    - Add a key check for the get-all route
 
 
     - Test on multiple devices
@@ -14,9 +14,17 @@ To do:
 
     - Create presentation
 
+    - Create instructions
+
+    - Create documentation
+
+    - Write api docs (?)
+
 
 
 Future plans:
+
+    - Add on-screen tutorial
 
     - Use OSM nominatim to extract the location from the coordinates [SERVER]
 

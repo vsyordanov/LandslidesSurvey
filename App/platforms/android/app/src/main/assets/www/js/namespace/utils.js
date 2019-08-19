@@ -29,6 +29,11 @@ const utils = {
     },
 
 
+    pushStackActivity: activity => app.activityStack.push(activity),
+
+    popStackActivity: () => app.activityStack.pop(),
+
+
     /**
      * Generates a cryptographically secure random unique identifier.
      *
@@ -48,6 +53,48 @@ const utils = {
 
         // Return the uid
         return uid
+
+    },
+
+
+    /**
+     * Checks if the authentication token is expired and in case logs out from the application.
+     *
+     * @return {boolean} True if the token is expired.
+     */
+    isTokenExpired: () => {
+
+        // Retrieve the expiration date from the storage
+        const expireDate = localStorage.getItem("expireDate");
+
+        // If the token is not expired or if the user is a guest, return true
+        if ((expireDate && new Date(expireDate) > new Date()) || app.isGuest) return false;
+
+        // For each activity in the stack
+        for (let i = (app.activityStack.length - 1); i >= 0; i--) {
+
+            // Close the activity
+            app.activityStack[i].close();
+
+        }
+
+        // Logout
+        LoginActivity.getInstance().logout();
+
+        // Open the login activity
+        LoginActivity.getInstance().open();
+
+        // Close any open loader
+        utils.closeLoader();
+
+        // Close any open alert
+        utils.closeAlert();
+
+        // Alert the user
+        utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
+
+        // Return true
+        return true;
 
     },
 
@@ -431,7 +478,8 @@ const utils = {
     closeAlert: () => {
 
         // Hide the overlay and cancel the dialog message
-        utils._$alertOverlay.hide().children(".dialog-text").html("");
+        utils._$alertOverlay.hide()
+            .children(".dialog-text").html("");
 
         // Show the title and cancel its content
         utils._$alertOverlay.find(".dialog-title").show().html("");
@@ -623,9 +671,5 @@ const utils = {
         $("#img-screen-delete").parent().hide();
 
     },
-
-
-    // ToDo delete
-    r: url => window.resolveLocalFileSystemURL(url, fileEntry => console.log(fileEntry), err => console.error(err)),
 
 };

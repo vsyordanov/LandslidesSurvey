@@ -10,6 +10,15 @@ const utils = {
 
     /** @private */ _$alertOverlay: $("#alert-dialog-overlay"),
 
+    /** Flag the states if the loader is currently opened. */
+    isLoaderOpen: false,
+
+    /** Flag the states if the alert dialog is currently opened. */
+    isAlertOpen: false,
+
+    /** Flag the states if the image screen is currently opened. */
+    isImgScreenOpen: false,
+
 
     /**
      * Switches between two activities.
@@ -20,13 +29,29 @@ const utils = {
      */
     switchActivity: (toOpen, close = false, toClose = null) => {
 
-        // Open the activity to open
-        toOpen.open();
-
         // If the other activity should be closed, close it
         if (close) toClose.close();
 
+        // Open the activity to open
+        toOpen.open();
+
     },
+
+
+    /**
+     * Insert a new activity at the bottom of the activity stack.
+     *
+     * @param {object} activity - The activity to push.
+     * @return {number} The current quantity of activities in the stack.
+     */
+    pushStackActivity: activity => app.activityStack.push(activity),
+
+    /**
+     * Removes the last activity from the activity stack.
+     *
+     * @return {object} The removed activity.
+     */
+    popStackActivity: () => app.activityStack.pop(),
 
 
     /**
@@ -48,6 +73,48 @@ const utils = {
 
         // Return the uid
         return uid
+
+    },
+
+
+    /**
+     * Checks if the authentication token is expired and in case logs out from the application.
+     *
+     * @return {boolean} True if the token is expired.
+     */
+    isTokenExpired: () => {
+
+        // Retrieve the expiration date from the storage
+        const expireDate = localStorage.getItem("expireDate");
+
+        // If the token is not expired or if the user is a guest, return true
+        if ((expireDate && new Date(expireDate) > new Date()) || app.isGuest) return false;
+
+        // For each activity in the stack
+        for (let i = (app.activityStack.length - 1); i >= 0; i--) {
+
+            // Close the activity
+            app.activityStack[i].close();
+
+        }
+
+        // Logout
+        LoginActivity.getInstance().logout();
+
+        // Open the login activity
+        LoginActivity.getInstance().open();
+
+        // Close any open loader
+        utils.closeLoader();
+
+        // Close any open alert
+        utils.closeAlert();
+
+        // Alert the user
+        utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
+
+        // Return true
+        return true;
 
     },
 
@@ -277,7 +344,7 @@ const utils = {
      *
      * @param {FormData} formData - The form data to which the file has to be appended
      * @param {(string|null)} [fileUri] - The uri of the file to append.
-     * * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
+     * @param {(boolean|null)} [showError=true] - True if an eventual error has to be shown.
      * @returns {Promise<FormData>} - A promise containing the formData with the file append to it.
      */
     appendFile(formData, fileUri, showError) {
@@ -425,13 +492,17 @@ const utils = {
         // Show the overlay
         utils._$alertOverlay.show();
 
+        // Set the flag to true
+        utils.isAlertOpen = true;
+
     },
 
     /** Closes the alert dialog. */
     closeAlert: () => {
 
         // Hide the overlay and cancel the dialog message
-        utils._$alertOverlay.hide().children(".dialog-text").html("");
+        utils._$alertOverlay.hide()
+            .children(".dialog-text").html("");
 
         // Show the title and cancel its content
         utils._$alertOverlay.find(".dialog-title").show().html("");
@@ -441,6 +512,9 @@ const utils = {
 
         // Hide the dialog
         utils._$alertOverlay.find(".dialog-wrapper").hide();
+
+        // Set the flag to false
+        utils.isAlertOpen = false;
 
     },
 
@@ -454,6 +528,9 @@ const utils = {
         // Show the opaque overlay
         utils._$alertOverlay.show();
 
+        // Set the flag to true
+        utils.isLoaderOpen = true;
+
     },
 
     /** Opens the spinner loader. */
@@ -464,6 +541,9 @@ const utils = {
 
         // Hide the spinner
         utils._$alertOverlay.find(".spinner-wrapper").hide();
+
+        // Set the flag to false
+        utils.isLoaderOpen = false;
 
     },
 
@@ -605,6 +685,9 @@ const utils = {
         // Show the screen
         $("#img-screen").show();
 
+        // Set the flag to true
+        utils.isImgScreenOpen = true;
+
     },
 
     /** Closes the image screen. */
@@ -622,10 +705,9 @@ const utils = {
         // HIde the delete button
         $("#img-screen-delete").parent().hide();
 
+        // Set the flag to false
+        utils.isImgScreenOpen = false;
+
     },
-
-
-    // ToDo delete
-    r: url => window.resolveLocalFileSystemURL(url, fileEntry => console.log(fileEntry), err => console.error(err)),
 
 };

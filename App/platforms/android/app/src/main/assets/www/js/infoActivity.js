@@ -69,6 +69,9 @@ class InfoActivity {
      */
     open(id, isLocal) {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // If the landslide is not saved locally and the app is offline
         if (!isLocal && !navigator.onLine) {
 
@@ -99,6 +102,9 @@ class InfoActivity {
 
     /** Closes the activity and resets its fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
 
         // Hide the screen
         this._screen.scrollTop(0).hide();
@@ -140,6 +146,14 @@ class InfoActivity {
 
         // Show the image placeholder
         $("#info-photo-preview").attr("src", "img/no-img-placeholder-200.png");
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // Close the activity
+        this.close();
 
     }
 

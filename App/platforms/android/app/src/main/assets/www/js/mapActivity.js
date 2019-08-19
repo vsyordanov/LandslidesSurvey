@@ -125,6 +125,9 @@ class MapActivity {
     /** Opens the activity and shows the user's landslides. */
     open() {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // Show the screen
         this._screen.show();
 
@@ -147,9 +150,46 @@ class MapActivity {
     /** Closes the activity and detaches the position watcher */
     close() {
 
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the screen
         this._screen.hide();
 
+        // Remove all the markers from the map
+        this.markersLayer.clearLayers();
+
+        // Empty the markers arrays
+        landslide.remoteMarkers = [];
+        landslide.localMarkers  = [];
+
+        // Hide the sync notification
+        $("#sync-notification").hide();
+
+        // Detach the position watcher
         this.detachPositionWatcher();
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If it's the first time the user clicks on the button
+        if (app._backPressedCount === 0) {
+
+            // Alert the user
+            utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+            // Increment the count
+            app._backPressedCount++;
+
+            // Set an interval after which the count is reset to 0
+            setInterval(() => app._backPressedCount = 0, 2000);
+
+        }
+
+        // Else, close the app
+        else navigator.app.exitApp();
 
     }
 
@@ -165,6 +205,9 @@ class MapActivity {
 
         // Set the button for the synchronization
         $("#map-control-sync").click(() => {
+
+            // If the session is expired, return
+            if (utils.isTokenExpired()) return;
 
             // If the user is a guest
             if (app.isGuest) {

@@ -86,6 +86,9 @@ class InsertActivity {
     /** Opens the activity. */
     open() {
 
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
         // If the app is in expert mode or the ls that is being modified was mapped in expert, show the relative fields
         if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode)) {
 
@@ -180,6 +183,9 @@ class InsertActivity {
 
     /** Closes the activity and resets the fields. */
     close() {
+
+        // Pop the activity from the stack
+        utils.popStackActivity();
 
         // Set the id, the expert flag and and the old photo to null
         this._lsId     = null;
@@ -1505,7 +1511,7 @@ class InsertActivity {
     createDamagesItem(type, specification) {
 
         // Set the id of the button
-        let btnId = "mitigation-" + this._newDamagesList.length;
+        let btnId = "damage-" + this._newDamagesList.length;
 
         // Get the text to display
         let info = i18next.t("insert.damages.enum." + type);
@@ -1522,9 +1528,7 @@ class InsertActivity {
                     <p class='list-item-text-p'>${info}</p>
                 </div>
                 
-                <div id='${btnId}' class='details-list-item-delete'>
-                    <i class='material-icons'>cancel</i>
-                </div>
+                <div id='${btnId}' class='details-list-item-delete'><i class='material-icons'>cancel</i></div>
                 
             </section>
             

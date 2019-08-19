@@ -29,6 +29,36 @@ class MapActivity {
      */
     constructor() {
 
+        $("#map-wrapper").html(`
+        
+            <div style="display: none" id="page--map">
+
+                <div style="display: none" id="finding-position-msg"><p data-i18n="map.positionFinding"></p></div>
+
+                    <div id="map-control-settings" class="map-control map-control-left map-control-top-1 fab">
+                        <i class="material-icons fab-icon">settings</i>
+                    </div>
+            
+                    <div id="map-control-sync" class="map-control map-control-left map-control-top-2 fab">
+                        <div style="display: none" id="sync-notification"></div>
+                        <i class="material-icons fab-icon">sync</i>
+                    </div>
+            
+                    <div id="map-control-gps" class="map-control map-control-right map-control-top-1 fab">
+                        <i class="material-icons fab-icon">gps_fixed</i>
+                    </div>
+            
+                    <div id="map-new-ls" class="map-control map-control-center map-control-bottom fab-extended">
+                        <p class="fab-extended-text" data-i18n="map.fabText"></p>
+                    </div>
+
+            </div>
+        
+        `);
+
+        $("#finding-position-msg p").localize();
+        $("#map-new-ls p").localize();
+
         // Cache the screen
         this._screen = $("#page--map");
 
@@ -106,6 +136,8 @@ class MapActivity {
      * @returns {boolean} True if an instance of the class exists
      */
     static hasInstance() { return !!MapActivity._instance }
+
+    static deleteInstance() { MapActivity._instance = null }
 
     /**
      * Returns the current MapActivity instance if any, otherwise creates it.

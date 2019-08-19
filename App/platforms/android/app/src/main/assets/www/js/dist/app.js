@@ -491,7 +491,7 @@ var InsertActivity = function () {
     key: "openPut",
     value: function openPut(ls, isLocal) {
       this._lsId = ls._id;
-      this._isExpert = isLocal && ls.expert === "true" || !isLocal && ls.expert;
+      this._isExpert = ls.expert === "true";
       this._isLocal = isLocal;
       this._vals.type = ls.type;
       this._vals.materialType = ls.materialType;
@@ -1393,7 +1393,6 @@ var LoginActivity = function () {
         var remainingMilliseconds = 24 * 60 * 60 * 1000,
             expireDate = new Date(new Date().getTime() + remainingMilliseconds);
         localStorage.setItem("expireDate", expireDate.toISOString());
-        if (MapActivity.hasInstance()) MapActivity.deleteInstance();
         utils.switchActivity(MapActivity.getInstance(), true, _this2);
         utils.closeLoader();
       })["catch"](function (err) {
@@ -1550,9 +1549,6 @@ var MapActivity = function () {
 
     _classCallCheck(this, MapActivity);
 
-    $("#map-wrapper").html("\n        \n            <div style=\"display: none\" id=\"page--map\">\n\n                <div style=\"display: none\" id=\"finding-position-msg\"><p data-i18n=\"map.positionFinding\"></p></div>\n\n                    <div id=\"map-control-settings\" class=\"map-control map-control-left map-control-top-1 fab\">\n                        <i class=\"material-icons fab-icon\">settings</i>\n                    </div>\n            \n                    <div id=\"map-control-sync\" class=\"map-control map-control-left map-control-top-2 fab\">\n                        <div style=\"display: none\" id=\"sync-notification\"></div>\n                        <i class=\"material-icons fab-icon\">sync</i>\n                    </div>\n            \n                    <div id=\"map-control-gps\" class=\"map-control map-control-right map-control-top-1 fab\">\n                        <i class=\"material-icons fab-icon\">gps_fixed</i>\n                    </div>\n            \n                    <div id=\"map-new-ls\" class=\"map-control map-control-center map-control-bottom fab-extended\">\n                        <p class=\"fab-extended-text\" data-i18n=\"map.fabText\"></p>\n                    </div>\n\n            </div>\n        \n        ");
-    $("#finding-position-msg p").localize();
-    $("#map-new-ls p").localize();
     this._screen = $("#page--map");
 
     this._screen.height($(window).height());
@@ -1974,11 +1970,6 @@ var MapActivity = function () {
     key: "hasInstance",
     value: function hasInstance() {
       return !!MapActivity._instance;
-    }
-  }, {
-    key: "deleteInstance",
-    value: function deleteInstance() {
-      MapActivity._instance = null;
     }
   }, {
     key: "getInstance",
@@ -2636,15 +2627,11 @@ var user = {
             break;
 
           case 409:
-            utils.logOrToast(i18next.t("messages.changeEmail409"), "long");
+            utils.logOrToast(i18next.t("messages.register409"), "long");
             break;
 
           case 404:
             utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.changeEmail404"), i18next.t("dialogs.btnOk"));
-            break;
-
-          case 422:
-            utils.logOrToast(i18next.t("messages.changeEmail422"), "long");
             break;
 
           default:
@@ -3284,6 +3271,7 @@ var ResetPasswordActivity = function () {
 }();
 
 _defineProperty(ResetPasswordActivity, "_instance", void 0);
+
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }

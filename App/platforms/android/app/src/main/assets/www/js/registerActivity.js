@@ -22,18 +22,26 @@ class RegisterActivity {
         this.disclaimer = $("#page--register-disclaimer");
         this.screen     = $("#page--register");
 
+        // Flag that states if the disclaimer is currently opend
+        this._isDisclaimerOpen = false;
+
 
         // If the user accepts the disclaimer, open the registration page
         $("#btn--register-disclaimer-accept").click(() => {
+
+            // Show the registration screen
             this.screen.show();
+
+            // Hide the disclaimer
             this.disclaimer.scrollTop(0).hide();
+
+            // Set the flag to false
+            this._isDisclaimerOpen = false;
+
         });
 
         // If the user does not accept the disclaimer, switch back to login activity
-        $("#link--register-disclaimer-back").click(() => {
-            utils.switchActivity(LoginActivity.getInstance());
-            this.disclaimer.scrollTop(0).hide();
-        });
+        $("#link--register-disclaimer-back").click(() => utils.switchActivity(LoginActivity.getInstance(), true, this));
 
         // Perform the registration
         $("#btn--register-done").click(() => this.register());
@@ -68,20 +76,68 @@ class RegisterActivity {
 
 
     /** Opens the activity. */
-    open() { this.disclaimer.show() }
+    open() {
+
+        // Push the activity into the stack
+        utils.pushStackActivity(this);
+
+        // Show the disclaimer
+        this.disclaimer.show();
+
+        // Set the flag to true
+        this._isDisclaimerOpen = true;
+
+    }
 
     /** Closes the activity and resets its fields. */
     close() {
 
+        // Pop the activity from the stack
+        utils.popStackActivity();
+
+        // Hide the disclaimer
+        this.disclaimer.scrollTop(0).hide();
+
+        // Hide the screen
         this.screen.scrollTop(0).hide();
 
+        // Reset the fields
         $("#field--register-email").val("");
         $("#field--register-password").val("");
         $("#field--register-confirm-password").val("");
 
+        // Reset the selectors
         utils.resetSelector("register-age");
         utils.resetSelector("register-gender");
         utils.resetSelector("register-occupation");
+
+        // Set the flag to false
+        this._isDisclaimerOpen = false;
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If the form page is open
+        if (!this._isDisclaimerOpen) {
+
+            // Show the disclaimer
+            this.disclaimer.show();
+
+            // Show the registration screen
+            this.screen.scrollTop(0).hide();
+
+            // Set the flag to true
+            this._isDisclaimerOpen = true;
+
+            // Return
+            return;
+
+        }
+
+        // Switch to the login activity
+        utils.switchActivity(LoginActivity.getInstance(), true, this);
 
     }
 

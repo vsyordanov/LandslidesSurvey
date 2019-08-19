@@ -2,7 +2,7 @@ To do:
 
     - Build singed apk
 
-    - Fix map bug
+    - Fix map bug -> if I move the marker and the view, when I click on the GPS button, the map doesn't follow
 
     - Add a key check for the get-all route
 

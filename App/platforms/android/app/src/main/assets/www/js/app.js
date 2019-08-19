@@ -65,12 +65,7 @@ class App {
         if (App.isCordova) {
 
             // Add a listener for the click of the black button
-            document.addEventListener("backbutton", () => {
-
-                // Execute the "onBackPressed" method of the last activity in the stack
-                app.activityStack[app.activityStack.length - 1].onBackPressed();
-
-            }, false);
+            document.addEventListener("backbutton", () => this.onBackPressed(), false);
 
         }
 
@@ -94,6 +89,29 @@ class App {
                 this.initInternationalization();
 
             });
+
+    }
+
+
+    /** Defines the behaviour of the back button for the whole application. */
+    onBackPressed() {
+
+        // If any loader or alert dialog is open, return
+        if (utils.isLoaderOpen || utils.isAlertOpen) return;
+
+        // If the image screen is open
+        if (utils.isImgScreenOpen) {
+
+            // Close the image screen
+            utils.closeImgScreen();
+
+            // Return
+            return;
+
+        }
+
+        // Perform the "onBackPressed" method of the last activity in the stack
+        app.activityStack[app.activityStack.length - 1].onBackPressed();
 
     }
 

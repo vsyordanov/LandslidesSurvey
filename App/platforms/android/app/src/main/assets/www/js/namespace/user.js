@@ -157,12 +157,17 @@ const user = {
 
                         // Email already in use
                         case 409:
-                            utils.logOrToast(i18next.t("messages.register409"), "long");
+                            utils.logOrToast(i18next.t("messages.changeEmail409"), "long");
                             break;
 
                         // Not found
                         case 404:
                             utils.createAlert(i18next.t("dialogs.title404"), i18next.t("dialogs.changeEmail404"), i18next.t("dialogs.btnOk"));
+                            break;
+
+                        // Incorrect data
+                        case 422:
+                            utils.logOrToast(i18next.t("messages.changeEmail422"), "long");
                             break;
 
                         // Generic server error

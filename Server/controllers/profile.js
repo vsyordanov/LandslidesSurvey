@@ -84,10 +84,18 @@ exports.changeEmail = (req, res, next) => {
 
     // If there are some validation errors, throw a 422 error
     if (!errors.isEmpty()) {
-        const error      = new Error("Password validation failed. Entered data is incorrect.");
-        error.errors     = errors.array();
-        error.statusCode = 422;
-        throw error;
+
+        // If the email is already in use, send error 409
+        if (errors.array()[0].msg === "This email address is already registered.")
+            res.status(409).json({ message: "This email address is already registered." });
+
+        // Else, send error 422
+        else
+            res.status(422).json({
+                message: "Registration validation failed. Entered data is incorrect.",
+                errors : errors.array()
+            });
+
     }
 
     // Save the new main

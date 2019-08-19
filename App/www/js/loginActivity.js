@@ -241,6 +241,8 @@ class LoginActivity {
                 // Save the expiration date and set the auto-logout
                 localStorage.setItem("expireDate", expireDate.toISOString());
 
+                if (MapActivity.hasInstance()) MapActivity.deleteInstance();
+
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);
 

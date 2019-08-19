@@ -136,7 +136,7 @@ class InsertActivity {
         this._lsId = ls._id;
 
         // Save if the landslide was mapped in expert mode
-        this._isExpert = ls.expert === "true";
+        this._isExpert = ((isLocal && ls.expert === "true") || (!isLocal && ls.expert));
 
         // Save if the landslide is saved locally
         this._isLocal = isLocal;
@@ -557,7 +557,7 @@ class InsertActivity {
             if (this._vals.mitigation === "") toSelect = "yes";
 
             // If the app is on expert mode or the ls that is being modified was mapped in expert
-            if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode))  {
+            if ((this._lsId && this._isExpert) || (!this._lsId && App.isExpertMode)) {
 
                 // Select the value
                 $("input[name='mitigationExpert'][value='" + toSelect + "']").prop("checked", "true");

@@ -8,7 +8,7 @@
  */
 const landslide = {
 
-    /** The icon of a landslide saved on the server. */
+    /** Icon of a landslide saved on the server. */
     _iconRemote: L.icon({
         iconUrl        : "img/ls-marker-remote.png",            // The url of the icon
         iconRetinaUrl  : "img/ls-marker-remote-2x.png",         // The url of the icon for retina displays
@@ -20,7 +20,7 @@ const landslide = {
         shadowAnchor   : [18, 18]                        // The position of the shadow anchor
     }),
 
-    /** The icon of a landslide saved on the local database. */
+    /** Icon of a landslide saved on the local database. */
     _iconLocal: L.icon({
         iconUrl        : "img/ls-marker-local.png",            // The url of the icon
         iconRetinaUrl  : "img/ls-marker-local-2x.png",         // The url of the icon for retina displays
@@ -33,10 +33,10 @@ const landslide = {
     }),
 
 
-    /** The array containing all the markers currently on the map corresponding to the remote landslides. */
+    /** Array containing all the markers currently on the map corresponding to the remote landslides. */
     remoteMarkers: [],
 
-    /** The array containing all the markers currently on the map corresponding to the local landslides. */
+    /** Array containing all the markers currently on the map corresponding to the local landslides. */
     localMarkers: [],
 
 

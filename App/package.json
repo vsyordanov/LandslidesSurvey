@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "babel": ".\\node_modules\\.bin\\babel .\\www\\js --out-file .\\www\\js\\dist\\app.js --ignore \".\\www\\js\\lib\\*.js\",\".\\www\\settings.js\" --no-comments"
+    "babel": ".\\node_modules\\.bin\\babel .\\www\\js --out-file .\\www\\js\\dist\\app.js --ignore \".\\www\\js\\lib\\*.js\",\".\\www\\js\\settings.js\" --no-comments"
   },
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",

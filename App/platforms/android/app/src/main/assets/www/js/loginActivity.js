@@ -24,10 +24,12 @@ class LoginActivity {
         this.token  = null;
         this.userId = null;
 
+
         // Hide the footer in this and in the register activity when the phone keyboard is shown
         let $authFooter = $(".auth-footer");
         window.addEventListener("keyboardWillShow", () => $authFooter.hide());
         window.addEventListener("keyboardWillHide", () => $authFooter.show());
+
 
         // Link to open the reset password activity
         $("#link--reset-password").click(() => {
@@ -106,6 +108,7 @@ class LoginActivity {
     /** Opens the activity. */
     open() {
 
+        // Push the activity into the stack
         utils.pushStackActivity(this);
 
         // Show the screen
@@ -119,6 +122,7 @@ class LoginActivity {
     /** Closes the activity and resets its fields. */
     close() {
 
+        // Pop the activity from the stack
         utils.popStackActivity();
 
         // Hide the screen
@@ -127,6 +131,28 @@ class LoginActivity {
         // Reset the fields
         $("#field--login-email").val("");
         $("#field--login-password").val("");
+
+    }
+
+    /** Defines the behaviour of the back button for this activity */
+    onBackPressed() {
+
+        // If it's the first time the user clicks on the button
+        if (app._backPressedCount === 0) {
+
+            // Alert the user
+            utils.logOrToast(i18next.t("messages.backButton"), "short");
+
+            // Increment the count
+            app._backPressedCount++;
+
+            // Set an interval after which the count is reset to 0
+            setInterval(() => app._backPressedCount = 0, 2000);
+
+        }
+
+        // Else, close the app
+        else navigator.app.exitApp();
 
     }
 
@@ -214,6 +240,8 @@ class LoginActivity {
 
                 // Save the expiration date and set the auto-logout
                 localStorage.setItem("expireDate", expireDate.toISOString());
+
+                if (MapActivity.hasInstance()) MapActivity.deleteInstance();
 
                 // Open the map activity
                 utils.switchActivity(MapActivity.getInstance(), true, this);

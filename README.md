@@ -2,6 +2,8 @@
 <img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/logo.png" width="144" alt="Logo">
 </h4>
 
+
+
 # LandslidesSurvey
 
 LandslidesSurvey is a *cross-platform mobile application* that allows users with any level of competence to **map
@@ -102,6 +104,57 @@ Simple version of the insert screen. From here the user can insert all the detai
 the database.
 
 The only required fields are the landslide type and a photo of the area.
+
+
+## Under development
+
+### Next features
+
+- [ ] **Make all the landslides accessible to every user**
+
+Right now a user can only see the landslides he has mapped. In future releases we will add the possibility to
+visualize and download also the data inserted by other users.
+
+- Create the proper route on the server.
+- (Create a system of keys to limit the access to the API form third party applications.)
+- Add in the application the possibility to show or hide the data of the other users.
+- Limit the number of markers visualized based on the map boundaries.
+- Add the possibility to download the data in JSON format.
+
+
+
+
+- [ ] **Improve the possibility to insert picture of the landslide**
+
+A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo mechanism in the following ways.
+
+-  Add the possibility to take up to three photo of the hazard.
+- Register the orientation of the phone when the photo is taken.
+-  Save the inclination of the phone when the photo is taken.
+
+
+
+
+- [ ] **Enhance the offline usability**
+
+The application is usable offline, but if no Internet connection is available the map can't load,  posing a usability issue.
+
+What we plan to do is to add the possibility to select an area of the map and cache the tiles so that they will be displayed also in absence of connection.
+
+
+
+
+- [ ] **Improve the documentation**
+
+The code is entirely commented, but we plan to extract those comments to create a proper documentation.
+
+- Using [JSDoc](https://github.com/jsdoc/jsdoc) extract the documentation of the client from the source code.
+- Create the API documentation using [APIDoc](http://apidocjs.com/).
+
+
+
+- [ ] **Add more languages**
+
 
 
 ## License

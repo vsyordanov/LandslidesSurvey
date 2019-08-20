@@ -106,11 +106,9 @@ the database.
 The only required fields are the landslide type and a photo of the area.
 
 
-## Under development
+## Next features
 
-### Next features
-
-- [ ] **Make all the landslides accessible to every user**
+##### Make all the landslides accessible to every user
 
 Right now a user can only see the landslides he has mapped. In future releases we will add the possibility to
 visualize and download also the data inserted by other users.
@@ -122,29 +120,26 @@ visualize and download also the data inserted by other users.
 - Add the possibility to download the data in JSON format.
 
 
+##### Improve the possibility to insert picture of the landslide
 
-
-- [ ] **Improve the possibility to insert picture of the landslide**
-
-A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo mechanism in the following ways.
+A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo
+mechanism in the following ways.
 
 -  Add the possibility to take up to three photo of the hazard.
 - Register the orientation of the phone when the photo is taken.
 -  Save the inclination of the phone when the photo is taken.
 
 
+##### Enhance the offline usability
+
+The application is usable offline, but if no Internet connection is available the map can't load,  posing a usability
+issue.
+
+What we plan to do is to add the possibility to select an area of the map and cache the tiles so that they will be
+displayed also in absence of connection.
 
 
-- [ ] **Enhance the offline usability**
-
-The application is usable offline, but if no Internet connection is available the map can't load,  posing a usability issue.
-
-What we plan to do is to add the possibility to select an area of the map and cache the tiles so that they will be displayed also in absence of connection.
-
-
-
-
-- [ ] **Improve the documentation**
+##### Improve the documentation
 
 The code is entirely commented, but we plan to extract those comments to create a proper documentation.
 
@@ -152,8 +147,12 @@ The code is entirely commented, but we plan to extract those comments to create 
 - Create the API documentation using [APIDoc](http://apidocjs.com/).
 
 
+##### Add more languages
 
-- [ ] **Add more languages**
+
+### Technical difficulties
+
+
 
 
 

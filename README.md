@@ -2,9 +2,20 @@
 <img src="https://github.com/epessina/LandslidesSurvey/blob/master/App/screens/logo.png" width="144" alt="Logo">
 </h4>
 
-
-
 # LandslidesSurvey
+
+### Table of Contents
+
+-  [What is LandlidesSurvey?](#what-is-landlidessurvey)
+-  [Technologies](#technologies)
+-  [Installation](#installation)
+-  [Demo](#demo)
+-  [Next features](#next-features)
+-  [Technical difficulties](#technical-difficulties)
+-  [License](#license)
+
+
+## What is LandlidesSurvey?
 
 LandslidesSurvey is a *cross-platform mobile application* that allows users with any level of competence to **map
 landslides** on the field in an easy and guided way.
@@ -150,7 +161,7 @@ The code is entirely commented, but we plan to extract those comments to create 
 ##### Add more languages
 
 
-### Technical difficulties
+## Technical difficulties
 
 
 

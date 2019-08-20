@@ -54,7 +54,7 @@ RESTFull API written using [Node.js](https://nodejs.org/it/) and [Express.js](ht
 
 The minimum version required is **Android 7.0 (API level 24)**.
 
-1. Download [LandslidesSurvey-x.x.x.apk](https://github.com/epessina/LandslidesSurvey/tree/master/App/releases).
+1. Download [LandslidesSurvey-x.x.x.apk](https://github.com/epessina/LandslidesSurvey/releases).
 2. Place the file in your phone.
 3. Install the apk.
 4. Done!

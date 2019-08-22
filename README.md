@@ -136,9 +136,9 @@ visualize and download also the data inserted by other users.
 A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo
 mechanism in the following ways.
 
--  Add the possibility to take up to three photo of the hazard.
+- Add the possibility to take up to three photo of the hazard.
 - Register the orientation of the phone when the photo is taken.
--  Save the inclination of the phone when the photo is taken.
+- Save the inclination of the phone when the photo is taken.
 
 
 ##### Enhance the offline usability
@@ -163,6 +163,112 @@ The code is entirely commented, but we plan to extract those comments to create 
 
 ## Technical difficulties
 
+In this section are highlighted some of the technical difficulties which have emerged during the development, together
+with the solutions we came up with.
+
+
+##### Singleton pattern
+
+To make the code more structured, we wanted to create a class for each one of the *Activities* of the application.
+To avoid conflicts, however, it was crucial to guarantee that at any time only one instance of a certain Activity was
+instantiated.
+
+To solve this problem we have decided to implement the *Singleton pattern* by not using the constructor of the class
+directly and defining a public static method that returns the sole instance of the class. In this way, the instantiation
+of the class is restricted and only one instance can exist at any time. 
+
+The implementation for a generic Activity is shown below:
+
+```javascript
+class Singleton {
+
+    static _instance;
+
+    // The constructor should never be called directly
+    constructor(){
+        // Initialization of the activity...
+    }
+   
+    static getInstance() {
+        if (!Singleton._instance)
+            Singleton._instance = new Singleton();
+        
+        return Singleton._instance;
+  	}
+  	
+}
+
+let first  = new Singleton();
+let second = new Singleton();
+
+console.log(first === second); // Output: true
+```
+
+
+
+##### Photo saved in cache
+
+Cordova by default saves all the photo taken with the camera in the *cache* folder of the application. This is not a
+problem if the landslide is uploaded to the server. However, if the entry is saved locally, there is the chance that the
+cache is cleaned before the user synchronizes the databases causing an error, since the photo cannot found anymore. 
+
+The solution we came up with consists in moving the photos of the local landslides to the "image" folder in the private
+data storage within the application's sandbox. In this way, the photo cannot be deleted by the system and is not
+directly accessible by the user.
+
+The method that performs this task is `moveImage(imageUrl)` in `App/www/js/namespace/utils.js`. Here are reported just
+the lines that performs the task.
+
+```javascript
+window.resolveLocalFileSystemURL(
+    imageUrl,
+    fileEntry => {
+            utils.getLocalDirectory() // Returns the directory in which the file has to be moved
+                .then(dir => { fileEntry.moveTo(dir, fileEntry.name, file => onSuccess(file), err => onError(err)) })
+                .catch(err => onError(err)) 
+    },
+    err => onError(err)
+);
+```
+
+
+##### Database inconsistency on sign up error  
+
+On the server side an issue we had to face was a possible misbehaviour during the sign up procedure. The steps that the
+system performs are the following:
+
+1. validate the data sent by the client;
+2. encrypt the password;
+3. save the new user into the database;
+4. send a confirmation email to the new user's address;
+5. send back a successful response.
+
+The problem is that, if an error occurs between point 3 and point 4, we end up with a user saved in the database who
+has not received a confirmation email. Therefor, the user cannot login with the account, since it is not confirmed, and
+he cannot create a new, since the mail is already registered.
+
+The solution of this problem can be seen in the method `signup` of `Server/controllers/auth.js`. It consists in creating
+a temporary variable `newUser` where the newly create user is stored after point 3. Then. the catch block looks like this:
+
+ ```javascript
+[...]
+    .catch(err => {
+       
+        [...]
+        
+        if (!newUser) {
+            next(err);
+            return;
+        }
+        
+        console.log("User already created. Rolling back...");
+        
+        User.findByIdAndRemove(newUser._id)
+            .then(() => onSuccess())
+            .catch(err => onError());
+        
+    });
+ ```
 
 
 

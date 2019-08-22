@@ -131,6 +131,26 @@ visualize and download also the data inserted by other users.
 - Add the possibility to download the data in JSON format.
 
 
+##### Add satellite-based landslide detection
+
+Apply state of the art remote sensing techniques for landslide detection. A new entry from the application will activate background server-based processing using optical and radar satellite images for the current location.
+
+-	A comparison with local landslide inventory (if available) will be performed for preliminary confirmation whether the entry is new or existing. If new, the server will return a message to the user asking for additional photos of the landslide.
+- Change detection methodologies will be implemented: differences in products derived from optical satellite images (e.g. NDVI) and radar satellite images (e.g. Land cover).
+- Implementing coherence change detection based on radar satellite data and machine learning techniques for landslide detection.
+- Final comparison between the user entry and EO derived product will be performed, notifying the user and applying a note to the entry, with the consistency of all observations.
+
+
+##### Implement susceptibility mapping
+
+An option for generating a susceptibility map for a certain area will be added, based on machine learning approaches.
+
+- The user will be notified whether the available landslide inventory and other satellite derived products are sufficient for such mapping.
+-	Generating products derived from optical and radar images related to landslide susceptibility mapping.
+-	Option for uploading additional data which can be helpful for the susceptibility analysis (e.g. geological map, elevation data etc.)
+-	Notifying the user for the accuracy of the map.
+
+
 ##### Improve the possibility to insert picture of the landslide
 
 A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo

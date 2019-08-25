@@ -133,12 +133,14 @@ visualize and download also the data inserted by other users.
 
 ##### Add satellite-based landslide detection
 
-Apply state of the art remote sensing techniques for landslide detection. A new entry from the application will activate background server-based processing using optical and radar satellite images for the current location.
+Apply state of the art remote sensing techniques for landslide detection. Where the aim is to use only free and publicly available satellite products. Specifically, the products from ESA’s mission Copernicus Sentinel satellites, where Sentinel 1 A/B provides SAR images and Sentinel 2 A/B multispectral optical images. Except the availability of the datasets, the other important advantage from the mission is the short revisit time between two acquisitions, for both of the constellations. 
+
+A new entry from the application will activate background server-based processing using optical and radar satellite images for the current location.
 
 -	A comparison with local landslide inventory (if available) will be performed for preliminary confirmation whether the entry is new or existing. If new, the server will return a message to the user asking for additional photos of the landslide.
 - Change detection methodologies will be implemented: differences in products derived from optical satellite images (e.g. NDVI) and radar satellite images (e.g. Land cover).
-- Implementing coherence change detection based on radar satellite data and machine learning techniques for landslide detection.
-- Final comparison between the user entry and EO derived product will be performed, notifying the user and applying a note to the entry, with the consistency of all observations.
+- Implementing change detection based on radar satellite data using coherence change detection algorithm or unsupervised deep learning techniques.
+- Final coherence comparison between the user entry and EO derived product will be performed. Again, the user will be notified with the result. Finally, the entry will be recorded into the database and it will have an assigned score according to a predefined ranking system. The purpose of the score would be to alert a future user of the database, for the confidence level of the entry
 
 
 ##### Implement susceptibility mapping

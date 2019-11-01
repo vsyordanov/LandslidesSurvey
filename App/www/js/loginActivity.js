@@ -171,10 +171,15 @@ class LoginActivity {
         // If there is no token or expire date, return false
         if (!token || !expireDate) return false;
 
-        // If the token is expired, logout and return false
+        // If the token is expired
         if (new Date(expireDate) <= new Date()) {
+
+            // Logout
             this.logout();
+
+            // Return false
             return false;
+
         }
 
         // Save the token and the user id
@@ -238,9 +243,10 @@ class LoginActivity {
                 const remainingMilliseconds = 24 * 60 * 60 * 1000,
                       expireDate            = new Date(new Date().getTime() + remainingMilliseconds);
 
-                // Save the expiration date and set the auto-logout
+                // Save the expiration date
                 localStorage.setItem("expireDate", expireDate.toISOString());
 
+                // If an instance of the map activity already exists, delete it
                 if (MapActivity.hasInstance()) MapActivity.deleteInstance();
 
                 // Open the map activity

@@ -51,12 +51,9 @@ class RegisterActivity {
 
 
         // Listen for the changes of the selectors and update their label accordingly
-        $("#register-age").change(() => utils.changeSelectorLabel(
-            "register-age", true));
-        $("#register-gender").change(() => utils.changeSelectorLabel(
-            "register-gender", true));
-        $("#register-occupation").change(() => utils.changeSelectorLabel(
-            "register-occupation", true));
+        $("#register-age").change(() => utils.changeSelectorLabel("register-age", true));
+        $("#register-gender").change(() => utils.changeSelectorLabel("register-gender", true));
+        $("#register-occupation").change(() => utils.changeSelectorLabel("register-occupation", true));
 
     }
 

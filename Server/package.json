@@ -1,13 +1,13 @@
 {
-  "name": "landslide-survey-server",
+  "name": "landslides-survey-server",
   "version": "1.0.0",
-  "description": "A RESTful API that serves as backend for the Cordova app Landslide Survey",
+  "description": "A RESTful API that serves as backend for the Cordova application LandslidesSurvey.",
   "main": "app.js",
   "engines": {
     "node": "10.15.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc mocha --recursive --timeout=5000",
     "start": "node app.js",
     "start-dev": "nodemon app.js",
     "publish-heroku": "cd ../ && git subtree push --prefix Server heroku master || true"
@@ -39,6 +39,10 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.0",
-    "nodemon": "^1.18.11"
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.18.11",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.1"
   }
 }

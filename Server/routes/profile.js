@@ -7,7 +7,7 @@ const express  = require("express"),                 // Express module
 const User = require("../models/user");
 
 const profileController = require("../controllers/profile"), // Controller module
-      isAuth            = require("../middleware/is-auth");     // Authorization checking middleware
+      isAuth            = require("../middleware/is-auth");  // Authorization checking middleware
 
 
 // Possible age values
@@ -88,4 +88,5 @@ router.put("/:userId/change-password", isAuth, changePwValidation, profileContro
 router.put("/:userId/update-profile", isAuth, updateProfileValidation, profileController.updateProfile);
 
 
+// Export the routes
 module.exports = router;

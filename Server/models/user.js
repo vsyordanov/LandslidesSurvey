@@ -18,5 +18,5 @@ const userSchema = new Schema({
     resetPwTokenExpiration     : Date
 }, { timestamps: true });
 
-// Return the model
+// Export the model
 module.exports = mongoose.model("User", userSchema);

@@ -352,8 +352,16 @@ const utils = {
         // Return a promise
         return new Promise((resolve, reject) => {
 
-            // If no file is provided, just return the form data
-            if (!fileUri) resolve(formData);
+            // If no file is provided
+            if (!fileUri) {
+
+                // Resolve
+                resolve(formData);
+
+                // Return
+                return;
+
+            }
 
             // Find the file in the file system
             window.resolveLocalFileSystemURL(
@@ -403,8 +411,16 @@ const utils = {
 
                         console.error(`Error getting the fileEntry file ${err}`);
 
-                        // If the error does not have to be shown, return
-                        if (!showError) reject();
+                        // If the error does not have to be shown
+                        if (!showError) {
+
+                            // Reject
+                            reject();
+
+                            // Return
+                            return;
+
+                        }
 
                         // Alert the user
                         utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));

@@ -51,5 +51,5 @@ router.put("/:landslideId", isAuth, putValidation, landslideController.updateLan
 router.delete("/:landslideId", isAuth, landslideController.deleteLandslide);
 
 
-
+// Export the routes
 module.exports = router;

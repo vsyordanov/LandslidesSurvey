@@ -28,5 +28,5 @@ const landslideSchema = new Schema({
     imageUrl           : String
 }, { timestamps: true });
 
-// Return the model
+// Export the model
 module.exports = mongoose.model("Landslide", landslideSchema);

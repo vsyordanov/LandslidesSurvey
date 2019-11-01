@@ -10,13 +10,13 @@ class MapActivity {
 
     /** @private */ static _instance;
 
-    /** @returns {number[]} Default position. */
+    /** Default coordinates of the center of the map (Milan coordinates). */
     static get defaultLatLng() { return [45.464161, 9.190336] }
 
-    /** @returns {number} Default zoom. */
+    /** Default zoom of the map. */
     static get defaultZoom() { return 11 }
 
-    /** @returns {number} Default zoom when watching the position. */
+    /** Default zoom of the map when it is watching the position. */
     static get watcherZoom() { return 17 }
 
 
@@ -57,6 +57,7 @@ class MapActivity {
         
         `);
 
+        // Add the translated text to the "finding position" message and the "new landslides" button
         $("#finding-position-msg p").localize();
         $("#map-new-ls p").localize();
 
@@ -138,6 +139,7 @@ class MapActivity {
      */
     static hasInstance() { return !!MapActivity._instance }
 
+    /** Deletes the current instance of the activity. */
     static deleteInstance() { MapActivity._instance = null }
 
     /**
@@ -172,7 +174,7 @@ class MapActivity {
 
         // ToDo delete
         if (App.isCordova)
-        // Check the location permissions
+            // Check the location permissions
             this.checkLocationPermissions();
 
         // Show all the landslides mapped by the user
@@ -482,7 +484,7 @@ class MapActivity {
                 this.detachPositionWatcher();
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
 
             }
 
@@ -571,7 +573,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
 
             },
             // For iOS the authorization mode is set to ALWAYS
@@ -609,7 +611,7 @@ class MapActivity {
                     this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                     // Alert the user
-                    utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+                    utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
                 }
             },
             err => {
@@ -620,7 +622,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
             }
         );
 
@@ -661,7 +663,7 @@ class MapActivity {
                     this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                     // Alert the user
-                    utils.createAlert(i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
+                    utils.createAlert("", i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
 
                 }
                 // Permissions granted
@@ -709,7 +711,7 @@ class MapActivity {
                 this._$gps.removeClass("gps-on").children("i").html("gps_off");
 
                 // Alert the user
-                utils.createAlert(i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
+                utils.createAlert("", i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
 
             }
         );

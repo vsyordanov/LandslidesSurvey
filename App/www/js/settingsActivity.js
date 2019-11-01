@@ -71,6 +71,9 @@ class SettingsActivity {
         // Hide the screen
         this._screen.scrollTop(0).hide();
 
+        // et the currently opened setting to null
+        this._openedSetting = null;
+
     }
 
     /** Defines the behaviour of the back button for this activity */

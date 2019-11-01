@@ -1,9 +1,7 @@
 /* DIALOG LANDSLIDE TYPE */
 
-
 $image-width : 120px;
 $text-height : 40px;
-
 
 #dialog-ls-type {
 
@@ -11,24 +9,17 @@ $text-height : 40px;
     @include flex-display(row, space-between);
     margin-bottom : 16px;
 
-    &.last-card-row {
-      margin-bottom : 32px;
-    }
+    &.last-card-row { margin-bottom : 32px }
 
   }
 
-  .radio-card {
-    width : $radio-card-side-margin * 2 + $image-width;
-  }
+  .radio-card { width : $radio-card-side-margin * 2 + $image-width }
 
-  .radio-card-text-wrapper {
-    height : $text-height;
-  }
+  .radio-card-text-wrapper { height : $text-height }
 
   img {
     width  : $image-width;
     height : auto
   }
-
 
 }

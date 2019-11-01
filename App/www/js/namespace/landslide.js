@@ -882,15 +882,15 @@ const landslide = {
             });
 
             // Save the temporary array as the new marker array
-            array = newMarkers;
+            return newMarkers;
 
         };
 
         // If the landslide is local, user the local markers array
-        if (isLocal) clear(landslide.localMarkers);
+        if (isLocal) landslide.localMarkers = clear(landslide.localMarkers);
 
         // Else, use the remote markers array
-        else clear(landslide.remoteMarkers);
+        else landslide.remoteMarkers = clear(landslide.remoteMarkers);
 
     },
 

@@ -70,6 +70,7 @@ class InsertActivity {
         this._newMonitoringList = [];
         this._newDamagesList    = [];
 
+        // Initialize the user interface
         this.initUI();
 
     }
@@ -106,6 +107,7 @@ class InsertActivity {
 
         }
 
+        // Show the screen
         this._screen.show();
 
         // If in "post" mode
@@ -201,6 +203,10 @@ class InsertActivity {
 
         // Hide the screen
         this._screen.scrollTop(0).hide();
+
+        // Rest the currently opened dialogs
+        this._currOpenedDialog     = null;
+        this._currOpenedFullDialog = null;
 
         // Set all values to ""
         Object.keys(this._vals).forEach(v => this._vals[v] = "");
@@ -1364,7 +1370,7 @@ class InsertActivity {
             .then((data) => {
 
                 // Show the info about the landslide
-                InfoActivity.getInstance().getLandslide(data.id);
+                InfoActivity.getInstance().getLandslide(data.id, false);
 
                 // Close the loader
                 utils.closeLoader();

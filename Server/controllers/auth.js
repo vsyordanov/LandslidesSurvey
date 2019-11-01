@@ -4,7 +4,7 @@
 const crypto = require("crypto");
 
 const User                 = require("../models/user"),          // Model of the user
-      mails                 = require("../utils/mails"),          // Utility for sending the mail
+      mails                = require("../utils/mails"),          // Utility for sending the mail
       { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
       bcrypt               = require("bcryptjs"),                // Module for encrypting/decrypting the password
       jwt                  = require("jsonwebtoken");            // Module for creating and compare tokens
@@ -291,7 +291,7 @@ exports.login = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
 
-            // If no user is found, raise a 404 error
+            // If no user is found, throw a 404 error
             if (!user) {
                 const error      = new Error("Invalid credentials.");
                 error.statusCode = 401;
@@ -503,14 +503,14 @@ exports.postNewPassword = (req, res, next) => {
     User.findOne({ resetPwToken: token, email: email })
         .then(user => {
 
-            // If no user is found, raise a 404 error
+            // If no user is found, throw a 404 error
             if (!user) {
                 const error      = new Error("Could not find the user.");
                 error.statusCode = 404;
                 throw error;
             }
 
-            // If the token is expired, raise a 400 error
+            // If the token is expired, throw a 400 error
             if (!(new Date(user.resetPwTokenExpiration).getTime() > Date.now())) {
                 const error      = new Error("Token expired");
                 error.statusCode = 400;

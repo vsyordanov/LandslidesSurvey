@@ -19,9 +19,13 @@ class ResetPasswordActivity {
      */
     constructor() {
 
+        // Cache the screen
         this.screen = $("#page--reset-pw");
 
+        // When the user clicks on the "close" button, close the page
         $("#btn--reset-pw-close").click(() => this.close());
+
+        // When the user clicks on the "done" button, reset the password
         $("#btn--reset-pw-done").click(() => this.resetPassword());
 
     }

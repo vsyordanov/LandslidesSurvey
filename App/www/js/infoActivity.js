@@ -9,7 +9,7 @@ class InfoActivity {
 
     /** @private */ static _instance;
 
-    /** @returns {object} The option to format the date */
+    /** Options to format the date */
     static get dateOpts() {
         return {
             year  : "numeric",

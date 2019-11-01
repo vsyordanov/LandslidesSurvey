@@ -9,7 +9,6 @@ const crypto = require("crypto");
 
 const User                 = require("../models/user"),          // Model of the user
       mails                = require("../utils/mails"),          // Utility for sending the mail
-      Landslide            = require("../models/landslide"),     // Model of the landslide
       { validationResult } = require("express-validator/check"), // Module for retrieving the validation results
       bcrypt               = require("bcryptjs");                // Module for encrypting/decrypting the password
 
@@ -20,49 +19,54 @@ const transporter = mails.transporter();
 /* Retrieve the data of a user. */
 exports.getUser = (req, res, next) => {
 
+    // Extract the id of the user
     const id = req.params.userId;
 
+    // If the id of the user is not the one of the calling user, return
     if (id !== req.userId) {
         const error      = new Error("Not authorized.");
         error.statusCode = 401;
         throw error;
     }
 
+    // Find the user by id
     User.findById(id)
         .then(user => {
 
+            // If no user is found, throw a 404 error
             if (!user) {
                 const error      = new Error("Could not find the user.");
                 error.statusCode = 404;
                 throw error;
             }
 
-            Landslide.countDocuments({ user: id, markedForDeletion: false })
-                .then(count => {
-                    res.status(200).json({
-                        message: "User found.",
-                        user   : {
-                            email     : user.email,
-                            name      : user.name,
-                            age       : user.age,
-                            gender    : user.gender,
-                            occupation: user.occupation,
-                            isRescuer : user.isRescuer,
-                            defNumber : count,
-                            imageUrl  : user.imageUrl
-                        }
-                    })
-                })
+            // Send a successful response
+            res.status(200).json({
+                message: "User found.",
+                user   : {
+                    email     : user.email,
+                    age       : user.age,
+                    gender    : user.gender,
+                    occupation: user.occupation,
+                    imageUrl  : user.imageUrl
+                }
+            })
+
         })
         .catch(err => {
+
             console.error(err);
+
+            // If the error does not have a status code, assign 500 to it
             if (!err.statusCode) {
                 err.statusCode = 500;
                 err.errors     = ["Something went wrong on the server."];
             }
-            next(err);
-        });
 
+            // Call the next middleware
+            next(err);
+
+        })
 };
 
 
@@ -135,7 +139,7 @@ exports.changeEmail = (req, res, next) => {
             // Set the expiration date of the token (24h)
             user.confirmEmailTokenExpiration = Date.now() + 86400000;
 
-            // Udate the user
+            // Update the user
             return user.save();
 
         })

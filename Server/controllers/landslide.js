@@ -139,7 +139,7 @@ exports.postLandslide = (req, res, next) => {
 
     // If no image has been passed with the request, throw a 422 error
     if (!req.file) {
-        const error      = new Error("Defibrillator validation failed. Entered data is incorrect.");
+        const error      = new Error("Landslide validation failed. Entered data is incorrect.");
         error.errors     = [{ location: "body", msg: "You must provide a photo", param: "imageUrl", value: "" }];
         error.statusCode = 422;
         throw error;
@@ -205,6 +205,7 @@ exports.postLandslide = (req, res, next) => {
             next(err);
 
         });
+
 };
 
 
@@ -292,10 +293,11 @@ exports.updateLandslide = (req, res, next) => {
             next(err);
 
         });
+
 };
 
 
-/* Deletes a landslide from the database. The entry will not be removed, it will just be marked for deletion */
+/* Deletes a landslide from the database. The entry will not be removed, it will just be marked for deletion. */
 exports.deleteLandslide = (req, res, next) => {
 
     // Extract the id form the request
@@ -346,6 +348,7 @@ exports.deleteLandslide = (req, res, next) => {
             next(err);
 
         });
+
 };
 
 

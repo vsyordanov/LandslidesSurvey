@@ -19,16 +19,16 @@ $(() => {
  */
 class App {
 
-    /** @returns {boolean} True if the system is using cordova. */ // ToDo delete
-    static get isCordova() { return window.cordova };
+    /** Flag that states if the system is using Cordova. */
+    static get isCordova() { return window.cordova }; // ToDo delete
 
-    /** @return {boolean} True if the application is in expert mode. */
+    /** Flag that states the application is in expert mode. */
     static get isExpertMode() { return localStorage.getItem("mode") === "true" };
 
-    /** @return {string} The name of the local database. */
+    /** The name of the local database. */
     static get localDbName() { return "LandslideSurvey" };
 
-    /** @return {number} The current version of the local database. */
+    /** The current version of the local database. */
     static get localDbVersion() { return 1 }
 
 

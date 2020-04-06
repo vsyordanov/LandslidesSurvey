@@ -27,7 +27,7 @@ exports.generateConfirmEmailContent = link => {
         </p>
         
         <p style="font-size: 18px; color: #5E5E5E">
-            To confirm your DefibrillatorHunter account, please click the link below:
+            To confirm your LandslidesSurvey account, please click the link below:
         </p>
         
         <a href="${link}"

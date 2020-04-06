@@ -18,6 +18,8 @@ const authRoutes      = require("./routes/auth"),
       landslideRoutes = require("./routes/landslide"),
       profileRoutes   = require("./routes/profile");
 
+require("dotenv").config();
+
 // Initialize express
 const app = express();
 
@@ -104,5 +106,8 @@ app.use((error, req, res, next) => {
 // Connect to the database and start the server
 mongoose
     .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true })
-    .then(() => app.listen(process.env.PORT || 8080))
+    .then(() => {
+        app.listen(process.env.PORT);
+        console.info(`Server started on port ${process.env.PORT}`);
+    })
     .catch(err => console.error(err));

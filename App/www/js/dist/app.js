@@ -536,6 +536,8 @@ var InsertActivity = function () {
 
       this._screen.scrollTop(0).hide();
 
+      this._currOpenedDialog = null;
+      this._currOpenedFullDialog = null;
       Object.keys(this._vals).forEach(function (v) {
         return _this._vals[v] = "";
       });
@@ -1150,7 +1152,7 @@ var InsertActivity = function () {
       utils.appendFile(formData, file).then(function (formData) {
         return landslide.put(InsertActivity.getInstance()._lsId, formData);
       }).then(function (data) {
-        InfoActivity.getInstance().getLandslide(data.id);
+        InfoActivity.getInstance().getLandslide(data.id, false);
         utils.closeLoader();
         InsertActivity.getInstance().close();
       });
@@ -1778,7 +1780,7 @@ var MapActivity = function () {
 
             _this4.detachPositionWatcher();
 
-            utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+            utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
           }
       });
     }
@@ -1835,7 +1837,7 @@ var MapActivity = function () {
 
         _this6._$gps.removeClass("gps-on").children("i").html("gps_off");
 
-        utils.createAlert(i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
+        utils.createAlert("", i18next.t("dialogs.map.permissionsRequestError"), i18next.t("dialogs.btnOk"));
       }, this._d.locationAuthorizationMode.ALWAYS);
     }
   }, {
@@ -1855,14 +1857,14 @@ var MapActivity = function () {
 
             _this7._$gps.removeClass("gps-on").children("i").html("gps_off");
 
-            utils.createAlert(i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
+            utils.createAlert("", i18next.t("dialogs.map.gpsOff"), i18next.t("dialogs.btnOk"));
           }
       }, function (err) {
         console.error("Cannot determine if the location is enabled", err);
 
         _this7._$gps.removeClass("gps-on").children("i").html("gps_off");
 
-        utils.createAlert(i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
+        utils.createAlert("", i18next.t("dialogs.map.gpsCheckError"), i18next.t("dialogs.btnOk"));
       });
     }
   }, {
@@ -1887,7 +1889,7 @@ var MapActivity = function () {
 
             _this8._$gps.removeClass("gps-on").children("i").html("gps_off");
 
-            utils.createAlert(i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
+            utils.createAlert("", i18next.t("dialogs.map.cannotRequestPermissions"), i18next.t("dialogs.btnOk"));
           } else {
               console.log("Permission granted");
 
@@ -1912,7 +1914,7 @@ var MapActivity = function () {
 
         _this8._$gps.removeClass("gps-on").children("i").html("gps_off");
 
-        utils.createAlert(i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
+        utils.createAlert("", i18next.t("dialogs.map.permissionsCheckError"), i18next.t("dialogs.btnOk"));
       });
     }
   }, {
@@ -2550,10 +2552,10 @@ var landslide = {
       array.forEach(function (m) {
         if (m._id === id) MapActivity.getInstance().markersLayer.removeLayer(m);else newMarkers.push(m);
       });
-      array = newMarkers;
+      return newMarkers;
     };
 
-    if (isLocal) clear(landslide.localMarkers);else clear(landslide.remoteMarkers);
+    if (isLocal) landslide.localMarkers = clear(landslide.localMarkers);else landslide.remoteMarkers = clear(landslide.remoteMarkers);
   }
 };
 "use strict";
@@ -2870,7 +2872,11 @@ var utils = {
   },
   appendFile: function appendFile(formData, fileUri, showError) {
     return new Promise(function (resolve, reject) {
-      if (!fileUri) resolve(formData);
+      if (!fileUri) {
+        resolve(formData);
+        return;
+      }
+
       window.resolveLocalFileSystemURL(fileUri, function (fileEntry) {
         fileEntry.file(function (file) {
           var reader = new FileReader();
@@ -2892,7 +2898,12 @@ var utils = {
           reader.readAsArrayBuffer(file);
         }, function (err) {
           console.error("Error getting the fileEntry file ".concat(err));
-          if (!showError) reject();
+
+          if (!showError) {
+            reject();
+            return;
+          }
+
           utils.createAlert("", i18next.t("dialogs.errorAppendPicture"), i18next.t("dialogs.btnOk"));
           reject();
         });
@@ -3318,6 +3329,8 @@ var SettingsActivity = function () {
       utils.popStackActivity();
 
       this._screen.scrollTop(0).hide();
+
+      this._openedSetting = null;
     }
   }, {
     key: "onBackPressed",

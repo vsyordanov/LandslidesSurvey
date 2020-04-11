@@ -2,14 +2,7 @@
 
 let app;
 
-// ToDo fix
-$(() => {
-
-    if (window.cordova) document.addEventListener("deviceready", () => app = new App(), false);
-
-    else app = new App();
-
-});
+$(() => document.addEventListener("deviceready", () => app = new App(), false));
 
 
 /**
@@ -18,9 +11,6 @@ $(() => {
  * @author Edoardo Pessina
  */
 class App {
-
-    /** Flag that states if the system is using Cordova. */
-    static get isCordova() { return window.cordova }; // ToDo delete
 
     /** Flag that states the application is in expert mode. */
     static get isExpertMode() { return localStorage.getItem("mode") === "true" };
@@ -60,14 +50,8 @@ class App {
         document.addEventListener("pause", this.onPause, false);
         document.addEventListener("resume", this.onResume, false);
 
-
-        // Handle the "back button" click
-        if (App.isCordova) {
-
-            // Add a listener for the click of the black button
-            document.addEventListener("backbutton", () => this.onBackPressed(), false);
-
-        }
+        // Add a listener for the click of the black button
+        document.addEventListener("backbutton", () => this.onBackPressed(), false);
 
         // Initialize the local database
         this.initLocalDb()
@@ -149,16 +133,6 @@ class App {
 
                 // Attach the function to be fired when the language is changed
                 i18next.on("languageChanged", () => console.log(`lng changed to ${i18next.language}`));
-
-                // ToDo
-                // navigator.globalization.getLocaleName(
-                //     lang => {
-                //         ln.language = lang.value.substring(0, 2);
-                //         i18next.setLng(ln.language, () => $("body").i18n());
-                //         init();
-                //     },
-                //     error => console.log(error)
-                // );
 
                 // Initialize the jQuery plugin
                 jqueryI18next.init(i18next, $);

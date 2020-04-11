@@ -205,7 +205,7 @@ class RegisterActivity {
                 utils.switchActivity(LoginActivity.getInstance(), true, this);
 
                 // Display a dialog about the confirmation email
-                utils.createAlert(i18next.t("auth.register.successTitle"), i18next.t("auth.register.successMessage"), i18next.t("dialogs.btnOk"));
+                // utils.createAlert(i18next.t("auth.register.successTitle"), i18next.t("auth.register.successMessage"), i18next.t("dialogs.btnOk"));
 
             })
             .catch(err => {

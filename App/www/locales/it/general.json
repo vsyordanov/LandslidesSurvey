@@ -215,6 +215,7 @@
     }
   },
   "info" : {
+    "_id": "Id",
     "creationDate" : "Data di creazione",
     "lastModified" : "Data di ultima modifica",
     "coordinates" : "Coordinate (WGS 84)",

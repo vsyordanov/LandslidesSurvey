@@ -296,6 +296,69 @@ exports.updateLandslide = (req, res, next) => {
 
 };
 
+exports.addPreciseCoordinates = (req, res, next) => {
+
+    if (!req.isAdmin) {
+        const error      = new Error("Forbidden.");
+        error.statusCode = 403;
+        throw error;
+    }
+
+    // Extract the id form the request
+    const id = req.params.landslideId;
+
+    // Extract the validation results
+    const errors = validationResult(req);
+
+    // If there are some validation errors, throw a 422 error
+    if (!errors.isEmpty()) {
+        const error      = new Error("Landslide validation failed. Entered data is incorrect.");
+        error.errors     = errors.array();
+        error.statusCode = 422;
+        throw error;
+    }
+
+    // Find the landslide by id
+    Landslide.findById(id)
+        .then(landslide => {
+
+            // If no landslide is found, throw a 404 error
+            if (!landslide) {
+                const error      = new Error("Could not find landslide.");
+                error.statusCode = 404;
+                throw error;
+            }
+
+            // Save the new values
+            landslide.preciseCoordinates = req.body.preciseCoordinates;
+
+            // Update the landslide
+            return landslide.save();
+
+        })
+        .then(result => {
+
+            // Send a successful response
+            res.status(200).json({ message: "Landslide updated.", landslide: result })
+
+        })
+        .catch(err => {
+
+            console.error(err);
+
+            // If the error does not have a status code, assign 500 to it
+            if (!err.statusCode) {
+                err.statusCode = 500;
+                err.errors     = ["Something went wrong on the server."];
+            }
+
+            // Call the next middleware
+            next(err);
+
+        });
+
+};
+
 
 /* Deletes a landslide from the database. The entry will not be removed, it will just be marked for deletion. */
 exports.deleteLandslide = (req, res, next) => {

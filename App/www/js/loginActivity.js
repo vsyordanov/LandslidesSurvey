@@ -165,22 +165,23 @@ class LoginActivity {
     getAuthStatus() {
 
         // Extract the token and the expire date from localStorage
-        const token      = localStorage.getItem("token"),
-              expireDate = localStorage.getItem("expireDate");
+        const token      = localStorage.getItem("token");
+              // expireDate = localStorage.getItem("expireDate");
 
         // If there is no token or expire date, return false
-        if (!token || !expireDate) return false;
+        // if (!token || !expireDate) return false;
+        if (!token) return false;
 
         // If the token is expired
-        if (new Date(expireDate) <= new Date()) {
-
-            // Logout
-            this.logout();
-
-            // Return false
-            return false;
-
-        }
+        // if (new Date(expireDate) <= new Date()) {
+        //
+        //     // Logout
+        //     this.logout();
+        //
+        //     // Return false
+        //     return false;
+        //
+        // }
 
         // Save the token and the user id
         this.token  = token;
@@ -240,11 +241,11 @@ class LoginActivity {
                 localStorage.setItem("userId", resData.userId);
 
                 // Calculate the session expiration date (1 day)
-                const remainingMilliseconds = 24 * 60 * 60 * 1000,
-                      expireDate            = new Date(new Date().getTime() + remainingMilliseconds);
+                // const remainingMilliseconds = 24 * 60 * 60 * 1000,
+                //       expireDate            = new Date(new Date().getTime() + remainingMilliseconds);
 
                 // Save the expiration date
-                localStorage.setItem("expireDate", expireDate.toISOString());
+                // localStorage.setItem("expireDate", expireDate.toISOString());
 
                 // If an instance of the map activity already exists, delete it
                 if (MapActivity.hasInstance()) MapActivity.deleteInstance();
@@ -414,7 +415,7 @@ class LoginActivity {
 
         // Remove token, user id and token expiration date from the localstorage
         localStorage.removeItem("token");
-        localStorage.removeItem("expireDate");
+        // localStorage.removeItem("expireDate");
         localStorage.removeItem("userId");
 
     }

@@ -7,6 +7,7 @@ const mongoose = require("mongoose"), // Import the module for the db handling
 const userSchema = new Schema({
     email                      : { type: String, unique: true },
     password                   : String,
+    isAdmin                    : { type: Boolean, default: false },
     age                        : String,
     gender                     : String,
     occupation                 : String,

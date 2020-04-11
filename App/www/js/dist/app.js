@@ -8,18 +8,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var app;
 $(function () {
-  if (window.cordova) document.addEventListener("deviceready", function () {
+  return document.addEventListener("deviceready", function () {
     return app = new App();
-  }, false);else app = new App();
+  }, false);
 });
 
 var App = function () {
   _createClass(App, null, [{
-    key: "isCordova",
-    get: function get() {
-      return window.cordova;
-    }
-  }, {
     key: "isExpertMode",
     get: function get() {
       return localStorage.getItem("mode") === "true";
@@ -48,13 +43,9 @@ var App = function () {
     this.activityStack = [];
     document.addEventListener("pause", this.onPause, false);
     document.addEventListener("resume", this.onResume, false);
-
-    if (App.isCordova) {
-      document.addEventListener("backbutton", function () {
-        return _this.onBackPressed();
-      }, false);
-    }
-
+    document.addEventListener("backbutton", function () {
+      return _this.onBackPressed();
+    }, false);
     this.initLocalDb().then(function () {
       _this.initInternationalization();
     })["catch"](function () {
@@ -327,17 +318,21 @@ var InfoActivity = function () {
         }
 
       var _loop = function _loop(key) {
-        if (data.hasOwnProperty(key)) $("#info-" + key + " .info-content").html(function () {
+        if (data.hasOwnProperty(key)) {
+          $("#info-" + key + " .info-content").html(function () {
             var val = data[key];
             if (val === "") return "-";
 
             switch (key) {
+              case "_id":
+                return val;
+
               case "createdAt":
               case "updatedAt":
                 return new Date(val).toLocaleDateString(i18next.language, InfoActivity.dateOpts);
 
               case "coordinates":
-                return val[0] + ", " + val[1];
+                if (data.preciseCoordinates && data.preciseCoordinates[0] !== undefined && data.preciseCoordinates[1] !== undefined) return data.preciseCoordinates[0] + ", " + data.preciseCoordinates[1];else return val[0] + ", " + val[1];
 
               case "coordinatesAccuracy":
               case "altitudeAccuracy":
@@ -390,6 +385,7 @@ var InfoActivity = function () {
                 return i18next.t("insert." + key + ".enum." + val);
             }
           });
+        }
       };
 
       for (var key in data) {
@@ -939,29 +935,11 @@ var InsertActivity = function () {
             _this3._$photoThm.find("i").show();
           });
       });
-
-      $("#tmp-photo-input").change(function () {
-        _this3._vals.photo = $("#tmp-photo-input")[0].files[0];
-        var reader = new FileReader();
-
-        reader.onloadend = function (e) {
-          _this3._$photoThm.find("img").attr("src", e.target.result).show();
-
-          _this3._$photoThm.find("i").hide();
-        };
-
-        reader.readAsDataURL(_this3._vals.photo);
-      });
     }
   }, {
     key: "getPicture",
     value: function getPicture() {
       var _this4 = this;
-
-      if (!App.isCordova) {
-        $("#tmp-photo-input").click();
-        return;
-      }
 
       var opt = {
         quality: 30,
@@ -1012,24 +990,12 @@ var InsertActivity = function () {
         notes: this._vals.notes,
         imageUrl: this._vals.photo
       };
-
-      if (!App.isCordova) {
-        landslide.postLocal(data).then(function (data) {
-          utils.closeLoader();
-          landslide.show(data.id, data.coords, true);
-          $("#sync-notification").show();
-
-          _this5.close();
-        });
-        return;
-      }
-
       utils.moveImage(data.imageUrl).then(function (url) {
         data.imageUrl = url;
         return landslide.postLocal(data);
       }).then(function (data) {
         utils.closeLoader();
-        landslide.show(data.id, data.coords, true);
+        landslide.show(data.id, data.coords, data.preciseCoordinates, true);
         $("#sync-notification").show();
 
         _this5.close();
@@ -1059,22 +1025,11 @@ var InsertActivity = function () {
       formData.append("damages", this._vals.damages);
       formData.append("damagesList", JSON.stringify(this._vals.damagesList));
       formData.append("notes", this._vals.notes);
-
-      if (!App.isCordova) {
-        formData.append("image", this._vals.photo);
-        landslide.post(formData).then(function (data) {
-          utils.closeLoader();
-          landslide.show(data.id, data.coords, false);
-          InsertActivity.getInstance().close();
-        });
-        return;
-      }
-
       utils.appendFile(formData, this._vals.photo).then(function (formData) {
         return landslide.post(formData);
       }).then(function (data) {
         utils.closeLoader();
-        landslide.show(data.id, data.coords, false);
+        landslide.show(data.id, data.coords, data.preciseCoordinates, false);
 
         _this6.close();
       });
@@ -1134,19 +1089,6 @@ var InsertActivity = function () {
       formData.append("damages", this._vals.damages);
       formData.append("damagesList", JSON.stringify(this._vals.damagesList));
       formData.append("notes", this._vals.notes);
-
-      if (!App.isCordova) {
-        if (this._vals.photo !== this._oldPhoto) formData.append("image", this._vals.photo);
-        landslide.put(this._lsId, formData).then(function (data) {
-          utils.closeLoader();
-          InfoActivity.getInstance().getLandslide(data.id, false);
-          InsertActivity.getInstance().close();
-        })["catch"](function () {
-          utils.closeLoader();
-        });
-        return;
-      }
-
       var file = null;
       if (this._vals.photo !== this._oldPhoto) file = this._vals.photo;
       utils.appendFile(formData, file).then(function (formData) {
@@ -1342,15 +1284,8 @@ var LoginActivity = function () {
   }, {
     key: "getAuthStatus",
     value: function getAuthStatus() {
-      var token = localStorage.getItem("token"),
-          expireDate = localStorage.getItem("expireDate");
-      if (!token || !expireDate) return false;
-
-      if (new Date(expireDate) <= new Date()) {
-        this.logout();
-        return false;
-      }
-
+      var token = localStorage.getItem("token");
+      if (!token) return false;
       this.token = token;
       this.userId = localStorage.getItem("userId");
       return true;
@@ -1392,9 +1327,6 @@ var LoginActivity = function () {
         _this2.userId = resData.userId;
         localStorage.setItem("token", resData.token);
         localStorage.setItem("userId", resData.userId);
-        var remainingMilliseconds = 24 * 60 * 60 * 1000,
-            expireDate = new Date(new Date().getTime() + remainingMilliseconds);
-        localStorage.setItem("expireDate", expireDate.toISOString());
         if (MapActivity.hasInstance()) MapActivity.deleteInstance();
         utils.switchActivity(MapActivity.getInstance(), true, _this2);
         utils.closeLoader();
@@ -1490,7 +1422,6 @@ var LoginActivity = function () {
       this.token = null;
       this.userId = null;
       localStorage.removeItem("token");
-      localStorage.removeItem("expireDate");
       localStorage.removeItem("userId");
     }
   }, {
@@ -1587,7 +1518,6 @@ var MapActivity = function () {
     this._map.addLayer(this.markersLayer);
 
     this.initPositionMarker();
-    if (!App.isCordova) return;
     this._d = cordova.plugins.diagnostic;
     this.registerGPSWatcher();
   }
@@ -1602,7 +1532,7 @@ var MapActivity = function () {
       this._map.setView(MapActivity.defaultLatLng, MapActivity.defaultZoom);
 
       this.positionMarker.setLatLng(MapActivity.defaultLatLng);
-      if (App.isCordova) this.checkLocationPermissions();
+      this.checkLocationPermissions();
       landslide.showAll();
     }
   }, {
@@ -1872,8 +1802,6 @@ var MapActivity = function () {
     value: function handleGPSButton() {
       var _this8 = this;
 
-      if (!App.isCordova) return;
-
       if (this._$gps.hasClass("gps-on")) {
         console.log("Watcher already on");
         return;
@@ -2023,11 +1951,17 @@ var landslide = {
   }),
   remoteMarkers: [],
   localMarkers: [],
-  show: function show(id, coordinates, isLocal) {
-    var marker = L.marker(coordinates, {
+  show: function show(id, coordinates, preciseCoordinates, isLocal) {
+    console.log("Showing " + id);
+    var marker;
+    if (preciseCoordinates && preciseCoordinates[0] !== undefined && preciseCoordinates[1] !== undefined) marker = L.marker(preciseCoordinates, {
+      icon: landslide._iconRemote,
+      draggable: false
+    });else marker = L.marker(coordinates, {
       icon: landslide._iconRemote,
       draggable: false
     });
+    console.log(marker);
     marker._id = id;
     marker.on("click", function () {
       return InfoActivity.getInstance().open(id, isLocal);
@@ -2053,7 +1987,7 @@ var landslide = {
 
     request.onsuccess = function (e) {
       e.target.result.forEach(function (ls) {
-        return landslide.show(ls._id, ls.coordinates, true);
+        return landslide.show(ls._id, ls.coordinates, ls.preciseCoordinates, true);
       });
       if (landslide.localMarkers.length !== 0) $("#sync-notification").show();
     };
@@ -2075,7 +2009,7 @@ var landslide = {
       return res.json();
     }).then(function (data) {
       data.landslides.forEach(function (d) {
-        return landslide.show(d._id, d.coordinates, false);
+        return landslide.show(d._id, d.coordinates, d.preciseCoordinates, false);
       });
     })["catch"](function (err) {
       console.error(err);
@@ -2214,28 +2148,28 @@ var landslide = {
     });
   },
   sync: function () {
-    var _sync = _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+    var _sync = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
       var total, success, insertErrors, deleteErrors, _loop, i;
 
-      return regeneratorRuntime.wrap(function _callee5$(_context6) {
+      return regeneratorRuntime.wrap(function _callee4$(_context5) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               total = landslide.localMarkers.length;
               success = 0, insertErrors = 0, deleteErrors = 0;
               _loop = regeneratorRuntime.mark(function _loop(i) {
-                return regeneratorRuntime.wrap(function _loop$(_context5) {
+                return regeneratorRuntime.wrap(function _loop$(_context4) {
                   while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context4.prev = _context4.next) {
                       case 0:
                         console.log("Start ".concat(i));
-                        _context5.next = 3;
+                        _context4.next = 3;
                         return landslide.get(landslide.localMarkers[i]._id, true, false).then(function () {
-                          var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(ls) {
+                          var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(ls) {
                             var formData;
-                            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                            return regeneratorRuntime.wrap(function _callee3$(_context3) {
                               while (1) {
-                                switch (_context4.prev = _context4.next) {
+                                switch (_context3.prev = _context3.next) {
                                   case 0:
                                     console.log("Found ".concat(i));
                                     formData = new FormData();
@@ -2256,72 +2190,37 @@ var landslide = {
                                     formData.append("damages", ls.damages);
                                     formData.append("damagesList", JSON.stringify(ls.damagesList));
                                     formData.append("notes", ls.notes);
-
-                                    if (App.isCordova) {
-                                      _context4.next = 24;
-                                      break;
-                                    }
-
-                                    formData.append("image", ls.imageUrl);
-                                    _context4.next = 23;
-                                    return landslide.post(formData, false).then(_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                                      return regeneratorRuntime.wrap(function _callee$(_context) {
-                                        while (1) {
-                                          switch (_context.prev = _context.next) {
-                                            case 0:
-                                              console.log("Posted ".concat(i));
-                                              _context.next = 3;
-                                              return landslide["delete"](ls._id, true, ls.imageUrl, false).then(function () {
-                                                return success++;
-                                              })["catch"](function () {
-                                                return deleteErrors++;
-                                              });
-
-                                            case 3:
-                                            case "end":
-                                              return _context.stop();
-                                          }
-                                        }
-                                      }, _callee);
-                                    })))["catch"](function () {
-                                      return insertErrors++;
-                                    });
-
-                                  case 23:
-                                    return _context4.abrupt("return");
-
-                                  case 24:
-                                    _context4.next = 26;
+                                    _context3.next = 21;
                                     return utils.appendFile(formData, ls.imageUrl, false).then(function () {
-                                      var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(formData) {
-                                        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                      var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(formData) {
+                                        return regeneratorRuntime.wrap(function _callee$(_context) {
                                           while (1) {
-                                            switch (_context2.prev = _context2.next) {
+                                            switch (_context.prev = _context.next) {
                                               case 0:
-                                                _context2.next = 2;
+                                                _context.next = 2;
                                                 return landslide.post(formData, false);
 
                                               case 2:
-                                                return _context2.abrupt("return", _context2.sent);
+                                                return _context.abrupt("return", _context.sent);
 
                                               case 3:
                                               case "end":
-                                                return _context2.stop();
+                                                return _context.stop();
                                             }
                                           }
-                                        }, _callee2);
+                                        }, _callee);
                                       }));
 
                                       return function (_x2) {
-                                        return _ref3.apply(this, arguments);
+                                        return _ref2.apply(this, arguments);
                                       };
-                                    }()).then(_asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-                                      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                                    }()).then(_asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+                                      return regeneratorRuntime.wrap(function _callee2$(_context2) {
                                         while (1) {
-                                          switch (_context3.prev = _context3.next) {
+                                          switch (_context2.prev = _context2.next) {
                                             case 0:
                                               console.log("Posted ".concat(i));
-                                              _context3.next = 3;
+                                              _context2.next = 3;
                                               return landslide["delete"](ls._id, true, ls.imageUrl, false).then(function () {
                                                 return success++;
                                               })["catch"](function () {
@@ -2330,20 +2229,20 @@ var landslide = {
 
                                             case 3:
                                             case "end":
-                                              return _context3.stop();
+                                              return _context2.stop();
                                           }
                                         }
-                                      }, _callee3);
+                                      }, _callee2);
                                     })))["catch"](function () {
                                       return insertErrors++;
                                     });
 
-                                  case 26:
+                                  case 21:
                                   case "end":
-                                    return _context4.stop();
+                                    return _context3.stop();
                                 }
                               }
-                            }, _callee4);
+                            }, _callee3);
                           }));
 
                           return function (_x) {
@@ -2355,7 +2254,7 @@ var landslide = {
 
                       case 3:
                       case "end":
-                        return _context5.stop();
+                        return _context4.stop();
                     }
                   }
                 }, _loop);
@@ -2364,20 +2263,20 @@ var landslide = {
 
             case 4:
               if (!(i < total)) {
-                _context6.next = 9;
+                _context5.next = 9;
                 break;
               }
 
-              return _context6.delegateYield(_loop(i), "t0", 6);
+              return _context5.delegateYield(_loop(i), "t0", 6);
 
             case 6:
               i++;
-              _context6.next = 4;
+              _context5.next = 4;
               break;
 
             case 9:
               console.log("Done ls");
-              return _context6.abrupt("return", {
+              return _context5.abrupt("return", {
                 total: total,
                 successes: success,
                 insertErrors: insertErrors,
@@ -2386,10 +2285,10 @@ var landslide = {
 
             case 11:
             case "end":
-              return _context6.stop();
+              return _context5.stop();
           }
         }
-      }, _callee5);
+      }, _callee4);
     }));
 
     function sync() {
@@ -2792,19 +2691,7 @@ var utils = {
     return uid;
   },
   isTokenExpired: function isTokenExpired() {
-    var expireDate = localStorage.getItem("expireDate");
-    if (expireDate && new Date(expireDate) > new Date() || app.isGuest) return false;
-
-    for (var i = app.activityStack.length - 1; i >= 0; i--) {
-      app.activityStack[i].close();
-    }
-
-    LoginActivity.getInstance().logout();
-    LoginActivity.getInstance().open();
-    utils.closeLoader();
-    utils.closeAlert();
-    utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
-    return true;
+    return false;
   },
   getLocalDirectory: function getLocalDirectory() {
     return new Promise(function (resolve, reject) {
@@ -2967,11 +2854,6 @@ var utils = {
     utils.isLoaderOpen = false;
   },
   logOrToast: function logOrToast(msg, duration) {
-    if (!App.isCordova) {
-      console.log(msg);
-      return;
-    }
-
     window.plugins.toast.show(msg, duration, "bottom");
   },
   changeSelectorLabel: function changeSelectorLabel(selectorId) {
@@ -3156,7 +3038,6 @@ var RegisterActivity = function () {
 
         utils.closeLoader();
         utils.switchActivity(LoginActivity.getInstance(), true, _this2);
-        utils.createAlert(i18next.t("auth.register.successTitle"), i18next.t("auth.register.successMessage"), i18next.t("dialogs.btnOk"));
       })["catch"](function (err) {
         console.error(err);
         utils.closeLoader();

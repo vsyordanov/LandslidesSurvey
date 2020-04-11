@@ -391,6 +391,7 @@
     }
   },
   "info" : {
+    "_id": "Id",
     "creationDate" : "Creation date",
     "lastModified" : "Last modified",
     "coordinates" : "Coordinates (WGS 84)",

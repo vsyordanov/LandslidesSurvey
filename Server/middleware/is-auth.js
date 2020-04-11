@@ -38,8 +38,9 @@ module.exports = (req, res, next) => {
         throw error;
     }
 
-    // Save the id of the colling user in the request
-    req.userId = decodedToken.userId;
+    // Save the id of the calling user in the request
+    req.userId  = decodedToken.userId;
+    req.isAdmin = decodedToken.isAdmin;
 
     // Move to the next middleware
     next();

@@ -120,10 +120,6 @@ class MapActivity {
         this.initPositionMarker();
 
 
-        // ToDo deleted
-        if (!App.isCordova) return;
-
-
         // Save the diagnostic plugin with an alias for later use
         this._d = cordova.plugins.diagnostic;
 
@@ -172,10 +168,7 @@ class MapActivity {
         // Set the initial position of the the marker
         this.positionMarker.setLatLng(MapActivity.defaultLatLng);
 
-        // ToDo delete
-        if (App.isCordova)
-            // Check the location permissions
-            this.checkLocationPermissions();
+        this.checkLocationPermissions();
 
         // Show all the landslides mapped by the user
         landslide.showAll();
@@ -631,9 +624,6 @@ class MapActivity {
 
     /** Responds to the click of the GPS button. */
     handleGPSButton() {
-
-        // ToDo delete
-        if (!App.isCordova) return;
 
         // If the position watcher is already active, return
         if (this._$gps.hasClass("gps-on")) {

@@ -85,22 +85,22 @@ const resetPwValidation = [
 router.put("/signup", signupValidation, authController.signup);
 
 // GET /auth/confirmation/:token
-router.get("/confirmation/:token", authController.confirmMail);
+// router.get("/confirmation/:token", authController.confirmMail);
 
 // POST /auth/confirmation/resend
-router.post("/confirmation/resend", emailValidation, authController.resendConfirmationEmail);
+// router.post("/confirmation/resend", emailValidation, authController.resendConfirmationEmail);
 
 // POST /auth/login
 router.post("/login", authController.login);
 
 // POST /auth/reset-password
-router.post("/reset-password", emailValidation, authController.resetPw);
+// router.post("/reset-password", emailValidation, authController.resetPw);
 
 // GET /auth/new-password:token
-router.get("/new-password/:token", authController.getNewPassword);
+// router.get("/new-password/:token", authController.getNewPassword);
 
 // POST /auth/new-password
-router.post("/new-password", resetPwValidation, authController.postNewPassword);
+// router.post("/new-password", resetPwValidation, authController.postNewPassword);
 
 
 // Export the routes

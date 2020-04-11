@@ -54,35 +54,38 @@ exports.signup = (req, res, next) => {
 
             // Create a new user
             const user = new User({
-                email                      : email,
-                password                   : hashPw,
-                age                        : age,
-                gender                     : gender,
-                occupation                 : occupation,
-                confirmEmailToken          : token,
-                confirmEmailTokenExpiration: Date.now() + 86400000      // 1 day
+                email      : email,
+                password   : hashPw,
+                age        : age,
+                gender     : gender,
+                occupation : occupation,
+                isConfirmed: true
+                // confirmEmailToken          : token,
+                // confirmEmailTokenExpiration: Date.now() + 86400000      // 1 day
             });
 
             // Save the user into the database
             return user.save();
 
         })
-        .then(user => {
+        // .then(user => {
+        //
+        //     // Save the new user
+        //     newUser = user;
+        //
+        //     // Send a confirmation mail
+        //     return transporter.sendMail({
+        //         to     : email,
+        //         from   : mails.senderAddress,
+        //         subject: "Welcome to LandslidesSurvey! Confirm your email.",
+        //         text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`,
+        //         html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`)
+        //     });
+        //
+        // })
+        .then((user) => {
 
-            // Save the new user
             newUser = user;
-
-            // Send a confirmation mail
-            return transporter.sendMail({
-                to     : email,
-                from   : mails.senderAddress,
-                subject: "Welcome to DefibrillatorHunter! Confirm your email.",
-                text   : `Click here to confirm your mail:\nhttp://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`,
-                html   : mails.generateConfirmEmailContent(`http://${req.headers.host}/auth/confirmation/${user.confirmEmailToken}`)
-            });
-
-        })
-        .then(() => {
 
             // Send a success response
             res.status(201).json({ message: "User created.", userId: newUser._id });
@@ -324,10 +327,11 @@ exports.login = (req, res, next) => {
             // Create a random token
             const token = jwt.sign(
                 {
-                    userId: loadedUser._id.toString(),
-                    email : loadedUser.email
+                    userId : loadedUser._id.toString(),
+                    email  : loadedUser.email,
+                    isAdmin: loadedUser.isAdmin
                 },
-                process.env.JWT_PRIVATE_KEY, { expiresIn: "1d" }
+                process.env.JWT_PRIVATE_KEY
             );
 
             // Send a success response

@@ -45,15 +45,21 @@ const landslide = {
      *
      * @param {string} id - The id of the landslide.
      * @param {number[]} coordinates - The coordinates of the landslide.
+     * @param {number[]} preciseCoordinates - The precise coordinates of the landslide.
      * @param {boolean} isLocal - True if the the landslide is saved locally.
      */
-    show: (id, coordinates, isLocal) => {
+    show: (id, coordinates, preciseCoordinates, isLocal) => {
 
-        // Create a new marker
-        const marker = L.marker(coordinates, {
-            icon     : landslide._iconRemote, // The icon of the marker
-            draggable: false                  // The marker cannot be moved
-        });
+        console.log("Showing " + id);
+
+        let marker;
+
+        if (preciseCoordinates && preciseCoordinates[0] !== undefined && preciseCoordinates[1] !== undefined)
+            marker = L.marker(preciseCoordinates, { icon: landslide._iconRemote, draggable: false });
+        else
+            marker = L.marker(coordinates, { icon: landslide._iconRemote, draggable: false });
+
+        console.log(marker);
 
         // Set the id of the marker
         marker._id = id;
@@ -111,7 +117,7 @@ const landslide = {
         request.onsuccess = e => {
 
             // Display the landslides
-            e.target.result.forEach(ls => landslide.show(ls._id, ls.coordinates, true));
+            e.target.result.forEach(ls => landslide.show(ls._id, ls.coordinates, ls.preciseCoordinates, true));
 
             // If there are some landslides in the local database, show the sync notification
             if (landslide.localMarkers.length !== 0) $("#sync-notification").show();
@@ -149,7 +155,7 @@ const landslide = {
             .then(data => {
 
                 // Show each of the retrieved landslides
-                data.landslides.forEach(d => landslide.show(d._id, d.coordinates, false));
+                data.landslides.forEach(d => landslide.show(d._id, d.coordinates, d.preciseCoordinates, false));
 
             })
             .catch(err => {
@@ -487,28 +493,6 @@ const landslide = {
                     formData.append("damages", ls.damages);
                     formData.append("damagesList", JSON.stringify(ls.damagesList));
                     formData.append("notes", ls.notes);
-
-                    // ToDo delete
-                    if (!App.isCordova) {
-
-                        formData.append("image", ls.imageUrl);
-
-                        // Post the landslide
-                        await landslide.post(formData, false)
-                            .then(async () => {
-
-                                console.log(`Posted ${i}`);
-
-                                await landslide.delete(ls._id, true, ls.imageUrl, false)
-                                    .then(() => success++)
-                                    .catch(() => deleteErrors++);
-
-                            })
-                            .catch(() => insertErrors++);
-
-                        return;
-
-                    }
 
                     // Append the image
                     await utils.appendFile(formData, ls.imageUrl, false)

@@ -9,7 +9,7 @@ exports.senderAddress = "landslide-survey@support.com";
 
 exports.transporter = () => {
 
-    const transporter = nodemailer.createTransport(sendgridTransport({ auth: { api_key: process.env.NODEMAILER_KEY } }));
+    const transporter = nodemailer.createTransport(sendgridTransport({ auth: { api_key: process.env.SENDGRID_KEY } }));
 
     transporter.verify(err => { if (err) console.error(`Error setting up the transporter: ${err}`) });
 

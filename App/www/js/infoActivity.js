@@ -271,9 +271,9 @@ class InfoActivity {
         for (let key in data) {
 
             // If the object has a property associated with the key
-            if (data.hasOwnProperty(key))
+            if (data.hasOwnProperty(key)) {
 
-            // Set the content of the field associated with the key
+                // Set the content of the field associated with the key
                 $("#info-" + key + " .info-content").html(() => {
 
                     // Save the value of the key
@@ -285,6 +285,9 @@ class InfoActivity {
                     // Set the value form based on the key
                     switch (key) {
 
+                        case "_id":
+                            return val;
+
                         // Display the date formatted accordingly to the current language
                         case "createdAt":
                         case "updatedAt":
@@ -292,7 +295,12 @@ class InfoActivity {
 
                         // Display the coordinates
                         case "coordinates":
-                            return val[0] + ", " + val[1];
+                            if (data.preciseCoordinates &&
+                                data.preciseCoordinates[0] !== undefined &&
+                                data.preciseCoordinates[1] !== undefined)
+                                return data.preciseCoordinates[0] + ", " + data.preciseCoordinates[1];
+                            else
+                                return val[0] + ", " + val[1];
 
                         // Display the accuracy
                         case "coordinatesAccuracy":
@@ -369,6 +377,8 @@ class InfoActivity {
                     }
 
                 });
+
+            }
 
         }
 

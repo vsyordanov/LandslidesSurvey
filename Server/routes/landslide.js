@@ -27,6 +27,11 @@ const putValidation = [
         .escape()
 ];
 
+const patchValidation = [
+    body("preciseCoordinates")
+        .not().isEmpty().withMessage("You must specify the precise coordinates of the landslide")
+];
+
 
 // Create a router
 const router = express.Router();
@@ -46,6 +51,8 @@ router.post("/post", isAuth, postValidation, landslideController.postLandslide);
 
 // PUT /landslide/:landslideId
 router.put("/:landslideId", isAuth, putValidation, landslideController.updateLandslide);
+
+router.patch("/:landslideId/precise-coordinates", isAuth, patchValidation, landslideController.addPreciseCoordinates);
 
 // DELETE /landslide/:landslideId
 router.delete("/:landslideId", isAuth, landslideController.deleteLandslide);

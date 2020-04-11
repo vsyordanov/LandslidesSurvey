@@ -84,37 +84,39 @@ const utils = {
      */
     isTokenExpired: () => {
 
-        // Retrieve the expiration date from the storage
-        const expireDate = localStorage.getItem("expireDate");
+        return false;
 
-        // If the token is not expired or if the user is a guest, return true
-        if ((expireDate && new Date(expireDate) > new Date()) || app.isGuest) return false;
-
-        // For each activity in the stack
-        for (let i = (app.activityStack.length - 1); i >= 0; i--) {
-
-            // Close the activity
-            app.activityStack[i].close();
-
-        }
-
-        // Logout
-        LoginActivity.getInstance().logout();
-
-        // Open the login activity
-        LoginActivity.getInstance().open();
-
-        // Close any open loader
-        utils.closeLoader();
-
-        // Close any open alert
-        utils.closeAlert();
-
-        // Alert the user
-        utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
-
-        // Return true
-        return true;
+        // // Retrieve the expiration date from the storage
+        // const expireDate = localStorage.getItem("expireDate");
+        //
+        // // If the token is not expired or if the user is a guest, return true
+        // if ((expireDate && new Date(expireDate) > new Date()) || app.isGuest) return false;
+        //
+        // // For each activity in the stack
+        // for (let i = (app.activityStack.length - 1); i >= 0; i--) {
+        //
+        //     // Close the activity
+        //     app.activityStack[i].close();
+        //
+        // }
+        //
+        // // Logout
+        // LoginActivity.getInstance().logout();
+        //
+        // // Open the login activity
+        // LoginActivity.getInstance().open();
+        //
+        // // Close any open loader
+        // utils.closeLoader();
+        //
+        // // Close any open alert
+        // utils.closeAlert();
+        //
+        // // Alert the user
+        // utils.createAlert("", i18next.t("dialogs.tokenExpired"), i18next.t("dialogs.btnOk"));
+        //
+        // // Return true
+        // return true;
 
     },
 
@@ -571,12 +573,6 @@ const utils = {
      * @param {string} duration - How long the message should stay on the screen.
      */
     logOrToast: (msg, duration) => {
-
-        // ToDo delete
-        if (!App.isCordova) {
-            console.log(msg);
-            return;
-        }
 
         window.plugins.toast.show(msg, duration, "bottom");
 

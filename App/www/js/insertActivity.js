@@ -1002,33 +1002,11 @@ class InsertActivity {
 
         });
 
-        // ToDO delete
-        $("#tmp-photo-input").change(() => {
-
-            this._vals.photo = $("#tmp-photo-input")[0].files[0];
-
-            let reader = new FileReader();
-
-            reader.onloadend = e => {
-                this._$photoThm.find("img").attr("src", e.target.result).show();
-                this._$photoThm.find("i").hide();
-            };
-
-            reader.readAsDataURL(this._vals.photo);
-
-        });
-
     }
 
 
     /** Take a picture with the phone camera. */
     getPicture() {
-
-        // ToDo delete
-        if (!App.isCordova) {
-            $("#tmp-photo-input").click();
-            return;
-        }
 
         // Options for the photo
         const opt = {
@@ -1104,30 +1082,6 @@ class InsertActivity {
             imageUrl           : this._vals.photo
         };
 
-        // ToDo delete
-        if (!App.isCordova) {
-
-            landslide.postLocal(data)
-                .then(data => {
-
-                    // Close the loader
-                    utils.closeLoader();
-
-                    // Show the new landslide
-                    landslide.show(data.id, data.coords, true);
-
-                    // Show the sync notification
-                    $("#sync-notification").show();
-
-                    // Close the activity
-                    this.close();
-
-                });
-
-            return;
-
-        }
-
         // Move the image
         utils.moveImage(data.imageUrl)
             .then(url => {
@@ -1145,7 +1099,7 @@ class InsertActivity {
                 utils.closeLoader();
 
                 // Show the new landslide
-                landslide.show(data.id, data.coords, true);
+                landslide.show(data.id, data.coords, data.preciseCoordinates, true);
 
                 // Show the sync notification
                 $("#sync-notification").show();
@@ -1185,29 +1139,6 @@ class InsertActivity {
         formData.append("damagesList", JSON.stringify(this._vals.damagesList));
         formData.append("notes", this._vals.notes);
 
-        // ToDo delete
-        if (!App.isCordova) {
-
-            formData.append("image", this._vals.photo);
-
-            // Post the landslide
-            landslide.post(formData)
-                .then((data) => {
-
-                    // Close the loader
-                    utils.closeLoader();
-
-                    // Show the new landslide
-                    landslide.show(data.id, data.coords, false);
-
-                    // Close the activity
-                    InsertActivity.getInstance().close();
-
-                });
-
-            return;
-        }
-
         // Append the image
         utils.appendFile(formData, this._vals.photo)
             .then(formData => {
@@ -1222,7 +1153,7 @@ class InsertActivity {
                 utils.closeLoader();
 
                 // Show the new landslide
-                landslide.show(data.id, data.coords, false);
+                landslide.show(data.id, data.coords, data.preciseCoordinates, false);
 
                 // Close the activity
                 this.close();
@@ -1324,34 +1255,6 @@ class InsertActivity {
         formData.append("damages", this._vals.damages);
         formData.append("damagesList", JSON.stringify(this._vals.damagesList));
         formData.append("notes", this._vals.notes);
-
-        // ToDo delete
-        if (!App.isCordova) {
-
-            if (this._vals.photo !== this._oldPhoto)
-                formData.append("image", this._vals.photo);
-
-            landslide.put(this._lsId, formData)
-                .then((data) => {
-
-                    // Close the loader
-                    utils.closeLoader();
-
-                    InfoActivity.getInstance().getLandslide(data.id, false);
-
-                    // Close the activity
-                    InsertActivity.getInstance().close();
-
-                })
-                .catch(() => {
-
-                    // Close the loader
-                    utils.closeLoader();
-
-                });
-
-            return;
-        }
 
         // Create a temporary variable
         let file = null;

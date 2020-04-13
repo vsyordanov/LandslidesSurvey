@@ -15,6 +15,16 @@ $(function () {
 
 var App = function () {
   _createClass(App, null, [{
+    key: "appLanguage",
+    get: function get() {
+      var localStorageLng = localStorage.getItem("lng");
+      console.log("Local stored language: ", localStorageLng);
+      if (localStorageLng) return localStorageLng;
+      var phoneLang = navigator.language;
+      console.log("Phone language: ", phoneLang);
+      if (phoneLang === "it" || phoneLang === "it-IT") return "it";else return "en";
+    }
+  }, {
     key: "isExpertMode",
     get: function get() {
       return localStorage.getItem("mode") === "true";
@@ -79,8 +89,9 @@ var App = function () {
     value: function initInternationalization() {
       var _this2 = this;
 
+      console.log("Setting language to: ", App.appLanguage);
       i18next.use(i18nextXHRBackend).init({
-        lng: "en",
+        lng: App.appLanguage,
         fallbackLng: "en",
         ns: "general",
         defaultNS: "general",
@@ -3253,10 +3264,28 @@ var SettingsActivity = function () {
         localStorage.setItem("mode", (!App.isExpertMode).toString());
       });
       $("#settings-language-wrapper").click(function () {
-        utils.logOrToast(i18next.t("settings.notImplemented"), "long");
-      });
-      $("#settings-help-wrapper").click(function () {
-        utils.logOrToast(i18next.t("settings.notImplemented"), "long");
+        var targetLng;
+        console.log("Current language: ".concat(App.appLanguage));
+
+        if (App.appLanguage === "en") {
+          targetLng = "it";
+        } else {
+          targetLng = "en";
+        }
+
+        i18next.changeLanguage(targetLng, function (err) {
+          if (err) {
+            console.error("Error changing language", err);
+            utils.logOrToast(i18next.t("messages.changeLngError"), "long");
+            return;
+          }
+
+          $("body").localize();
+          localStorage.setItem("lng", targetLng);
+          utils.logOrToast(i18next.t("messages.lngChanged", {
+            lng: targetLng
+          }), "long");
+        });
       });
     }
   }, {
@@ -3281,14 +3310,6 @@ var SettingsActivity = function () {
         });
         _this2._openedSetting = "editProfile";
       });
-      $("#account-change-mail").click(function () {
-        $("#change-email").show();
-        _this2._openedSetting = "changeEmail";
-      });
-      $("#account-change-pw").click(function () {
-        $("#change-pw").show();
-        _this2._openedSetting = "changePassword";
-      });
       $("#account-logout").click(function () {
         utils.createAlert("", i18next.t("settings.account.logoutConfirmation"), i18next.t("dialogs.btnCancel"), null, i18next.t("dialogs.btnOk"), function () {
           $("#page--account-settings").scrollTop(0).hide();
@@ -3296,8 +3317,6 @@ var SettingsActivity = function () {
           _this2.logout();
         });
       });
-      this.initChangeEmail();
-      this.initChangePw();
       this.initEditProfile();
     }
   }, {

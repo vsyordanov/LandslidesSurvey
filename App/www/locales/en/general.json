@@ -1,5 +1,7 @@
 {
   "messages" : {
+    "changeLngError": "Error changing language.",
+    "lngChanged": "Language changed  to {{lng}}.",
     "confirmEmailResendSuccess" : "A new confirmation email has been sent to your account.",
     "mandatoryEmail" : "You must provide a valid email address",
     "weakPassword" : "Password must be at least 8 characters long and must contain at least one number.",

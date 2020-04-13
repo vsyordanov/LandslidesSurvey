@@ -12,6 +12,22 @@ $(() => document.addEventListener("deviceready", () => app = new App(), false));
  */
 class App {
 
+    static get appLanguage() {
+
+        const localStorageLng = localStorage.getItem("lng");
+        console.log("Local stored language: ", localStorageLng);
+        if (localStorageLng)
+            return localStorageLng;
+
+        const phoneLang = navigator.language;
+        console.log("Phone language: ", phoneLang);
+        if (phoneLang === "it" || phoneLang === "it-IT")
+            return "it";
+        else
+            return "en";
+
+    }
+
     /** Flag that states the application is in expert mode. */
     static get isExpertMode() { return localStorage.getItem("mode") === "true" };
 
@@ -118,12 +134,13 @@ class App {
     /** Initializes the internationalization service using i18next. */
     initInternationalization() {
 
+        console.log("Setting language to: ", App.appLanguage);
+
         // Initialize the internationalization service
         i18next
             .use(i18nextXHRBackend)
             .init({
-                // debug      : true,
-                lng        : "en",
+                lng        : App.appLanguage,
                 fallbackLng: "en",
                 ns         : "general",
                 defaultNS  : "general",
@@ -195,9 +212,6 @@ class App {
                 this.db.onerror = err => {
 
                     console.error("Error upgrading or creating the db", err);
-
-                    // Alert the user
-                    // utils.createAlert("", i18next.t("dialogs.createLocalDbError"), i18next.t("dialogs.btnOk"));
 
                     // Reject the promise
                     reject();

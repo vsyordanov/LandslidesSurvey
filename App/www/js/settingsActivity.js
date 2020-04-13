@@ -164,17 +164,39 @@ class SettingsActivity {
         // Fired when the user clicks on the language setting
         $("#settings-language-wrapper").click(() => {
 
-            utils.logOrToast(i18next.t("settings.notImplemented"), "long");
+            let targetLng;
+
+            console.log(`Current language: ${App.appLanguage}`);
+
+            if (App.appLanguage === "en") {
+                targetLng = "it"
+            } else {
+                targetLng = "en"
+            }
+
+            i18next.changeLanguage(targetLng, err => {
+
+                if (err) {
+                    console.error("Error changing language", err);
+                    utils.logOrToast(i18next.t("messages.changeLngError"), "long");
+                    return;
+                }
+
+                $("body").localize();
+                localStorage.setItem("lng", targetLng);
+                utils.logOrToast(i18next.t("messages.lngChanged", {lng: targetLng}), "long");
+
+            });
 
         });
 
 
         // Fired when the user clicks on the help setting
-        $("#settings-help-wrapper").click(() => {
-
-            utils.logOrToast(i18next.t("settings.notImplemented"), "long");
-
-        });
+        // $("#settings-help-wrapper").click(() => {
+        //
+        //     utils.logOrToast(i18next.t("settings.notImplemented"), "long");
+        //
+        // });
 
     }
 
@@ -219,26 +241,26 @@ class SettingsActivity {
         });
 
         // When the user clicks on the change mail setting, show the page
-        $("#account-change-mail").click(() => {
-
-            // Show the screen
-            $("#change-email").show();
-
-            // Set the opened setting name
-            this._openedSetting = "changeEmail";
-
-        });
+        // $("#account-change-mail").click(() => {
+        //
+        //     // Show the screen
+        //     $("#change-email").show();
+        //
+        //     // Set the opened setting name
+        //     this._openedSetting = "changeEmail";
+        //
+        // });
 
         // When the user clicks on the change password setting, show the page
-        $("#account-change-pw").click(() => {
-
-            // Show the screen
-            $("#change-pw").show();
-
-            // Set the opened setting name
-            this._openedSetting = "changePassword";
-
-        });
+        // $("#account-change-pw").click(() => {
+        //
+        //     // Show the screen
+        //     $("#change-pw").show();
+        //
+        //     // Set the opened setting name
+        //     this._openedSetting = "changePassword";
+        //
+        // });
 
         // Fired when the user clicks on the logout setting
         $("#account-logout").click(() => {
@@ -265,10 +287,10 @@ class SettingsActivity {
 
 
         // Initialize the change email page
-        this.initChangeEmail();
+        // this.initChangeEmail();
 
         // Initialize the change password page
-        this.initChangePw();
+        // this.initChangePw();
 
         // Initialize the change edit profile page
         this.initEditProfile();

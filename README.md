@@ -116,71 +116,7 @@ the database.
 
 The only required fields are the landslide type and a photo of the area.
 
-
-## Next features
-
-##### Make all the landslides accessible to every user
-
-Right now a user can only see the landslides he has mapped. In future releases we will add the possibility to
-visualize and download also the data inserted by other users.
-
-- Create the proper route on the server.
-- (Create a system of keys to limit the access to the API form third party applications.)
-- Add in the application the possibility to show or hide the data of the other users.
-- Limit the number of markers visualized based on the map boundaries.
-- Add the possibility to download the data in JSON format.
-
-
-##### Add satellite-based landslide detection
-
-Apply state of the art remote sensing techniques for landslide detection. Where the aim is to use only free and publicly available satellite products. Specifically, the products from ESA’s mission Copernicus Sentinel satellites, where Sentinel 1 A/B provides SAR images and Sentinel 2 A/B multispectral optical images. Except the availability of the datasets, the other important advantage from the mission is the short revisit time between two acquisitions, for both of the constellations. 
-
-A new entry from the application will activate background server-based processing using optical and radar satellite images for the current location.
-
--	A comparison with local landslide inventory (if available) will be performed for preliminary confirmation whether the entry is new or existing. If new, the server will return a message to the user asking for additional photos of the landslide.
-- Change detection methodologies will be implemented: differences in products derived from optical satellite images (e.g. NDVI) and radar satellite images (e.g. Land cover).
-- Implementing change detection based on radar satellite data using coherence change detection algorithm or unsupervised deep learning techniques.
-- Final coherence comparison between the user entry and EO derived product will be performed. Again, the user will be notified with the result. Finally, the entry will be recorded into the database and it will have an assigned score according to a predefined ranking system. The purpose of the score would be to alert a future user of the database, for the confidence level of the entry
-
-
-##### Implement susceptibility mapping
-
-An option for generating a susceptibility map for a certain area will be added, based on machine learning approaches.
-
-- The user will be notified whether the available landslide inventory and other satellite derived products are sufficient for such mapping.
--	Generating products derived from optical and radar images related to landslide susceptibility mapping.
--	Option for uploading additional data which can be helpful for the susceptibility analysis (e.g. geological map, elevation data etc.)
--	Notifying the user for the accuracy of the map.
-
-
-##### Improve the possibility to insert picture of the landslide
-
-A proper visual documentation of the site is key for a good analysis of the phenomena. So we plan to improve the photo
-mechanism in the following ways.
-
-- Add the possibility to take up to three photo of the hazard.
-- Register the orientation of the phone when the photo is taken.
-- Save the inclination of the phone when the photo is taken.
-
-
-##### Enhance the offline usability
-
-The application is usable offline, but if no Internet connection is available the map can't load,  posing a usability
-issue.
-
-What we plan to do is to add the possibility to select an area of the map and cache the tiles so that they will be
-displayed also in absence of connection.
-
-
-##### Improve the documentation
-
-The code is entirely commented, but we plan to extract those comments to create a proper documentation.
-
-- Using [JSDoc](https://github.com/jsdoc/jsdoc) extract the documentation of the client from the source code.
-- Create the API documentation using [APIDoc](http://apidocjs.com/).
-
-
-##### Add more languages
+**N.B.** If you insert a landslide in your current location the marker may be covered by the user marker. Just move it to reveal the landslide.
 
 
 ## Technical difficulties

@@ -23,6 +23,7 @@ var App = function () {
       var phoneLang = navigator.language;
       console.log("Phone language: ", phoneLang);
       if (phoneLang === "it" || phoneLang === "it-IT") return "it";else return "en";
+	  if (phoneLang === "vi" || phoneLang === "vi-VN") return "vi";else return "en";
     }
   }, {
     key: "isExpertMode",
@@ -3268,11 +3269,13 @@ var SettingsActivity = function () {
         console.log("Current language: ".concat(App.appLanguage));
 
         if (App.appLanguage === "en") {
-          targetLng = "it";
-        } else {
-          targetLng = "en";
-        }
-
+            targetLng = "it"
+        }else if (App.appLanguage === "it") {
+            targetLng = "vi"
+        }else if (App.appLanguage === "vi") {
+            targetLng = "en"
+        } 
+		
         i18next.changeLanguage(targetLng, function (err) {
           if (err) {
             console.error("Error changing language", err);

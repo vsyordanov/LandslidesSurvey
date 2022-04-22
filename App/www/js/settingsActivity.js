@@ -170,9 +170,13 @@ class SettingsActivity {
 
             if (App.appLanguage === "en") {
                 targetLng = "it"
-            } else {
+            }else if (App.appLanguage === "it") {
+                targetLng = "vi"
+            }else if (App.appLanguage === "vi") {
                 targetLng = "en"
-            }
+            } 
+			
+
 
             i18next.changeLanguage(targetLng, err => {
 

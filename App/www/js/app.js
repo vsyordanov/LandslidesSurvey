@@ -21,11 +21,16 @@ class App {
 
         const phoneLang = navigator.language;
         console.log("Phone language: ", phoneLang);
-        if (phoneLang === "it" || phoneLang === "it-IT")
+		if (phoneLang === "it" || phoneLang === "it-IT")
             return "it";
-        else
-            return "en";
-
+		else
+			return "en";
+		
+        if (phoneLang === "vi" || phoneLang === "vi-VN")
+            return "vi";
+		else
+			return "en";
+	
     }
 
     /** Flag that states the application is in expert mode. */
